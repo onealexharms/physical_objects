@@ -1,0 +1,8 @@
+//depth is z axis, always.
+//length is probably x
+//width is probably y
+
+drawer_length = 372;
+drawer_width = 234;//we've used 235 in the past, but the white drawers are tight
+drawer_lip_thickness = 11;
+drawer_height = 48;
