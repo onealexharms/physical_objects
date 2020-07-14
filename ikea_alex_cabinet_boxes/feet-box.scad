@@ -23,7 +23,7 @@ large_length = length - 2*wall;
 small_width = width - large_width - 3*wall;
 small_length = large_length;
 
-second_column_x = wall + large_width + wall;
+second_column_x = large_width + 2*wall;
 
 module box() {
   difference() {
