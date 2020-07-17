@@ -6,3 +6,6 @@ drawer_length = 372;
 drawer_width = 234;//we've used 235 in the past, but the white drawers are tight
 drawer_lip_thickness = 11;
 drawer_height = 48;
+
+drawer_wall_thickness = 2;
+top_drawer_space_above = 20;
