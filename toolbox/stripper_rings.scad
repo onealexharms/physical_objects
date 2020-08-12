@@ -1,3 +1,6 @@
+// you may be wondering what a stripper ring is.
+// it's a ring to hold a pair of wire strippers (or pliers, whatever) closed while they're in a drawer
+
 height = 30;
 z = height/2;
 radius = 10;
