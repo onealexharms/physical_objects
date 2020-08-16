@@ -18,14 +18,14 @@
   [:g (hole (* grid-spacing 3) y)
       (hole (* grid-spacing 4) y)])
 
-(defn- resistor [row]
-  [:g (hole (* grid-spacing 5) (* grid-spacing (inc row)))
-      (hole (* grid-spacing 8) (* grid-spacing (inc row)))])
+(defn- resistor [y]
+  [:g (hole (* grid-spacing 5) y)
+      (hole (* grid-spacing 8) y)])
 
 (defn- led-entourage [row]
   [:g (socket (* grid-spacing (inc row)))
       (led (* grid-spacing (inc row)))
-      (resistor row)])
+      (resistor (* grid-spacing (inc row)))])
 
 (defn- group-of-four [group-number]
   [:g 
