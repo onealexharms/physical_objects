@@ -14,9 +14,9 @@
 (defn- socket [y]
   (hole (* grid-spacing 1) y))
 
-(defn- led [row]
-  [:g (hole (* grid-spacing 3) (* grid-spacing (inc row)))
-      (hole (* grid-spacing 4) (* grid-spacing (inc row)))])
+(defn- led [y]
+  [:g (hole (* grid-spacing 3) y)
+      (hole (* grid-spacing 4) y)])
 
 (defn- resistor [row]
   [:g (hole (* grid-spacing 5) (* grid-spacing (inc row)))
@@ -24,7 +24,7 @@
 
 (defn- led-entourage [row]
   [:g (socket (* grid-spacing (inc row)))
-      (led row)
+      (led (* grid-spacing (inc row)))
       (resistor row)])
 
 (defn- group-of-four [group-number]
