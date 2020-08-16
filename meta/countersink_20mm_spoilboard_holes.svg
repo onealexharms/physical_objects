@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 237 237" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="outer-hole" serif:id="outer hole" transform="matrix(1.10497,0,0,1.11111,0,-1.42109e-14)">
+        <ellipse cx="106.89" cy="106.299" rx="106.89" ry="106.299" style="fill:none;"/>
+    </g>
+    <g id="inner-hole" serif:id="inner hole" transform="matrix(0.287293,0,0,0.288889,83.8583,89.7638)">
+        <ellipse cx="106.89" cy="106.299" rx="106.89" ry="106.299" style="fill:none;"/>
+    </g>
+</svg>
