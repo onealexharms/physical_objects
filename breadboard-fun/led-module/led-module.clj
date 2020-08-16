@@ -11,8 +11,8 @@
             :r 0.5
             :fill :black}])
 
-(defn- socket [row]
-  (hole (* grid-spacing 1) (* grid-spacing (inc row))))
+(defn- socket [y]
+  (hole (* grid-spacing 1) y))
 
 (defn- led [row]
   [:g (hole (* grid-spacing 3) (* grid-spacing (inc row)))
@@ -23,7 +23,7 @@
       (hole (* grid-spacing 8) (* grid-spacing (inc row)))])
 
 (defn- led-entourage [row]
-  [:g (socket row)
+  [:g (socket (* grid-spacing (inc row)))
       (led row)
       (resistor row)])
 
