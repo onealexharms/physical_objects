@@ -1,8 +1,11 @@
 (require '[dali.io :as io])
 
+(def ^:private row-spacing 2.54)
+(def ^:private column-spacing 2.54)
+
 (defn- hole [row column]
-  [:circle {:cx (* 2.54 (inc column))
-            :cy (* 2.54 (inc row))
+  [:circle {:cx (* column-spacing (inc column))
+            :cy (* row-spacing (inc row))
             :r 1
             :fill :black}])
 
@@ -22,8 +25,16 @@
       (led row)
       (resistor row)])
 
+(defn- group-of-four [n]
+  [:g 
+   (led-entourage n)  
+   (led-entourage (+ 1 n))
+   (led-entourage (+ 2 n))
+   (led-entourage (+ 3 n))]
+)
+
 (def led-module
   [:dali/page
-   (led-entourage 0)])
+   (group-of-four 0)])
 
 (io/render-svg led-module "led-module.svg")
