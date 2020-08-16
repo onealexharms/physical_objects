@@ -8,7 +8,7 @@
 (defn- hole [row column]
   [:circle {:cx (* column-spacing (inc column))
             :cy (* row-spacing (inc row))
-            :r 1
+            :r 0.5
             :fill :black}])
 
 (defn- socket [row]
