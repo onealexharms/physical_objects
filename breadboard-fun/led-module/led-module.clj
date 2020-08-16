@@ -5,22 +5,22 @@
 (def ^:private row-spacing (* 1.5 grid-spacing))
 (def ^:private column-spacing grid-spacing)
 
-(defn- hole [row column]
+(defn- hole [column row]
   [:circle {:cx (* column-spacing (inc column))
             :cy (* row-spacing (inc row))
             :r 0.5
             :fill :black}])
 
 (defn- socket [row]
-  (hole row 0))
+  (hole 0 row))
 
 (defn- led [row]
-  [:g (hole row 2)
-      (hole row 3)])
+  [:g (hole 2 row)
+      (hole 3 row)])
 
 (defn- resistor [row]
-  [:g (hole row 4)
-      (hole row 7)])
+  [:g (hole 4 row)
+      (hole 7 row)])
 
 (defn- led-entourage [row]
   [:g (socket row)
