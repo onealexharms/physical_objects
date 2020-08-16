@@ -1,7 +1,8 @@
 (require '[dali.io :as io])
 
-(def ^:private row-spacing (* 2 2.54))
-(def ^:private column-spacing 2.54)
+(def ^:private grid-spacing 2.54)
+(def ^:private row-spacing (* 2 grid-spacing))
+(def ^:private column-spacing grid-spacing)
 
 (defn- hole [row column]
   [:circle {:cx (* column-spacing (inc column))
