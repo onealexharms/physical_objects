@@ -27,12 +27,12 @@
       (led row)
       (resistor row)])
 
-(defn- group-of-four [n]
+(defn- group-of-four [group-number]
   [:g 
-   (led-entourage (* n 7))
-   (led-entourage (+ 1 (* n 7)))
-   (led-entourage (+ 2 (* n 7)))
-   (led-entourage (+ 3 (* n 7)))])
+   (led-entourage (* group-number group-spacing))
+   (led-entourage (+ 1 (* group-number group-spacing)))
+   (led-entourage (+ 2 (* group-number group-spacing)))
+   (led-entourage (+ 3 (* group-number group-spacing)))])
 
 (def led-module
   [:dali/page
