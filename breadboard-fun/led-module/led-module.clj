@@ -1,6 +1,6 @@
 (require '[dali.io :as io])
 
-(def ^:private row-spacing 2.54)
+(def ^:private row-spacing (* 2 2.54))
 (def ^:private column-spacing 2.54)
 
 (defn- hole [row column]
