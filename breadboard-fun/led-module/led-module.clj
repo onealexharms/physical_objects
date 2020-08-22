@@ -1,42 +1,6 @@
 (require
-  '[dali]
   '[dali.io :as io]
-  '[dali.layout :as layout]
-  '[dali.layout.distribute]
-  '[dali.layout.stack]
-  '[dali.layout.utils :refer [bounds->anchor-point place-by-anchor] :as utils])
-
-(defmethod layout/layout-nodes :maitria/on-center
-  [_ {{:keys [direction anchor distance]} :attrs} elements bounds-fn]
-  (let [direction (or direction :right)
-        anchor (or anchor :center)
-        vertical? (or (= direction :down) (= direction :up))]
-    (if vertical?
-      (when (not (#{:center :left :right} anchor))
-        (throw (Exception. (str "distribute layout supports only :center :left :right anchors for direction " direction "\n elements: " elements))))
-      (when (not (#{:center :top :bottom} anchor))
-        (throw (Exception. (str "distribute layout supports only :center :top :bottom anchors for direction " direction "\n elements: " elements)))))
-    (let [elements (if (seq? (first elements)) (first elements) elements) ;;so that you map over elements etc
-          bounds (map bounds-fn elements)
-
-          [x y] (bounds->anchor-point anchor (first bounds))
-
-          step distance
-
-          element-pos (if vertical?
-                          (fn element-pos [pos orig-pos] [(first orig-pos) pos])
-                          (fn element-pos [pos orig-pos] [pos (second orig-pos)]))
-
-          positions (condp = direction
-                      :down  (range y Integer/MAX_VALUE step)
-                      :up    (range y Integer/MIN_VALUE (- step))
-                      :right (range x Integer/MAX_VALUE step)
-                      :left  (range x Integer/MIN_VALUE (- step)))]
-      (map (fn [e pos b]
-             (place-by-anchor
-              e anchor (element-pos pos (bounds->anchor-point anchor b)) b))
-           elements positions bounds))))
-(dali/register-layout-tag :maitria/on-center)
+  '[dali.layout.distribute])
 
 (def ^:private grid-spacing 2.54)
 (def ^:private group-spacing (* 3 grid-spacing))
@@ -67,9 +31,9 @@
       resistor])
 
 (defn- group-of-four [group-number]
-  [:maitria/on-center {:direction :down,
-                        :anchor :center,
-                        :distance grid-spacing}
+  [:dali/distribute {:direction :down,
+                     :anchor :center,
+                     :step grid-spacing}
    led-entourage
    led-entourage
    led-entourage
