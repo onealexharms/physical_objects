@@ -3,7 +3,7 @@
   '[dali.layout.distribute])
 
 (def ^:private grid-spacing 2.54)
-(def ^:private group-spacing (* 3 grid-spacing))
+(def ^:private group-spacing (* 5 grid-spacing))
 (def ^:private row-spacing (* 1.5 grid-spacing))
 (def ^:private column-spacing grid-spacing)
 (def ^:private margin 25)
@@ -44,7 +44,7 @@
    [:dali/distribute {:direction :down,
                       :anchor :center,
                       :position [margin margin]
-                      :gap group-spacing}
+                      :step group-spacing}
      group-of-four
      group-of-four
      group-of-four
