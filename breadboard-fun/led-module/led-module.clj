@@ -30,7 +30,7 @@
       led
       resistor])
 
-(defn- group-of-four [group-number]
+(def ^:private group-of-four
   [:dali/distribute {:direction :down,
                      :anchor :center,
                      :step grid-spacing}
@@ -45,9 +45,9 @@
                       :anchor :center,
                       :position [margin margin]
                       :gap group-spacing}
-     (group-of-four 0)
-     (group-of-four 1)
-     (group-of-four 2)
-     (group-of-four 3)]])
+     group-of-four
+     group-of-four
+     group-of-four
+     group-of-four]])
 
 (io/render-svg led-module "led-module.svg")
