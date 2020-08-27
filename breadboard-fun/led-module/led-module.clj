@@ -12,7 +12,8 @@
   [:circle {:cx x 
             :cy y
             :r 0.5
-            :fill :black}])
+            :fill :black
+            :stroke :none}])
 
 (def ^:private socket
   (hole (* grid-spacing 1) 0))
@@ -50,10 +51,10 @@
      group-of-four
      group-of-four])
 
-(def document
+(def board
   [:dali/page
    [:rect {:dali/z-index -99 :stroke :black :fill :white}
     [10,10] [110,110]]
    led-module])
 
-(io/render-svg document "led-module.svg")
+(io/render-svg board "led-module.svg")
