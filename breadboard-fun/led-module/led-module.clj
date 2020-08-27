@@ -22,8 +22,8 @@
       (hole (* grid-spacing 4) 0)])
 
 (def ^:private resistor
-  [:g (hole (* grid-spacing 5) 0)
-      (hole (* grid-spacing 8) 0)])
+  [:g (hole (* grid-spacing 6) 0)
+      (hole (* grid-spacing 9) 0)])
 
 (def ^:private led-entourage
   [:g socket
