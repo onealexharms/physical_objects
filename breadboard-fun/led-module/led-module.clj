@@ -1,7 +1,4 @@
-(require
-  '[dali.io :as io]
-  '[dali.layout.distribute]
-  '[opencircuit.core :refer :all])
+(require '[opencircuit.core :refer :all])
 
 (define grid-spacing 2.54)
 (define group-spacing (* 5 grid-spacing))
@@ -66,4 +63,4 @@
    cutout
    led-module])
 
-(io/render-svg board "led-module.svg")
+(dali.io/render-svg board "led-module.svg")
