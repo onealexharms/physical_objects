@@ -7,6 +7,8 @@
 (def ^:private row-spacing (* 1.5 grid-spacing))
 (def ^:private column-spacing grid-spacing)
 (def ^:private margin 25)
+(def ^:private board-width 110)
+(def ^:private board-height 110)
 
 (defn- hole [x y]
   [:circle {:cx x 
@@ -51,10 +53,16 @@
      group-of-four
      group-of-four])
 
+(def cutout
+  [:rect {:dali/z-index -99,
+          :stroke :black,
+          :fill :white}
+   [0 0]
+   [board-width board-height]])
+
 (def board
   [:dali/page
-   [:rect {:dali/z-index -99 :stroke :black :fill :white}
-    [10,10] [110,110]]
+   cutout
    led-module])
 
 (io/render-svg board "led-module.svg")
