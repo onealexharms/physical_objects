@@ -63,4 +63,4 @@
    cutout
    led-module])
 
-(dali.io/render-svg board "led-module.svg")
+(export board "led-module.svg")
