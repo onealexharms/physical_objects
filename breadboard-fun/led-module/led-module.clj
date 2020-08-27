@@ -40,7 +40,6 @@
    led-entourage])
 
 (def led-module
-  [:dali/page
    [:dali/distribute {:direction :down,
                       :anchor :bottom,
                       :position [margin margin],
@@ -49,6 +48,12 @@
      group-of-four
      group-of-four
      group-of-four
-     group-of-four]])
+     group-of-four])
 
-(io/render-svg led-module "led-module.svg")
+(def document
+  [:dali/page
+   [:rect {:dali/z-index -99 :stroke :black :fill :white}
+    [10,10] [110,110]]
+   led-module])
+
+(io/render-svg document "led-module.svg")
