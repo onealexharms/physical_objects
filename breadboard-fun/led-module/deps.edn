@@ -1,3 +1,2 @@
 {:deps
- {dali {:mvn/version "1.0.2"}
-  opencircuit {:local/root "/Users/alex/develop/opencircuit"}}}
+ {opencircuit {:local/root "/Users/alex/develop/opencircuit"}}}
