@@ -42,9 +42,10 @@
 (def led-module
   [:dali/page
    [:dali/distribute {:direction :down,
-                      :anchor :center,
-                      :position [margin margin]
+                      :anchor :bottom,
+                      :position [margin margin],
                       :step group-spacing}
+     socket
      group-of-four
      group-of-four
      group-of-four
