@@ -8,6 +8,13 @@
 (define board-width 110)
 (define board-height 110)
 
+(define drill
+  [:circle {:cx 0
+            :cy 0
+            :r 0.5
+            :fill :black
+            :stroke :none}])
+
 (defn- hole [x y]
   [:circle {:cx x 
             :cy y
@@ -16,7 +23,8 @@
             :stroke :none}])
 
 (define socket
-  (hole (* grid-spacing 1) 0))
+  [:g {:transform [:translate [(* grid-spacing 1) 0]]}
+    drill])
 
 (define led
   [:g (hole (* grid-spacing 3) 0)
