@@ -15,10 +15,6 @@
             :fill :black
             :stroke :none}])
 
-(defn position [thing x y]
-  [:g {:transform [:translate [x y]]}
-   thing])
-
 (defn- hole [x y]
   [:circle {:cx x 
             :cy y
