@@ -15,6 +15,10 @@
             :fill :black
             :stroke :none}])
 
+(defn position [thing x y]
+  [:g {:transform [:translate [x y]]}
+   thing])
+
 (defn- hole [x y]
   [:circle {:cx x 
             :cy y
@@ -34,8 +38,7 @@
       (hole (* grid-spacing 9) 0)])
 
 (define led-entourage
-  [:g [:g {:transform [:translate [(* grid-spacing 1) 0]]}
-       socket]
+  [:g (position socket (* grid-spacing 1) 0)
       led
       resistor])
 
@@ -53,8 +56,7 @@
                       :anchor :bottom,
                       :position [margin margin],
                       :step group-spacing}
-     [:g {:transform [:translate [(* grid-spacing 1) 0]]}
-       socket]
+     (position socket (* grid-spacing 1) 0)
      group-of-four
      group-of-four
      group-of-four
