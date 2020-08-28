@@ -23,8 +23,7 @@
             :stroke :none}])
 
 (define socket
-  [:g {:transform [:translate [(* grid-spacing 1) 0]]}
-    drill])
+  drill)
 
 (define led
   [:g (hole (* grid-spacing 3) 0)
@@ -35,7 +34,8 @@
       (hole (* grid-spacing 9) 0)])
 
 (define led-entourage
-  [:g socket
+  [:g [:g {:transform [:translate [(* grid-spacing 1) 0]]}
+       socket]
       led
       resistor])
 
@@ -53,7 +53,8 @@
                       :anchor :bottom,
                       :position [margin margin],
                       :step group-spacing}
-     socket
+     [:g {:transform [:translate [(* grid-spacing 1) 0]]}
+       socket]
      group-of-four
      group-of-four
      group-of-four
