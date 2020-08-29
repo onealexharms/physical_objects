@@ -19,8 +19,8 @@
   drilled-hole)
 
 (define led
-  [:g (position drilled-hole (* grid-spacing 3) 0)
-      (position drilled-hole (* grid-spacing 4) 0)])
+  [:g (position drilled-hole (* grid-spacing 0) 0)
+      (position drilled-hole (* grid-spacing 1) 0)])
 
 (define resistor
   [:g (position drilled-hole (* grid-spacing 6) 0)
@@ -28,7 +28,7 @@
 
 (define led-entourage
   [:g (position socket (* grid-spacing 1) 0)
-      led
+      (position led (* grid-spacing 3) 0)
       resistor])
 
 (define group-of-four
