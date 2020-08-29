@@ -59,7 +59,7 @@
    [board-width board-height]])
 
 (define board
-  [:dali/page
+  [:dali/page {:width "100mm" :height "100mm" :view-box "0 0 100 100"}
    cutout
    led-module])
 
