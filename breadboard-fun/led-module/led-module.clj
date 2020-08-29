@@ -15,13 +15,6 @@
             :fill :black
             :stroke :none}])
 
-(defn- hole [x y]
-  [:circle {:cx x 
-            :cy y
-            :r 0.5
-            :fill :black
-            :stroke :none}])
-
 (define socket
   drilled-hole)
 
