@@ -1,2 +1,2 @@
 {:deps
- {opencircuit {:local/root "/Users/alex/develop/opencircuit"}}}
+ {opensvg {:local/root "/Users/alex/develop/opensvg"}}}
