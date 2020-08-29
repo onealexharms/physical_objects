@@ -20,16 +20,16 @@
 
 (define led
   [:g (position drilled-hole (* grid-spacing 0) 0)
-      (position drilled-hole (* grid-spacing 1) 0)])
+      (position drilled-hole (* grid-spacing 1) 0)]) 
 
 (define resistor
   [:g (position drilled-hole (* grid-spacing 0) 0)
       (position drilled-hole (* grid-spacing 3) 0)])
 
 (define led-entourage
-  [:g (position socket (* grid-spacing 1) 0)
-      (position led (* grid-spacing 3) 0)
-      (position resistor (* grid-spacing 6) 0)])
+  [:g (position socket (* grid-spacing 0) 0)
+      (position led (* grid-spacing 2) 0)
+      (position resistor (* grid-spacing 5) 0)])
 
 (define group-of-four
   [:dali/distribute {:direction :down,
@@ -45,7 +45,7 @@
                       :anchor :bottom,
                       :position [margin margin],
                       :step group-spacing}
-     (position socket (* grid-spacing 1) 0)
+     (position socket (* grid-spacing 0) 0)
      group-of-four
      group-of-four
      group-of-four
