@@ -26,8 +26,8 @@
   drilled-hole)
 
 (define led
-  [:g (hole (* grid-spacing 3) 0)
-      (hole (* grid-spacing 4) 0)])
+  [:g (position drilled-hole (* grid-spacing 3) 0)
+      (position drilled-hole (* grid-spacing 4) 0)])
 
 (define resistor
   [:g (hole (* grid-spacing 6) 0)
