@@ -60,7 +60,7 @@
           :stroke :red,
           :stroke-width 0.1,
           :fill :white}
-   [margin margin]
+   [0 0]
    [board-width board-height]])
 
 (define board
@@ -68,7 +68,7 @@
    {:width (str document-width "mm")
     :height (str document-height "mm")
     :view-box (str "0 0 " document-width " " document-height)}
-   cutout
+   (position cutout margin margin)
    (position led-module starting-x starting-y)])
 
 (export board "led-module.svg")
