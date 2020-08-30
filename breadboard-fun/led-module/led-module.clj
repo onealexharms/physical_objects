@@ -10,6 +10,8 @@
 (define board-height (+ (* 20 grid-spacing) (* 2 padding)))
 (define document-width (+ board-width (* 2 margin)))
 (define document-height (+ board-height (* 2 margin)))
+(define starting-x (+ margin padding))
+(define starting-y (+ margin padding))
 
 (define drilled-hole
   [:circle {:cx 0
@@ -46,7 +48,6 @@
 (define led-module
    [:dali/distribute {:direction :down,
                       :anchor :bottom,
-                      :position [(+ margin padding) (+ margin padding)],
                       :step group-spacing}
      (position socket (* grid-spacing 0) 0)
      group-of-four
@@ -68,6 +69,6 @@
     :height (str document-height "mm")
     :view-box (str "0 0 " document-width " " document-height)}
    cutout
-   led-module])
+   (position led-module starting-x starting-y)])
 
 (export board "led-module.svg")
