@@ -4,9 +4,12 @@
 (define group-spacing (* 5 grid-spacing))
 (define row-spacing (* 1.5 grid-spacing))
 (define column-spacing grid-spacing)
-(define margin 25)
-(define board-width 110)
-(define board-height 110)
+(define padding 5)
+(define margin 5)
+(define board-width (+ (* 8 grid-spacing) (* 2 padding)))
+(define board-height (+ (* 20 grid-spacing) (* 2 padding)))
+(define document-width (+ board-width (* 2 margin)))
+(define document-height (+ board-height (* 2 margin)))
 
 (define drilled-hole
   [:circle {:cx 0
@@ -43,7 +46,7 @@
 (define led-module
    [:dali/distribute {:direction :down,
                       :anchor :bottom,
-                      :position [margin margin],
+                      :position [(+ margin padding) (+ margin padding)],
                       :step group-spacing}
      (position socket (* grid-spacing 0) 0)
      group-of-four
@@ -53,13 +56,17 @@
 
 (define cutout
   [:rect {:dali/z-index -99,
-          :stroke :black,
+          :stroke :red,
+          :stroke-width 0.1,
           :fill :white}
-   [0 0]
+   [margin margin]
    [board-width board-height]])
 
 (define board
-  [:dali/page {:width "100mm" :height "100mm" :view-box "0 0 100 100"}
+  [:dali/page
+   {:width (str document-width "mm")
+    :height (str document-height "mm")
+    :view-box (str "0 0 " document-width " " document-height)}
    cutout
    led-module])
 
