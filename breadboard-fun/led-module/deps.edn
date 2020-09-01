@@ -1,2 +1,2 @@
 {:deps
- {opensvg {:local/root "/Users/alex/develop/opensvg"}}}
+ {open-circuitry {:local/root "/Users/alex/develop/open-circuitry"}}}
