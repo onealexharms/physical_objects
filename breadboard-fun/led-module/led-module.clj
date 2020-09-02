@@ -1,4 +1,4 @@
-(require '[opencircuit.core :refer :all])
+(require '[open-circuitry.core :refer :all])
 
 (define grid-spacing 2.54)
 (define group-spacing (* 5 grid-spacing))
@@ -63,12 +63,10 @@
    [0 0]
    [board-width board-height]])
 
-(define board
+(board "led-module"
   [:dali/page
    {:width (str document-width "mm")
     :height (str document-height "mm")
     :view-box (str "0 0 " document-width " " document-height)}
    (position cutout margin margin)
    (position led-module starting-x starting-y)])
-
-(export board "led-module.svg")
