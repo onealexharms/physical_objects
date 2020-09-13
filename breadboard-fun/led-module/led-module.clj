@@ -55,17 +55,8 @@
      group-of-four
      group-of-four])
 
-(define cutout
-  [:rect {:dali/z-index -99,
-          :stroke :red,
-          :stroke-width 0.1,
-          :fill :white}
-   [0 0]
-   [board-width board-height]])
-
 (board "led-module"
   [:open-circuitry/board
    {:width document-width
     :height document-height}])
-   ;(position cutout margin margin)
    ;(position led-module starting-x starting-y)])
