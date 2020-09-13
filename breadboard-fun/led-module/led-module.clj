@@ -5,13 +5,10 @@
 (define row-spacing (* 1.5 grid-spacing))
 (define column-spacing grid-spacing)
 (define padding 5)
-(define margin 5)
 (define board-width (+ (* 8 grid-spacing) (* 2 padding)))
 (define board-height (+ (* 20 grid-spacing) (* 2 padding)))
-(define document-width (+ board-width (* 2 margin)))
-(define document-height (+ board-height (* 2 margin)))
-(define starting-x (+ margin padding))
-(define starting-y (+ margin padding))
+(define starting-x padding)
+(define starting-y padding)
 
 (define drilled-hole
   [:circle {:cx 0
@@ -57,6 +54,6 @@
 
 (board "led-module"
   [:open-circuitry/board
-   {:width document-width
-    :height document-height}])
+   {:width board-width
+    :height board-height}])
    ;(position led-module starting-x starting-y)])
