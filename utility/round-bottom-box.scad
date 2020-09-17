@@ -5,8 +5,8 @@ module spheres(width,length,height,radius) {
   translate([radius, length - radius, radius]) sphere(radius);
 }
 
-module slicer(width,length,height) {
-  translate([0,0,height]) cube([width, length, height]); 
+module slicer(width, length, z_up, height) {
+  translate([0, 0, z_up]) cube([width, length, height]); 
 }
 
 module round_bottom_box(width, length, height, radius) {
@@ -15,7 +15,7 @@ module round_bottom_box(width, length, height, radius) {
       spheres(width,length,height,radius);
       translate([0,0,height]) spheres(width,length,height,radius);
     }
-    slicer(width, length, height);
+    slicer(width, length, height+radius, radius+1);
   }
 }
 
