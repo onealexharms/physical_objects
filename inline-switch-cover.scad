@@ -1,6 +1,6 @@
 use <utility/round-bottom-box.scad>
 wall_thickness = 3.6;
-corner_radius = 3; 
+corner_radius = wall_thickness; 
 
 box_length = 75;
 box_width = 15;
@@ -9,6 +9,7 @@ box_bottom_height = box_wall_height + corner_radius;
 box_tab_height = 4;
 
 lid_height = 0;
+lid_thickness = lid_height + corner_radius;
 
 switch_hole_width = 6.8;
 switch_hole_length = 19.5;
@@ -37,12 +38,27 @@ module switch_hole() {
     cube([switch_hole_length, switch_hole_width, box_wall_height], center = true);
 }
 
+module lid_tab(direction) {
+  lid_tab_thickness = wall_thickness;
+  lid_tab_width = cord_width;
+  lid_tab_height = box_tab_height;
+  lid_tab_x = (lid_tab_thickness/2) + direction*(box_length - lid_tab_thickness);
+  lid_tab_y = box_width/2;
+  lid_tab_z = lid_thickness + lid_tab_height/2;
+  translate([lid_tab_x, lid_tab_y, lid_tab_z])
+    cube([lid_tab_thickness, lid_tab_width, lid_tab_height], center = true);
+}
+
 module lid() {
   rotate([0, 180, 0])
     translate ([-box_length, 0, 0])
-      difference() {
-        hollow_round_bottom_box(box_length, box_width, lid_height, corner_radius, wall_thickness);
-        switch_hole();
+      union() {
+        difference() {
+          hollow_round_bottom_box(box_length, box_width, lid_height, corner_radius, wall_thickness);
+          switch_hole();
+        }
+        lid_tab(1);
+        lid_tab(0);
       }
 }
 
