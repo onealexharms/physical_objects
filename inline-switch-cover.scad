@@ -5,7 +5,7 @@ corner_radius = 3;
 box_length = 75;
 box_width = 15;
 box_wall_height = 19;
-box_bottom_height = box_wall_height + wall_thickness;
+box_bottom_height = box_wall_height + corner_radius;
 box_tab_height = 4;
 
 lid_height = 0;
@@ -44,7 +44,7 @@ module lid() {
 }
 
 module cord_slot() {
-  translate([box_length/2, box_width/2, (box_bottom_height - (cord_slot_height/2))])
+  translate([box_length/2, box_width/2, box_bottom_height])
 #    cube([box_length, cord_width, cord_slot_height], center = true);
 }
 
