@@ -23,6 +23,9 @@ switch_tab_z = (box_bottom_height) - switch_tab_height/2;
 cord_height = 8;
 cord_width = 4;
 cord_slot_height = cord_height + box_tab_height;
+cord_slot_x = box_length/2;
+cord_slot_y = box_width/2;
+cord_slot_z = box_bottom_height - (cord_slot_height/2);
 
 module switch_tab_slots() {
   translate([switch_tab_x, switch_tab_y, switch_tab_z])
@@ -44,8 +47,8 @@ module lid() {
 }
 
 module cord_slot() {
-  translate([box_length/2, box_width/2, box_bottom_height])
-#    cube([box_length, cord_width, cord_slot_height], center = true);
+  translate([cord_slot_x, cord_slot_y, cord_slot_z])
+    cube([box_length, cord_width, cord_slot_height], center = true);
 }
 
 module box_bottom() {
