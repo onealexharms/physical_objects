@@ -55,5 +55,7 @@
 (board "led-module"
   [:open-circuitry/board
    {:width board-width
-    :height board-height}])
-   ;(position led-module starting-x starting-y)])
+    :height board-height}
+   [:juncture {:at [25 19] :drill 1}]
+   [:juncture {:at [5 40] :drill 1}]
+   [:juncture {:at [5 6] :drill 1}]])
