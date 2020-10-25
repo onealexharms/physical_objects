@@ -2,60 +2,47 @@
 
 (define grid-spacing 2.54)
 (define group-spacing (* 5 grid-spacing))
-(define row-spacing (* 1.5 grid-spacing))
-(define column-spacing grid-spacing)
 (define padding 5)
 (define board-width (+ (* 8 grid-spacing) (* 2 padding)))
 (define board-height (+ (* 20 grid-spacing) (* 2 padding)))
 (define starting-x padding)
 (define starting-y padding)
+(define through-hole 1)
 
-(define drilled-hole
-  [:circle {:cx 0
-            :cy 0
-            :r 0.5
-            :fill :black
-            :stroke :none}])
+(defn socket [x y]
+  [[:juncture {:at [x y] :drill through-hole}]])
 
-(define socket
-  drilled-hole)
+(defn led [x y]
+  [[:juncture {:at [x y] :drill through-hole}]
+   [:juncture {:at [(+ x grid-spacing) y] :drill through-hole}]])
 
-(define led
-  [:g (position drilled-hole (* grid-spacing 0) 0)
-      (position drilled-hole (* grid-spacing 1) 0)]) 
+(defn resistor [x y]
+  [[:juncture {:at [x y] :drill through-hole}]
+   [:juncture {:at [(+ x (* 2 grid-spacing)) y], :drill through-hole, :trace "GND"}]])
 
-(define resistor
-  [:g (position drilled-hole (* grid-spacing 0) 0)
-      (position drilled-hole (* grid-spacing 3) 0)])
+(defn led-entourage [x y]
+  (concat
+    (socket x y)
+    (led (+ x (* grid-spacing 2)) y)
+    (resistor (+ x (* grid-spacing 5)) y)))
 
-(define led-entourage
-  [:g (position socket (* grid-spacing 0) 0)
-      (position led (* grid-spacing 2) 0)
-      (position resistor (* grid-spacing 5) 0)])
-
-(define group-of-four
-  [:dali/distribute {:direction :down,
-                     :anchor :center,
-                     :step grid-spacing}
-   led-entourage
-   led-entourage
-   led-entourage
-   led-entourage])
-
-(define led-module
-   [:dali/distribute {:direction :down,
-                      :anchor :bottom,
-                      :step group-spacing}
-     (position socket (* grid-spacing 0) 0)
-     group-of-four
-     group-of-four
-     group-of-four
-     group-of-four])
+(defn group-of-four [x y]
+  (concat
+    (led-entourage x y)
+    (led-entourage x (+ y (* grid-spacing 1)))
+    (led-entourage x (+ y (* grid-spacing 2)))
+    (led-entourage x (+ y (* grid-spacing 3)))))
 
 (board "led-module"
-  [:open-circuitry/board
-   {:width board-width
-    :height board-height}
-   [:juncture {:at [25 19] :drill 1}]
-   [:juncture {:at [5 40] :drill 1}]
-   [:juncture {:at [5 6] :drill 1}]])
+  (vec (concat
+         [:open-circuitry/board
+          {:width board-width
+           :height board-height}]
+         (group-of-four starting-x (+ starting-y (* group-spacing 0)))
+         (group-of-four starting-x (+ starting-y (* group-spacing 1)))
+         (group-of-four starting-x (+ starting-y (* group-spacing 2)))
+         (group-of-four starting-x (+ starting-y (* group-spacing 3)))
+         [[:juncture {:at [starting-x (+ starting-y (* group-spacing 4))]
+                      :trace "GND"}]
+          [:juncture {:at [(+ starting-x (* grid-spacing 5)) (+ starting-y (* group-spacing 4))]
+                      :trace "GND"}]])))
