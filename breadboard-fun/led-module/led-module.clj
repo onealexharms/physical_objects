@@ -10,14 +10,14 @@
 (define through-hole 1)
 
 (defn socket [x y]
-  [[:juncture {:at [x y] :drill through-hole}]])
+  [[:juncture {:at [x y] :drill through-hole, :trace (str "socket-led at " y)}]])
 
 (defn led [x y]
-  [[:juncture {:at [x y] :drill through-hole}]
-   [:juncture {:at [(+ x grid-spacing) y] :drill through-hole}]])
+  [[:juncture {:at [x y] :drill through-hole, :trace (str "socket-led at " y)}]
+   [:juncture {:at [(+ x grid-spacing) y] :drill through-hole, :trace (str "resistor-led at " y)}]])
 
 (defn resistor [x y]
-  [[:juncture {:at [x y] :drill through-hole}]
+  [[:juncture {:at [x y] :drill through-hole, :trace (str "resistor-led at " y)}]
    [:juncture {:at [(+ x (* 2 grid-spacing)) y], :drill through-hole, :trace "GND"}]])
 
 (defn led-entourage [x y]
@@ -43,6 +43,7 @@
          (group-of-four starting-x (+ starting-y (* group-spacing 2)))
          (group-of-four starting-x (+ starting-y (* group-spacing 3)))
          [[:juncture {:at [starting-x (+ starting-y (* group-spacing 4))]
-                      :trace "GND"}]
+                      :trace "GND"
+                      :drill through-hole}]
           [:juncture {:at [(+ starting-x (* grid-spacing 5)) (+ starting-y (* group-spacing 4))]
                       :trace "GND"}]])))
