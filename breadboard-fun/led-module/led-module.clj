@@ -7,7 +7,7 @@
 (define board-height (+ (* 20 grid-spacing) (* 2 padding)))
 (define starting-x padding)
 (define starting-y padding)
-(define through-hole 1)
+(define through-hole 0.8)
 
 (defn socket [x y]
   [[:juncture {:at [x y] :drill through-hole, :trace (str "socket-led at " y)}]])
