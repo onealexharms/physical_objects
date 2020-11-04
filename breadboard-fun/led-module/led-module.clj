@@ -18,7 +18,7 @@
 
 (defn resistor [x y]
   [[:juncture {:at [x y] :drill through-hole, :trace (str "resistor-led at " y)}]
-   [:juncture {:at [(+ x (* 2 grid-spacing)) y], :drill through-hole, :trace "GND"}]])
+   [:juncture {:at [(+ x (* 3 grid-spacing)) y], :drill through-hole, :trace "GND"}]])
 
 (defn led-entourage [x y]
   (concat
