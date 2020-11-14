@@ -6,7 +6,7 @@ bar_length = inside_ring_diameter + 2*thickness;
 arm_offset = distance_between_bars/2 + bar_diameter/2;
 arm_side = bar_diameter + 2;
 outside_ring_diameter = 2*arm_offset + arm_side;
-ring_height = arm_side + thickness;
+ring_height = arm_side + 2*thickness;
 preview_hack = 1;
 
 module bar() {
@@ -44,10 +44,21 @@ module ring() {
   }
 }
 
+module outer_contour() {
+  difference() {
+    cube([outside_ring_diameter + preview_hack, outside_ring_diameter + preview_hack, ring_height + preview_hack], center = true);
+    cylinder(h = ring_height + 2*preview_hack, d = outside_ring_diameter, center = true);
+    translate([0, -(inside_ring_diameter/2 + thickness), 0])
+      chop_off_ring();
+  }
+}
+
 difference() {
   union() {
     arms();
-    translate([0, 0, thickness/2]) ring();
+    ring();
   }
   bars();
+  outer_contour();
 }
+
