@@ -28,10 +28,10 @@ module arms() {
 
 module ring() {
     difference() {
-        cube([bar_length, bar_length, ring_height], center=true);
+        cylinder(h = ring_height, d = bar_length, center = true);
         cylinder(h = ring_height + preview_hack, d=inside_ring_diameter, center=true);
         translate([0, -(inside_ring_diameter/2 + thickness), 0])
-            cube([inside_ring_diameter + 2*thickness + preview_hack, inside_ring_diameter + 2*thickness, ring_height + preview_hack], center=true);
+          cube([inside_ring_diameter + 2*thickness + preview_hack, inside_ring_diameter + 2*thickness, ring_height + preview_hack], center=true);
     }
 }
 
