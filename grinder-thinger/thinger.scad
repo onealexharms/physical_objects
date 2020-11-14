@@ -14,8 +14,8 @@ module bar() {
 }
 
 module bars() {
-    translate([arm_offset, 0, 0])  bar();
-    translate([-arm_offset, 0, 0]) bar();
+  translate([arm_offset, 0, 0])  bar();
+  translate([-arm_offset, 0, 0]) bar();
 }
 
 module arm() {
@@ -23,8 +23,8 @@ module arm() {
 }
 
 module arms() {
-    translate([arm_offset, 0, 0])  arm();
-    translate([-arm_offset, 0, 0]) arm();
+  translate([arm_offset, 0, 0])  arm();
+  translate([-arm_offset, 0, 0]) arm();
 }
 
 module chop_off_ring() {
@@ -36,18 +36,18 @@ module ring_hole() {
 }
 
 module ring() {
-    difference() {
-        cylinder(h = ring_height, d = outside_ring_diameter, center = true);
-        translate([0, -(inside_ring_diameter/2 + thickness), 0])
-          chop_off_ring(); 
-        ring_hole();
-    }
+  difference() {
+    cylinder(h = ring_height, d = outside_ring_diameter, center = true);
+    translate([0, -(inside_ring_diameter/2 + thickness), 0])
+      chop_off_ring(); 
+    ring_hole();
+  }
 }
 
 difference() {
-    union() {
-        arms();
-        translate([0, 0, thickness/2]) ring();
-    }
-    bars();
+  union() {
+    arms();
+    translate([0, 0, thickness/2]) ring();
+  }
+  bars();
 }
