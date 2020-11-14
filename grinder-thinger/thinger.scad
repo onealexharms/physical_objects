@@ -15,10 +15,7 @@ module bars() {
 }
 
 module arm() {
-    difference() {
-        cube([bar_diameter + 2, bar_length, bar_diameter + 2], center=true);
-        rotate([90, 0, 0]) cylinder(h=bar_length + 0.01, d=bar_diameter + 0.2, center=true);
-    }
+  cube([bar_diameter + 2, bar_length, bar_diameter + 2], center=true);
 }
 
 module arms() {
@@ -35,9 +32,11 @@ module ring() {
     }
 }
 
+
 difference() {
-    translate([0, 0, 5]) ring();
+    union() {
+      arms();
+      translate([0, 0, 5]) ring();
+    }
     bars();
 }
-arms();
-
