@@ -3,7 +3,7 @@ bar_diameter = 9;
 distance_between_bars = 53;
 inside_ring_diameter = 62;
 bar_length = 20;
-arm_length = bar_length * 2 + 2; // mirrored
+arm_length = bar_length + 1;
 arm_offset = distance_between_bars/2 + bar_diameter/2;
 arm_side = bar_diameter + 2;
 outside_ring_diameter = 2*arm_offset + arm_side;
@@ -31,7 +31,7 @@ module bars() {
 }
 
 module arm() {
-  cube([arm_side, arm_length, arm_side], center=true);
+  cube([arm_side, 2 * arm_length, arm_side], center=true);
 }
 
 module arms() {
