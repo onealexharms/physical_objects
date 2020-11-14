@@ -27,7 +27,7 @@ module arms() {
   translate([-arm_offset, 0, 0]) arm();
 }
 
-module chop_off_ring() {
+module ring_chopper() {
   translate([0, -(inside_ring_diameter/2 + thickness), 0])
     cube([outside_ring_diameter + preview_hack, inside_ring_diameter + 2*thickness, ring_height + preview_hack], center=true);
 }
@@ -39,7 +39,7 @@ module ring_hole() {
 module ring() {
   difference() {
     cylinder(h = ring_height, d = outside_ring_diameter, center = true);
-    chop_off_ring(); 
+    ring_chopper(); 
     ring_hole();
   }
 }
@@ -48,7 +48,7 @@ module outer_contour() {
   difference() {
     cube([outside_ring_diameter + preview_hack, outside_ring_diameter + preview_hack, ring_height + preview_hack], center = true);
     cylinder(h = ring_height + 2*preview_hack, d = outside_ring_diameter, center = true);
-    chop_off_ring();
+    ring_chopper();
   }
 }
 
