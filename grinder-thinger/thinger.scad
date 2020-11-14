@@ -2,7 +2,8 @@ thickness = 5;
 bar_diameter = 9;
 distance_between_bars = 53;
 inside_ring_diameter = 62;
-bar_length = 27 * 2; // mirrored
+bar_l = 20;
+bar_length = bar_l * 2; // mirrored
 arm_length = bar_length + 2;
 arm_offset = distance_between_bars/2 + bar_diameter/2;
 arm_side = bar_diameter + 2;
@@ -11,7 +12,18 @@ ring_height = arm_side + 2*thickness;
 e = 0.01;
 
 module bar() {
-  rotate([90, 0, 0]) cylinder(h = bar_length, d = bar_diameter, center=true);
+  module front_bar() {
+    translate([0, -bar_l/2, 0])
+      rotate([90, 0, 0]) cylinder(h = bar_l, d = bar_diameter, center=true);
+  }
+  module rear_bar() {
+    translate([0, outside_ring_diameter/2/2, 0])
+      rotate([90, 0, 0]) cylinder(h = outside_ring_diameter/2 + e, d = bar_diameter, center = true);
+  }
+  union() {
+    front_bar();
+    rear_bar();
+  }
 }
 
 module bars() {
