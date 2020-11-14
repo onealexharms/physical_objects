@@ -3,14 +3,15 @@ bar_diameter = 8;
 distance_between_bars = 53;
 inside_ring_diameter = 59;
 bar_length = inside_ring_diameter + 2*thickness;
+arm_offset = distance_between_bars/2 + bar_diameter/2;
 
 module bar() {
   rotate([90, 0, 0]) cylinder(h=bar_length + 0.01, d=bar_diameter + 0.2, center=true);
 }
 
 module bars() {
-    translate([-distance_between_bars/2 - bar_diameter/2, 0, 0]) bar();
-    translate([+distance_between_bars/2 + bar_diameter/2, 0, 0]) bar();
+    translate([arm_offset, 0, 0])  bar();
+    translate([-arm_offset, 0, 0]) bar();
 }
 
 module arm() {
@@ -21,8 +22,8 @@ module arm() {
 }
 
 module arms() {
-    translate([-distance_between_bars/2 - bar_diameter/2, 0, 0]) arm();
-    translate([+distance_between_bars/2 + bar_diameter/2, 0, 0]) arm();
+    translate([arm_offset, 0, 0])  arm();
+    translate([-arm_offset, 0, 0]) arm();
 }
 
 module ring() {
