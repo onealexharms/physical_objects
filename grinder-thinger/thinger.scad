@@ -27,7 +27,6 @@ module arms() {
 
 module ring() {
     difference() {
-        //cylinder(h=10, d=inside_ring_diameter+2*thickness, center=true);
         cube([inside_ring_diameter + 2*thickness, inside_ring_diameter + 2*thickness, 10], center=true);
         cylinder(h=11, d=inside_ring_diameter, center=true);
         translate([0, -(inside_ring_diameter/2 + thickness), 0])
