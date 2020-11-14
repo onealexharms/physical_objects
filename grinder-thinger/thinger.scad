@@ -1,6 +1,6 @@
 thickness = 5;
 bar_diameter = 8;
-inside_bar_distance = 52.4;
+distance_between_bars = 53;
 inside_ring_diameter = 59;
 bar_length = inside_ring_diameter + 2*thickness;
 
@@ -9,8 +9,8 @@ module bar() {
 }
 
 module bars() {
-    translate([-inside_bar_distance/2 - bar_diameter/2, 0, 0]) bar();
-    translate([+inside_bar_distance/2 + bar_diameter/2, 0, 0]) bar();
+    translate([-distance_between_bars/2 - bar_diameter/2, 0, 0]) bar();
+    translate([+distance_between_bars/2 + bar_diameter/2, 0, 0]) bar();
 }
 
 module arm() {
@@ -21,8 +21,8 @@ module arm() {
 }
 
 module arms() {
-    translate([-inside_bar_distance/2 - bar_diameter/2, 0, 0]) arm();
-    translate([+inside_bar_distance/2 + bar_diameter/2, 0, 0]) arm();
+    translate([-distance_between_bars/2 - bar_diameter/2, 0, 0]) arm();
+    translate([+distance_between_bars/2 + bar_diameter/2, 0, 0]) arm();
 }
 
 module ring() {
