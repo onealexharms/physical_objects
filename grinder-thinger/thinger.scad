@@ -31,18 +31,22 @@ module chop_off_ring() {
   cube([outside_ring_diameter + preview_hack, inside_ring_diameter + 2*thickness, ring_height + preview_hack], center=true);
 }
 
+module ring_hole() {
+  cylinder(h = ring_height + preview_hack, d=inside_ring_diameter, center=true);
+}
+
 module ring() {
     difference() {
         cylinder(h = ring_height, d = outside_ring_diameter, center = true);
-        cylinder(h = ring_height + preview_hack, d=inside_ring_diameter, center=true);
         translate([0, -(inside_ring_diameter/2 + thickness), 0])
           chop_off_ring(); 
+        ring_hole();
     }
 }
 
 difference() {
     union() {
-      arms();
+        arms();
         translate([0, 0, thickness/2]) ring();
     }
     bars();
