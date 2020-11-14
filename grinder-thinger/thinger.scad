@@ -7,10 +7,10 @@ arm_offset = distance_between_bars/2 + bar_diameter/2;
 arm_side = bar_diameter + 2;
 outside_ring_diameter = 2*arm_offset + arm_side;
 ring_height = arm_side + 2*thickness;
-preview_hack = 1;
+e = 0.01;
 
 module bar() {
-  rotate([90, 0, 0]) cylinder(h = bar_length + preview_hack, d = bar_diameter, center=true);
+  rotate([90, 0, 0]) cylinder(h = bar_length + e, d = bar_diameter, center=true);
 }
 
 module bars() {
@@ -29,11 +29,11 @@ module arms() {
 
 module ring_chopper() {
   translate([0, -(inside_ring_diameter/2 + thickness), 0])
-    cube([outside_ring_diameter + preview_hack, inside_ring_diameter + 2*thickness, ring_height + preview_hack], center=true);
+    cube([outside_ring_diameter + e, inside_ring_diameter + 2*thickness, ring_height + e], center=true);
 }
 
 module ring_hole() {
-  cylinder(h = ring_height + preview_hack, d=inside_ring_diameter, center=true);
+  cylinder(h = ring_height + e, d=inside_ring_diameter, center=true);
 }
 
 module ring() {
@@ -46,8 +46,8 @@ module ring() {
 
 module outer_contour() {
   difference() {
-    cube([outside_ring_diameter + preview_hack, outside_ring_diameter, ring_height + preview_hack], center = true);
-    cylinder(h = ring_height + 2*preview_hack, d = outside_ring_diameter, center = true);
+    cube([outside_ring_diameter + e, outside_ring_diameter, ring_height + e], center = true);
+    cylinder(h = ring_height + 2*e, d = outside_ring_diameter, center = true);
     ring_chopper();
   }
 }
