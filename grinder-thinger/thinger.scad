@@ -46,7 +46,7 @@ module ring() {
 
 module outer_contour() {
   difference() {
-    cube([outside_ring_diameter + preview_hack, outside_ring_diameter + preview_hack, ring_height + preview_hack], center = true);
+    cube([outside_ring_diameter + preview_hack, outside_ring_diameter, ring_height + preview_hack], center = true);
     cylinder(h = ring_height + 2*preview_hack, d = outside_ring_diameter, center = true);
     ring_chopper();
   }
