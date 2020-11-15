@@ -1,18 +1,18 @@
 module shell() {
   hull() {
-    translate([0,11,10]) sphere(10);
-    translate([0,15,-10]) sphere(10);
-    translate([0,-15,-10]) sphere(10);
-    translate([0,-11,10]) sphere(10);
+    translate([0,13,10]) sphere(10);
+    translate([0,16,-10]) sphere(10);
+    translate([0,-16,-10]) sphere(10);
+    translate([0,-13,10]) sphere(10);
   }
 }
 
 module shell_hole() {
   hull() {
-    translate([0,11,10]) sphere(9.5);
-    translate([0,15,-10]) sphere(9.5);
-    translate([0,-15,-10]) sphere(9.5);
-    translate([0,-11,10]) sphere(9.5);
+    translate([0,13,10]) sphere(9.5);
+    translate([0,16,-10]) sphere(9.5);
+    translate([0,-16,-10]) sphere(9.5);
+    translate([0,-13,10]) sphere(9.5);
   }
 }
 
