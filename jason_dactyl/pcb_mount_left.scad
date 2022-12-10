@@ -54,21 +54,35 @@ module trrs_plug() {
 }
 
 module usbc_port() {
-  cylinder(h = usbc_depth, d = usbc_height);
-  translate([usbc_width - usbc_height, 0, 0])
-    cylinder(h = usbc_depth, d = usbc_height);
-  translate([0, -usbc_height / 2, 0])
-    cube([usbc_width - usbc_height, usbc_height, usbc_depth]);
+  module roundy_thingy() { 
+    translate([-(usbc_width - usbc_height) / 2, 0, 0])
+      cylinder(h = usbc_depth, d = usbc_height, $fn = 10);
+    translate([(usbc_width - usbc_height) / 2, 0, 0])
+      cylinder(h = usbc_depth, d = usbc_height, $fn = 10);
+    translate([-(usbc_width - usbc_height)/2, -usbc_height / 2, 0])
+      cube([usbc_width - usbc_height, usbc_height, usbc_depth]);
+  }
+  difference() {
+    roundy_thingy();
+    translate([0, 0, -0.2])
+      scale([0.9, 0.8, 1.5])
+        roundy_thingy();
+  }
 }
 
 module elite_c() {
   port_color = [0.9, 0.9, 0.9];
   body_color = [11/256, 57/256, 39/256];
-  color(body_color) cube([18.55, 33.1, 0.98]);
-  color(port_color) usbc_port();
+  width = 18.55;
+  color(body_color) cube([width, 33.1, 0.98]);
+  translate([width/2, -1, -usbc_height/2])
+    rotate([-90, 0, 0])
+      color(port_color)
+        usbc_port();
 }
 
 translate([21,-11.5,panel_hole_height / 2])
   rotate([-90,0,0])
     trrs_plug();
-elite_c();
+translate([0, wall_thickness, 0])
+  elite_c();
