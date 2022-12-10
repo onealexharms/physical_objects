@@ -9,10 +9,10 @@ panel_thin_part_inset=1;
 difference() {
   cube([panel_hole_width, wall_thickness, panel_hole_height]);
   translate([panel_thin_part_inset, inner_wall_thickness, panel_thin_part_inset])
-    inset_hole();
+    inset();
 }
 
-module inset_hole() {
+module inset() {
   inset_width = panel_hole_width - 2*panel_thin_part_inset;
   inset_thickness = wall_thickness - inner_wall_thickness + 0.1;
   inset_height = panel_hole_height - 2*panel_thin_part_inset;
