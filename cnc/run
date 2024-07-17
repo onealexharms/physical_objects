@@ -1,0 +1,4 @@
+#!/bin/sh
+rm -f spindle-driver.svg
+clj spindle-driver.clj
+kitty +kitten icat spindle-driver.svg

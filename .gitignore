@@ -2,3 +2,4 @@
 *.gcode
 !/meta/*.gcode
 .osc-data/
+.cpcache
