@@ -1,10 +1,10 @@
 echo("----------------------------------------");
-smidge = .01;
-minkowsky_diameter = 2;
+smidge = 0.2;
 handle_length = 10;
 handle_height = 3;
-base_width = 35;
-base_length = 72 + handle_length;
+base_width = 37;
+box_length = 74;
+base_length = 84;
 base_height = 2;
 
 outer_width = base_width;
@@ -19,67 +19,92 @@ slot_thickness = 1;
 slot_setback = 2;
 slot_front_position = outer_length - slot_setback;
 slot_side_margin = 2;
-slot_width = outer_width - 2*slot_side_margin;
+slot_width = outer_width - 2 * slot_side_margin;
 slot_height = outer_height;
 
 window_diameter = outer_width - 8;
 edge_rounder_diameter = 8;
 
 drawer();
+//finger_hole();
 
-//the hollow
-bottom_z = edge_rounder_diameter/2+base_height;
-top_z = outer_height-edge_rounder_diameter/2 + 10;
-back_y =  edge_rounder_diameter/2;
-front_y =  outer_length-edge_rounder_diameter/2 - 1;
-hollow_x = 1;
+module finger_hole() {
+  diameter = 15;
+  x = base_width/2;
+  y = base_length - handle_length;
+  z = -1;
+  module vertical_chop() {
+    translate([0, -diameter/2, 0]) {
+      cube(diameter + smidge, center = true);     
+    }
+  }
 
-module the_hollow() {
-  color("red") {
-    hull() {
-    back_bottom_edge();
-    back_top_edge();
-    front_bottom_edge();
-    front_top_edge();
+  module top_chop() {
+    translate([0, 0, diameter-3]) {
+      cube(diameter + smidge, center = true);
+    }
+  }
+
+  translate([x, y, z]) {
+    color("purple") {
+      cylinder(h = base_height*2, d = diameter);
+    }
+    color("blue") {
+      vertical_chop();
     }
   }
 }
 
-module back_bottom_edge() {
-  translate([hollow_x, back_y+edge_rounder_diameter, bottom_z]) {
-    edge_rounder();
+module the_hollow() {
+  bottom_z = edge_rounder_diameter/2+base_height-1;
+  top_z = outer_height-edge_rounder_diameter/2 + 10;
+  back_y =  edge_rounder_diameter/2;
+  front_y =  outer_length-edge_rounder_diameter/2 - 1;
+  hollow_x = 1;
+  module back_bottom_edge() {
+    translate([hollow_x, back_y+edge_rounder_diameter, bottom_z]) {
+      edge_rounder();
+    }
   }
-}
-module back_top_edge() {
-  translate([hollow_x, back_y, top_z]) {
-    edge_rounder();
+  module back_top_edge() {
+    translate([hollow_x, back_y, top_z]) {
+      edge_rounder();
+    }
   }
-}
-module front_bottom_edge() {
-  translate([hollow_x, front_y-edge_rounder_diameter*2, bottom_z]) {
-    edge_rounder();
+  module front_bottom_edge() {
+    translate([hollow_x, front_y-edge_rounder_diameter*2, bottom_z]) {
+      edge_rounder();
+    }
   }
-}
-module front_top_edge() {
-  translate([hollow_x, front_y, top_z]) {
-    edge_rounder();
+  module front_top_edge() {
+    translate([hollow_x, front_y, top_z]) {
+      edge_rounder();
+    }
   }
-}
-module edge_rounder() {
-  rotate([0, 90, 0]) {
-    cylinder(h=outer_width-2, d=edge_rounder_diameter);
+  module edge_rounder() {
+    rotate([0, 90, 0]) {
+      cylinder(h=outer_width-2, d=edge_rounder_diameter);
+    }
+  }
+  hull() {
+  back_bottom_edge();
+  back_top_edge();
+  front_bottom_edge();
+  front_top_edge();
   }
 }
 
 module drawer() {
   difference() {
-  union() {
-    base();
     box();
+    the_hollow(); 
+    }
+  difference() {
+    base();
+    finger_hole();
   }
-  the_hollow(); 
 }
-}
+
 module box() {
   difference() {
     cube([base_width, outer_length, outer_height]);
@@ -90,13 +115,13 @@ module box() {
 
 module base() {
   cube([base_width, base_length, base_height]);
-  }
+}
 
 module label_slot() {
   difference() {
   translate([slot_side_margin, slot_front_position, 1]) {
     cube([slot_width, slot_thickness, slot_height]);
-    }
+    } 
   }
 }
 
@@ -130,15 +155,3 @@ module rounded_side_of_hollow() {
       dirigible(19);
   }
 }
-
-// module drawer() {
-// difference() {
-//  union() {
-//    box();
-//    base();
-//  }
-//  flat_sides_of_hollow();
-//  rounded_side_of_hollow();
-//  label_window();
-//}
-//}
