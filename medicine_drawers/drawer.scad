@@ -1,4 +1,4 @@
-echo("----------------------------------------");
+echo("--------------------------------------");
 smidge = 0.2;
 handle_length = 10;
 handle_height = 3;
@@ -23,7 +23,7 @@ slot_side_margin = 2;
 slot_width = base_width - 2 * slot_side_margin;
 slot_height = box_height;
 
-window_diameter = base_width - 9;
+window_diameter = 25.4;
 edge_rounder_diameter = 8;
 
 module finger_hole() {
