@@ -5,8 +5,8 @@ handle_height = 3;
 base_width = 37;
 box_length = 74;
 base_length = 84;
-base_height = 2;
-box_height = 35 - base_height;
+base_height = 3;
+box_height = 37 - base_height;
 
 outer_width = base_width;
 outer_length = base_length - handle_length;
@@ -27,7 +27,7 @@ window_diameter = 25.4;
 edge_rounder_diameter = 8;
 
 module finger_hole() {
-  diameter = base_width-6;
+  diameter = base_width-15;
   x = base_width/2;
   y = base_length - handle_length;
   z = -1;
