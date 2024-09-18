@@ -12,6 +12,10 @@ right_nub_inset = 2.8;
 weird_inset = 4;
 weird_inset2 = 2.5;
 
+stub_offset = 5.75;
+stub_width = 3;
+stub_thickness = 1;
+stub_length = 1;
 
 module battery_cover() {
   module roundish_profile() {
@@ -62,6 +66,9 @@ module battery_cover() {
     
     roundish_profile();
   }
+  
+  translate([-stub_width-stub_offset, -stub_length, 0])
+  cube([stub_width, stub_length + 5, stub_thickness]);
 }
 
 battery_cover();
