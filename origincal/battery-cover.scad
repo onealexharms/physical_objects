@@ -58,7 +58,7 @@ module battery_cover() {
       cube([nub_width+0.1, length-right_nub_inset-nub_width, nub_thickness]);
 
     translate([-10, length/2, thickness])
-    resize([width-2,length-2,1.25]) sphere(20);
+    resize([width-2,length-2,1.75]) sphere(20);
     
     roundish_profile();
   }
