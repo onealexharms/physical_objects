@@ -7,10 +7,10 @@ length = 15.75 + 6.25; //22.4; + 6.25
 nub_top = 1.25;
 nub_thickness = 1.0; 
 nub_width = 2;
-left_nub_inset = 1.5;
-right_nub_inset = 2.8;
-weird_inset = 4;
-weird_inset2 = 2.5;
+left_nub_inset = 1.25;
+right_nub_inset = 2.25;
+weird_inset = 3.5;
+weird_inset2 = 2;
 
 stub_offset = 5.75;
 stub_width = 3;
@@ -25,13 +25,13 @@ module battery_cover() {
       [0.01,       -1],
       [0.01,       6.25],
       
-      [-2,         6.25-2.87],
+      [-2,         6.25-(2.87+1.32)],
       
-      [-width/2+3.5, 0.5],
+      [-width/2+3.5, 0.25],
       [-width/2, 0],
-      [-width/2-3.5, 0.5],
+      [-width/2-3.5, 0.25],
       
-      [-width+2, 6.25-2.87],
+      [-width+2, 6.25-(2.87+1.32)],
       
       [-width-0.01,   6.25],
       [-width-0.01,   -1],
