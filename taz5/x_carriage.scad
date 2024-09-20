@@ -17,7 +17,9 @@ m3_head_height = 3;
 m3_head_diameter = 5.5;
 m3_washer_thickness = 0.25;
 
-rail_distance = 7;
+rail_distance = 4; // technically 7?
+
+// 12.5
 
 module top_bearing_hole_plugs() {
     for (xofs = [-1, 1])
