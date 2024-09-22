@@ -13,11 +13,14 @@ bearing_block_height = 27;
 bearing_block_width = 46;
 bearing_block_thickness = 4.25; // well, this is what we'll use
 
-m3_head_height = 3;
-m3_head_diameter = 5.5;
-m3_washer_thickness = 0.25;
+m3_clearance_diameter = 3.6;
+m3_head_height = 3.8;
+m3_head_diameter = 8; // for 7mm washer
 
-rail_distance = 4; // technically 7?
+thickness = 6;
+layer_height = 0.225;
+
+rail_distance = 0; // technically 7?
 
 // 12.5
 
@@ -65,14 +68,16 @@ module bearing_block_holder() {
 }
 
 module bearing_block_screw_holes() {
+    // hole for body of screw.  A one-layer gap is left to force bridging, and this
+    // needs to be drilled out.
     for (xofs = [-1, 1])
     for (yofs = [-1, 1])
     translate([
         bottom_bearing_hole_center.x + xofs*bearing_block_screw_x_distance/2,
         bottom_bearing_hole_center.y + yofs*bearing_block_screw_y_distance/2,
-        0
+        m3_head_height + layer_height,
     ])
-    cylinder($fn=50, h=6 + rail_distance + 0.1, d=3.1);
+    cylinder($fn=50, h=thickness + rail_distance + 0.1, d=m3_clearance_diameter);
     
     for (xofs = [-1, 1])
     for (yofs = [-1, 1])
@@ -81,7 +86,7 @@ module bearing_block_screw_holes() {
         bottom_bearing_hole_center.y + yofs*bearing_block_screw_y_distance/2,
         -0.02
     ])
-    cylinder($fn=50, h=m3_head_height + m3_washer_thickness + 0.1, d=m3_head_diameter+0.2);
+    cylinder($fn=50, h=m3_head_height, d=m3_head_diameter + 0.5);
 }
 
 module x_carriage() {
