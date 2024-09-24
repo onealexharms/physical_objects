@@ -21,6 +21,46 @@ layer_height = 0.225;
 
 rail_distance = 0; // technically 7?
 
+// Features of original motor mount
+top_block_width = 20;
+top_block_height = 22;
+top_block_thickness = 27;
+bottom_block_width = 27;
+bottom_block_height = 32;
+bottom_block_thickness = 30;
+
+block_distance = 46;
+total_height = bottom_block_height + top_block_height + (90 - 22 - 22);
+
+heat_set_insert_inside_diameter = 7.8;
+heat_set_insert_outside_diameter = 13;
+heat_set_insert_length = 7.5;
+heat_set_insert_positions = [ // xz
+  [ -29.5, 30  ],
+  [     0, 6.5 ],
+  [ +29.5, 30  ],
+];
+
+motor_plate_width = 43;
+motor_plate_height = 50;
+motor_plate_thickness = 7.5;
+
+motor_screw_distance = 31;
+motor_screw_slot_width = 4;
+motor_screw_slot_length = 12; // includes 4mm diameter
+motor_shaft_hole_width = 26;
+motor_shaft_hole_height = 34; // includes 26mm diameter?
+
+end_stop_distance = 21;
+end_stop_screw_distance = 9.4;
+end_stop_screw_hole_diameter = 3;
+
+extrusion_width = 20.25;
+rail_thickness = 8;
+rail_width = 12;
+
+left_edge_offset = 10;
+
 // 12.5
 
 module top_bearing_hole_plugs() {
@@ -103,46 +143,6 @@ module x_carriage() {
         bearing_block_screw_holes();
     }
 }
-
-// Features of original model
-top_block_width = 20;
-top_block_height = 22;
-top_block_thickness = 27;
-bottom_block_width = 27;
-bottom_block_height = 32;
-bottom_block_thickness = 30;
-
-block_distance = 46;
-total_height = bottom_block_height + top_block_height + (90 - 22 - 22);
-
-heat_set_insert_inside_diameter = 7.8;
-heat_set_insert_outside_diameter = 13;
-heat_set_insert_length = 7.5;
-heat_set_insert_positions = [ // xz
-  [ -29.5, 30  ],
-  [     0, 6.5 ],
-  [ +29.5, 30  ],
-];
-
-motor_plate_width = 43;
-motor_plate_height = 50;
-motor_plate_thickness = 7.5;
-
-motor_screw_distance = 31;
-motor_screw_slot_width = 4;
-motor_screw_slot_length = 12; // includes 4mm diameter
-motor_shaft_hole_width = 26;
-motor_shaft_hole_height = 34; // includes 26mm diameter?
-
-end_stop_distance = 21;
-end_stop_screw_distance = 9.4;
-end_stop_screw_hole_diameter = 3;
-
-extrusion_width = 20.25;
-rail_thickness = 8;
-rail_width = 12;
-
-left_edge_offset = 10;
 
 module extrusion_and_rail(length=25) {
     translate([0,0,extrusion_width/2])
@@ -290,4 +290,3 @@ union() {
 //TODO:
 
 // - [ ] Make the idler handle the extrusion/rail 
-// - [ ] 
