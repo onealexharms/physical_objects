@@ -25,12 +25,12 @@ rail_distance = 0; // technically 7?
 top_block_width = 20;
 top_block_height = 22;
 top_block_thickness = 27;
-bottom_block_width = 27;
-bottom_block_height = 32;
-bottom_block_thickness = 30;
+rail_block_width = 27;
+rail_block_height = 32;
+rail_block_thickness = 30;
 
 block_distance = 46;
-total_height = bottom_block_height + top_block_height + (90 - 22 - 22);
+total_height = rail_block_height + top_block_height + (90 - 22 - 22);
 
 heat_set_insert_inside_diameter = 7.8;
 heat_set_insert_outside_diameter = 13;
@@ -187,39 +187,31 @@ module motor_plate() {
 module top_block() {
     translate([
         block_distance/2 + top_block_height/2,
-        motor_plate_width/2 - bottom_block_width/2,
+        motor_plate_width/2 - rail_block_width/2,
         top_block_thickness/2
     ])
-    cube([top_block_height, bottom_block_width, top_block_thickness], center=true);
+    cube([top_block_height, rail_block_width, top_block_thickness], center=true);
 }
 
-module bottom_block() {
-    descender = 14;
+module rail_block() {
     translate([
-        -block_distance/2 - bottom_block_height/2,
-        motor_plate_width/2 - bottom_block_width/2,
-        bottom_block_thickness/2
+        -rail_block_height/2,
+        -rail_block_width/2,
+        rail_block_thickness/2,
     ])
     difference() {
-        translate([0, 0, -descender/2])
-        cube([bottom_block_height, bottom_block_width, bottom_block_thickness + descender], center=true);
-        
-        translate([0, -(bottom_block_width/4)/2, -bottom_block_thickness/2 - 5])
-        extrusion_and_rail(bottom_block_width-4);
-        
-        translate([-bottom_block_height/2 -0.05, 0, -10])
+        cube([rail_block_height, rail_block_width, rail_block_thickness], center=true);
+
+        translate([0, -(rail_block_width/4)/2, -rail_block_thickness/2 - 5])
+        extrusion_and_rail(rail_block_width-4);
+
+        translate([-rail_block_height/2 -0.05, 0, -10])
         rotate([0, 90, 0])
-        cylinder(d=m3_clearance_diameter, h=10, $fn=50);
-        
-        translate([0, 0, -20 + 0.05])
-        rotate([0, 180, 0])
         cylinder(d=m3_clearance_diameter, h=10, $fn=50);
     }
 };
 
 module heat_inset_holder() {
-    translate([0, motor_plate_width/2, 0])
-    rotate([90, 0, 0])
     union() {
         cylinder(d=heat_set_insert_outside_diameter, h=heat_set_insert_length);
 
@@ -229,8 +221,6 @@ module heat_inset_holder() {
 }
 
 module heat_inset_hole() {
-    translate([0, motor_plate_width/2, 0])
-    rotate([90, 0, 0])
     translate([0,0,-0.05])
     cylinder(d=heat_set_insert_inside_diameter, h=heat_set_insert_length + 0.1, $fn=50);
 }
@@ -238,10 +228,10 @@ module heat_inset_hole() {
 module end_stop_mounting_holes() {
     depth = 10;
     
-    translate([30, motor_plate_width/2 - end_stop_distance, bottom_block_thickness - depth + 0.05])
+    translate([30, motor_plate_width/2 - end_stop_distance, rail_block_thickness - depth + 0.05])
     cylinder(d=end_stop_screw_hole_diameter, h=depth, $fn=50);
     
-    translate([30 + end_stop_screw_distance, motor_plate_width/2 - end_stop_distance, bottom_block_thickness - depth + 0.05])
+    translate([30 + end_stop_screw_distance, motor_plate_width/2 - end_stop_distance, rail_block_thickness - depth + 0.05])
     cylinder(d=end_stop_screw_hole_diameter, h=depth, $fn=50);
 }
 
@@ -250,10 +240,17 @@ module x_motor_mount() {
     module solid_bits() {
         motor_plate();
         top_block();
-        bottom_block();
+        translate([
+            -block_distance/2 ,
+            motor_plate_width/2,
+            0,
+        ])
+        rail_block();
 
         for (pos = heat_set_insert_positions)
         translate([pos.x, 0, pos.y])
+        translate([0, motor_plate_width/2, 0])
+        rotate([90, 0, 0])
         heat_inset_holder();
     }
     
@@ -262,6 +259,8 @@ module x_motor_mount() {
 
         for (pos = heat_set_insert_positions)
         translate([pos.x, 0, pos.y])
+        translate([0, motor_plate_width/2, 0])
+        rotate([90, 0, 0])
         heat_inset_hole();
         
         end_stop_mounting_holes();
@@ -271,22 +270,47 @@ module x_motor_mount() {
 // filets/chamfers
 
 module x_idler() {
-    //translate([4, 0, 0])
-    import("x_idler_v2.4.stl");
-   
+    module side() {
+        cube([0, 0, 0], center=true);
+    }
+
+    module solid_bits() {
+        #rotate([0, 90, 180]) import("x_idler_v2.4.stl");
+    
+        //translate([0,17.5,-20]) rotate([0,90,-90]) rail_block();
+        for (pos = heat_set_insert_positions)
+        translate([0, -pos.y + 17.25, pos.x + 35])
+        rotate([0, -90, 0])
+        heat_inset_holder();
+    }
+    
+    difference() {
+        solid_bits();
+        
+        for (pos = heat_set_insert_positions)
+        translate([0, -pos.y + 17.25, pos.x + 35])
+        rotate([0, -90, 0])
+        heat_inset_hole();
+    }
 }
 
-translate([-25, 0, 35]) rotate([0, -90, 90]) x_motor_mount();
-translate([100, -(6 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
-translate([125, -17.5, 0]) rotate([0, 90, 180]) x_idler();
+module x_assembly() {
+    translate([-25, 0, 35]) rotate([0, -90, 90]) x_motor_mount();
+    translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
+    translate([125, -17.5, 0]) x_idler();
 
-translate([40, 5, -5])
-color("grey") 
-union() {
-    translate([0, -20/2, 0]) cube([150, 20, 20], center=true);
-    translate([0, -20 - rail_thickness/2, 0]) cube([150, rail_thickness, 12], center=true);
+    translate([40, 5, -4.5])
+    rotate([0, -90, 90])
+    color("grey") 
+    extrusion_and_rail(150);
 }
 
-//TODO:
+//x_assembly();
+//x_idler();
+x_motor_mount();
 
 // - [ ] Make the idler handle the extrusion/rail 
+
+// - [ ] more clearance for extrusion/rail
+// - [ ] cut off the back so they lay flat again
+// - [ ] adjust to make sure back wall is actually 4mm
