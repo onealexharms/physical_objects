@@ -55,7 +55,7 @@ end_stop_distance = 21;
 end_stop_screw_distance = 9.4;
 end_stop_screw_hole_diameter = 3;
 
-extrusion_width = 20.25;
+extrusion_width = 20;
 rail_thickness = 8;
 rail_width = 12;
 
@@ -149,7 +149,7 @@ module extrusion_and_rail(length=25) {
     cube([extrusion_width, length, extrusion_width], center=true);
 
     translate([0,0,extrusion_width + rail_thickness/2])
-    cube([rail_width, length, rail_thickness], center=true);
+    cube([rail_width, length, rail_thickness + 0.1], center=true);
 }
 
 module motor_plate() {
@@ -202,8 +202,8 @@ module rail_block() {
     difference() {
         cube([rail_block_height, rail_block_width, rail_block_thickness], center=true);
 
-        translate([0, -(rail_block_width/4)/2, -rail_block_thickness/2 - 5])
-        extrusion_and_rail(rail_block_width-4);
+        translate([0, -4/2, -rail_block_thickness/2 - 5])
+        extrusion_and_rail(rail_block_width-4+0.05);
 
         translate([-rail_block_height/2 -0.05, 0, -10])
         rotate([0, 90, 0])
@@ -314,3 +314,4 @@ x_motor_mount();
 // - [ ] more clearance for extrusion/rail
 // - [ ] cut off the back so they lay flat again
 // - [ ] adjust to make sure back wall is actually 4mm
+// - [ ] chamfer the extrusion entryway
