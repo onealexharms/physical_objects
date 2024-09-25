@@ -209,7 +209,7 @@ module rail_block() {
         rotate([0, 90, 0])
         cylinder(d=m3_clearance_diameter, h=10, $fn=50);
 
-        translate([0, +rail_block_width/2 - 4 - 12.5, rail_block_thickness/2 - 9])
+        translate([0, +rail_block_width/2 - 5 - 12.5, rail_block_thickness/2 - 9])
         cylinder(d=m3_clearance_diameter, h=10, $fn=50);
     }
 };
@@ -265,7 +265,7 @@ module x_motor_mount() {
         translate([0, motor_plate_width/2, 0])
         rotate([90, 0, 0])
         heat_inset_hole();
-        
+
         end_stop_mounting_holes();
     }
 }
