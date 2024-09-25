@@ -56,7 +56,7 @@ end_stop_screw_distance = 9.4;
 end_stop_screw_hole_diameter = 3;
 
 extrusion_width = 20;
-extrusion_clearance = 0.25;
+extrusion_clearance = 0.375;
 rail_thickness = 8;
 rail_width = 12;
 
@@ -321,5 +321,5 @@ x_motor_mount();
 // - [/] chamfer the extrusion entryway
 // - [x] screw hole through rail
 // - [x] check m5 thread insert
+// - [x] check m3 through hole size
 // - [ ] chamfer m5 heat set hole
-// - [ ] check m3 through hole size
