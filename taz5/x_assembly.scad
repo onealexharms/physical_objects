@@ -208,6 +208,9 @@ module rail_block() {
         translate([-rail_block_height/2 -0.05, 0, -10])
         rotate([0, 90, 0])
         cylinder(d=m3_clearance_diameter, h=10, $fn=50);
+
+        translate([0, +rail_block_width/2 - 4 - 12.5, rail_block_thickness/2 - 9])
+        cylinder(d=m3_clearance_diameter, h=10, $fn=50);
     }
 };
 
@@ -315,3 +318,4 @@ x_motor_mount();
 // - [ ] cut off the back so they lay flat again
 // - [ ] adjust to make sure back wall is actually 4mm
 // - [ ] chamfer the extrusion entryway
+// - [x] screw hole through rail
