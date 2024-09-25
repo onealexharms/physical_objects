@@ -32,7 +32,7 @@ rail_block_thickness = 30;
 block_distance = 46;
 total_height = rail_block_height + top_block_height + (90 - 22 - 22);
 
-heat_set_insert_inside_diameter = 7.8;
+heat_set_insert_inside_diameter = 6.5;
 heat_set_insert_outside_diameter = 13;
 heat_set_insert_length = 7.5;
 heat_set_insert_positions = [ // xz
@@ -56,6 +56,7 @@ end_stop_screw_distance = 9.4;
 end_stop_screw_hole_diameter = 3;
 
 extrusion_width = 20;
+extrusion_clearance = 0.25;
 rail_thickness = 8;
 rail_width = 12;
 
@@ -146,7 +147,7 @@ module x_carriage() {
 
 module extrusion_and_rail(length=25) {
     translate([0,0,extrusion_width/2])
-    cube([extrusion_width, length, extrusion_width], center=true);
+    cube([extrusion_width + 2*extrusion_clearance, length, extrusion_width], center=true);
 
     translate([0,0,extrusion_width + rail_thickness/2])
     cube([rail_width, length, rail_thickness + 0.1], center=true);
@@ -314,8 +315,11 @@ x_motor_mount();
 
 // - [ ] Make the idler handle the extrusion/rail 
 
-// - [ ] more clearance for extrusion/rail
-// - [ ] cut off the back so they lay flat again
-// - [ ] adjust to make sure back wall is actually 4mm
-// - [ ] chamfer the extrusion entryway
+// - [x] more clearance for extrusion/rail
+// - [x] cut off the back so they lay flat again
+// - [x] adjust to make sure back wall is actually 4mm
+// - [/] chamfer the extrusion entryway
 // - [x] screw hole through rail
+// - [x] check m5 thread insert
+// - [ ] chamfer m5 heat set hole
+// - [ ] check m3 through hole size
