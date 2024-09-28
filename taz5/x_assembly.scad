@@ -252,11 +252,19 @@ module rail_block() {
 };
 
 module heat_inset_holder() {
+    back_thickness = 1;
     union() {
         cylinder(d=heat_set_insert_outside_diameter, h=heat_set_insert_length);
+        
+        translate([0, -heat_set_insert_outside_diameter/2, 0])
+        cube([
+            heat_set_insert_outside_diameter/2,
+            heat_set_insert_outside_diameter,
+            heat_set_insert_length+back_thickness
+        ]);
 
         translate([0, 0, heat_set_insert_length])
-        cylinder(d=heat_set_insert_outside_diameter, h=1);
+        cylinder(d=heat_set_insert_outside_diameter, h=back_thickness);
     }
 }
 
@@ -348,8 +356,8 @@ module x_assembly() {
 
 //x_assembly();
 //x_idler();
-//x_motor_mount();
-rail_block();
+x_motor_mount();
+//rail_block();
 //extrusion_and_rail();
 
 // - [ ] Make the idler handle the extrusion/rail 
