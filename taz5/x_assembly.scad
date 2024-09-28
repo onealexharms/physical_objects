@@ -269,8 +269,13 @@ module heat_inset_holder() {
 }
 
 module heat_inset_hole() {
+    chamfer_amount = 1.5;
+
     translate([0,0,-0.05])
     cylinder(d=heat_set_insert_inside_diameter, h=heat_set_insert_length + 0.1, $fn=50);
+    
+    translate([0,0,-0.05])
+    cylinder(d1=heat_set_insert_inside_diameter+chamfer_amount, d2=heat_set_insert_inside_diameter, h=chamfer_amount, $fn=50);
 }
 
 module end_stop_mounting_holes() {
@@ -356,17 +361,14 @@ module x_assembly() {
 
 //x_assembly();
 //x_idler();
+
+rotate([-90,37,0]) //printing angle
 x_motor_mount();
-//rail_block();
+
 //extrusion_and_rail();
+//difference() {
+//    heat_inset_holder();
+//    heat_inset_hole();
+//}
 
 // - [ ] Make the idler handle the extrusion/rail 
-
-// - [x] more clearance for extrusion/rail
-// - [x] cut off the back so they lay flat again
-// - [x] adjust to make sure back wall is actually 4mm
-// - [/] chamfer the extrusion entryway
-// - [x] screw hole through rail
-// - [x] check m5 thread insert
-// - [x] check m3 through hole size
-// - [ ] chamfer m5 heat set hole
