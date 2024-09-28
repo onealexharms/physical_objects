@@ -56,7 +56,7 @@ end_stop_screw_distance = 9.4;
 end_stop_screw_hole_diameter = 3;
 
 extrusion_width = 20;
-extrusion_clearance = 0.375;
+extrusion_clearance = 0.15;
 rail_thickness = 8;
 rail_width = 12;
 
@@ -145,12 +145,12 @@ module x_carriage() {
     }
 }
 
-module extrusion_and_rail(length=25) {
-    translate([0,0,extrusion_width/2])
-    cube([extrusion_width + 2*extrusion_clearance, length, extrusion_width], center=true);
+module extrusion_and_rail(length=25, clearance=extrusion_clearance) {
+    translate([0,0,0])
+    cube([extrusion_width + 2*clearance, length, extrusion_width + 2*clearance], center=true);
 
-    translate([0,0,extrusion_width + rail_thickness/2])
-    cube([rail_width, length, rail_thickness + 0.1], center=true);
+    translate([0,0,extrusion_width/2 + rail_thickness/2])
+    cube([rail_width + 2*clearance, length, rail_thickness + 2*clearance], center=true);
 }
 
 module motor_plate() {
@@ -177,15 +177,19 @@ module motor_plate() {
     }
 
     difference() {
+        rotate([0, -90, 90])
         translate([0, 0, motor_plate_thickness/2])
         cube([50, motor_plate_width, motor_plate_thickness], center=true);
 
+        rotate([0, -90, 90])
         shaft_hole();
+        rotate([0, -90, 90])
         screw_slots();
     }
 }
 
 module top_block() {
+    rotate([0, -90, 90])
     translate([
         block_distance/2 + top_block_height/2,
         motor_plate_width/2 - rail_block_width/2,
@@ -195,15 +199,28 @@ module top_block() {
 }
 
 module rail_block() {
+    descender = 12;
+    chamfer_amount = 3;
+    module chamfer(length) {
+        translate([0, -chamfer_amount, -0.05])
+        linear_extrude(length+0.1)
+        polygon(points=[
+            [-0.05, -0.05],
+            [chamfer_amount+0.05, chamfer_amount+0.05],
+            [-0.05, chamfer_amount+0.05],
+            [-0.05, -0.05],
+        ]);
+    }
     translate([
         -rail_block_height/2,
         -rail_block_width/2,
         rail_block_thickness/2,
     ])
     difference() {
-        cube([rail_block_height, rail_block_width, rail_block_thickness], center=true);
+        translate([0, 0, -descender/2])
+        cube([rail_block_height, rail_block_width, rail_block_thickness + descender], center=true);
 
-        translate([0, -4/2, -rail_block_thickness/2 - 5])
+        translate([0, -4/2, -rail_block_thickness/2 - 5 + extrusion_width/2])
         extrusion_and_rail(rail_block_width-4+0.05);
 
         translate([-rail_block_height/2 -0.05, 0, -10])
@@ -212,6 +229,25 @@ module rail_block() {
 
         translate([0, +rail_block_width/2 - 5 - 12.5, rail_block_thickness/2 - 9])
         cylinder(d=m3_clearance_diameter, h=10, $fn=50);
+        
+        translate([0, 0, -rail_block_thickness/2 - 13])
+        cylinder(d=m3_clearance_diameter, h=10, $fn=50);
+
+        translate([
+            -rail_block_height/2,
+            +rail_block_width/2,
+            rail_block_thickness/2,
+        ])
+        rotate([90,0,0])
+        chamfer(rail_block_width);
+
+        translate([
+            +rail_block_height/2,
+            -rail_block_width/2,
+            rail_block_thickness/2,
+        ])
+        rotate([90,0,180])
+        chamfer(rail_block_width);
     }
 };
 
@@ -232,9 +268,11 @@ module heat_inset_hole() {
 module end_stop_mounting_holes() {
     depth = 10;
     
+    rotate([0, -90, 90])
     translate([30, motor_plate_width/2 - end_stop_distance, rail_block_thickness - depth + 0.05])
     cylinder(d=end_stop_screw_hole_diameter, h=depth, $fn=50);
     
+    rotate([0, -90, 90])
     translate([30 + end_stop_screw_distance, motor_plate_width/2 - end_stop_distance, rail_block_thickness - depth + 0.05])
     cylinder(d=end_stop_screw_hole_diameter, h=depth, $fn=50);
 }
@@ -244,6 +282,7 @@ module x_motor_mount() {
     module solid_bits() {
         motor_plate();
         top_block();
+        rotate([0, -90, 90])
         translate([
             -block_distance/2 ,
             motor_plate_width/2,
@@ -252,9 +291,8 @@ module x_motor_mount() {
         rail_block();
 
         for (pos = heat_set_insert_positions)
-        translate([pos.x, 0, pos.y])
-        translate([0, motor_plate_width/2, 0])
-        rotate([90, 0, 0])
+        translate([-motor_plate_width/2, -pos.y, pos.x])
+        rotate([90, 0, 90])
         heat_inset_holder();
     }
     
@@ -262,9 +300,8 @@ module x_motor_mount() {
         solid_bits();
 
         for (pos = heat_set_insert_positions)
-        translate([pos.x, 0, pos.y])
-        translate([0, motor_plate_width/2, 0])
-        rotate([90, 0, 0])
+        translate([-motor_plate_width/2, -pos.y, pos.x])
+        rotate([90, 0, 90])
         heat_inset_hole();
 
         end_stop_mounting_holes();
@@ -299,19 +336,21 @@ module x_idler() {
 }
 
 module x_assembly() {
-    translate([-25, 0, 35]) rotate([0, -90, 90]) x_motor_mount();
+    translate([-25, 0, 35]) x_motor_mount();
     translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
     translate([125, -17.5, 0]) x_idler();
 
-    translate([40, 5, -4.5])
+    translate([40, 5-extrusion_width/2, -4.5])
     rotate([0, -90, 90])
     color("grey") 
-    extrusion_and_rail(150);
+    #extrusion_and_rail(150, clearance=0);
 }
 
 //x_assembly();
 //x_idler();
-x_motor_mount();
+//x_motor_mount();
+rail_block();
+//extrusion_and_rail();
 
 // - [ ] Make the idler handle the extrusion/rail 
 
