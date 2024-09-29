@@ -343,6 +343,9 @@ module x_idler() {
     }
 
     module idler() {
+        inside_radius = 3;
+        inside_thickness = idler_thickness - 2*wall_thickness;
+
         difference() {
             union() {
                 translate([20 -idler_side_width/2, 0, 24.5 + 20-bearing_height])
@@ -352,8 +355,15 @@ module x_idler() {
                 cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
             }
 
+            hull() {
+                for (side = [-1, 1])
+                translate([20 -idler_side_width/2+0.05, side * (inside_thickness/2 - inside_radius), 28.45])
+                rotate([0, 90, 0])
+                cylinder(r=inside_radius, h=idler_side_width+0.2, $fn=50, center=true);
+            }
+
             translate([-idler_side_width/2 + 20, 0, 7])
-            cube([50, idler_thickness - 2*wall_thickness, idler_outer_diameter+20], center=true);
+            cube([50, inside_thickness, idler_outer_diameter+20], center=true);
 
             rotate([90, 0, 0])
             cylinder(d=shaft_diameter, h=idler_thickness+0.1, $fn=50, center=true);
