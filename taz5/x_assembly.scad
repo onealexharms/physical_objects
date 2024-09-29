@@ -331,6 +331,8 @@ module x_idler() {
     bearing_height = 27;
     wall_thickness = 7.8;
     shaft_diameter = 8.6;
+    bearing_hole_diameter = 18;
+    bearing_hole_depth = 3.9;
 
     module at_heat_set_inserts() {
         for (pos = heat_set_insert_positions)
@@ -340,9 +342,31 @@ module x_idler() {
         children();
     }
 
+    module idler() {
+        difference() {
+            union() {
+                translate([20 -idler_side_width/2, 0, 24.5 + 20-bearing_height])
+                cube([idler_side_width, idler_thickness, 71], center=true);
+
+                rotate([90, 0, 0])
+                cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
+            }
+
+            translate([-idler_side_width/2 + 20, 0, 7])
+            cube([50, idler_thickness - 2*wall_thickness, idler_outer_diameter+20], center=true);
+
+            rotate([90, 0, 0])
+            cylinder(d=shaft_diameter, h=idler_thickness+0.1, $fn=50, center=true);
+
+            for (side = [-1, 1])
+            translate([0, side * (-idler_thickness/2 + bearing_hole_depth/2), 0])
+            rotate([90, 0, 0])
+            cylinder(d=bearing_hole_diameter, h=bearing_hole_depth+0.1, $fn=50, center=true);
+        }
+    }
+
     module solid_bits() {
         //#rotate([0, 90, 180]) import("x_idler_v2.4.stl", convexity=6);
-        at_heat_set_inserts() heat_inset_holder();
 
         translate([
             0,
@@ -352,24 +376,14 @@ module x_idler() {
         mirror([1, 0, 0])
         rail_block();
 
-        translate([-idler_side_width/2, 1, 24.5 + 17])
-        cube([idler_side_width, idler_thickness, 65], center=true);
-
         translate([-20, 1, bearing_height])
-        rotate([90, 0, 0])
-        cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
+        idler();
     }
-    
+
     difference() {
         solid_bits();
         at_heat_set_inserts() heat_inset_hole();
 
-        translate([-idler_side_width/2, 1, bearing_height+7])
-        cube([50, idler_thickness - 2*wall_thickness, idler_outer_diameter+20], center=true);
-
-        translate([-20, 1, bearing_height])
-        rotate([90, 0, 0])
-        cylinder(d=shaft_diameter, h=idler_thickness+0.1, $fn=50, center=true);
     }
 
     at_heat_set_inserts()
