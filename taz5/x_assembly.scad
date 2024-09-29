@@ -328,29 +328,28 @@ module x_idler() {
         cube([0, 0, 0], center=true);
     }
 
-    module solid_bits() {
-        #rotate([0, 90, 180]) import("x_idler_v2.4.stl");
-    
-        //translate([0,17.5,-20]) rotate([0,90,-90]) rail_block();
+    module at_heat_set_inserts() {
         for (pos = heat_set_insert_positions)
         translate([0, -pos.y + 17.25, pos.x + 35])
+        rotate([-90, 0, 0])
         rotate([0, -90, 0])
-        heat_inset_holder();
+        children();
+    }
+
+    module solid_bits() {
+        #rotate([0, 90, 180]) import("x_idler_v2.4.stl", convexity=6);
+        at_heat_set_inserts() heat_inset_holder();
     }
     
     difference() {
         solid_bits();
-        
-        for (pos = heat_set_insert_positions)
-        translate([0, -pos.y + 17.25, pos.x + 35])
-        rotate([0, -90, 0])
-        heat_inset_hole();
+        at_heat_set_inserts() heat_inset_hole();
     }
 }
 
 module x_assembly() {
     translate([-25, 0, 35]) x_motor_mount();
-    translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
+    //translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
     translate([125, -17.5, 0]) x_idler();
 
     translate([40, 5-extrusion_width/2, -4.5])
@@ -359,11 +358,10 @@ module x_assembly() {
     #extrusion_and_rail(150, clearance=0);
 }
 
-//x_assembly();
+x_assembly();
 //x_idler();
 
-rotate([-90,37,0]) //printing angle
-x_motor_mount();
+//rotate([-90,37,0]) x_motor_mount();
 
 //extrusion_and_rail();
 //difference() {
