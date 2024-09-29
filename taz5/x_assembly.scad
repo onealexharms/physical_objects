@@ -325,6 +325,13 @@ module x_motor_mount() {
 // filets/chamfers
 
 module x_idler() {
+    idler_thickness = 33;
+    idler_side_width = 18;
+    idler_outer_diameter = 24;
+    bearing_height = 27;
+    wall_thickness = 7.8;
+    shaft_diameter = 8.6;
+
     module at_heat_set_inserts() {
         for (pos = heat_set_insert_positions)
         translate([0, -pos.y + 17.25, pos.x + 35])
@@ -334,16 +341,42 @@ module x_idler() {
     }
 
     module solid_bits() {
-        #rotate([0, 90, 180]) import("x_idler_v2.4.stl", convexity=6);
+        //#rotate([0, 90, 180]) import("x_idler_v2.4.stl", convexity=6);
         at_heat_set_inserts() heat_inset_holder();
+
+        translate([
+            0,
+            +17.5,
+            +12,
+        ])
+        mirror([1, 0, 0])
         rail_block();
 
+        translate([-idler_side_width/2, 1, 24.5 + 17])
+        cube([idler_side_width, idler_thickness, 65], center=true);
+
+        translate([-20, 1, bearing_height])
+        rotate([90, 0, 0])
+        cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
     }
     
     difference() {
         solid_bits();
         at_heat_set_inserts() heat_inset_hole();
+
+        translate([-idler_side_width/2, 1, bearing_height+7])
+        cube([50, idler_thickness - 2*wall_thickness, idler_outer_diameter+20], center=true);
+
+        translate([-20, 1, bearing_height])
+        rotate([90, 0, 0])
+        cylinder(d=shaft_diameter, h=idler_thickness+0.1, $fn=50, center=true);
     }
+
+    at_heat_set_inserts()
+        difference() {
+           heat_inset_holder();
+           heat_inset_hole();
+        }
 }
 
 module x_assembly() {
@@ -357,8 +390,8 @@ module x_assembly() {
     #extrusion_and_rail(150, clearance=0);
 }
 
-x_assembly();
-//x_idler();
+//x_assembly();
+x_idler();
 
 // /* rotate([-90,37,0]) */ x_motor_mount();
 
