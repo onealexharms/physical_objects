@@ -211,6 +211,7 @@ module rail_block() {
             [-0.05, -0.05],
         ]);
     }
+    rotate([0, -90, 90])
     translate([
         -rail_block_height/2,
         -rail_block_width/2,
@@ -301,7 +302,6 @@ module x_motor_mount() {
             0,
             -motor_plate_width/2 - 1.5,
         ])
-        rotate([0, -90, 90])
         rail_block();
 
         for (pos = heat_set_insert_positions)
