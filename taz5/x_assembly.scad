@@ -295,12 +295,13 @@ module x_motor_mount() {
     module solid_bits() {
         motor_plate();
         top_block();
-        rotate([0, -90, 90])
+
         translate([
-            -block_distance/2 ,
-            motor_plate_width/2,
+            -block_distance/2 + 1.5,
             0,
+            -motor_plate_width/2 - 1.5,
         ])
+        rotate([0, -90, 90])
         rail_block();
 
         for (pos = heat_set_insert_positions)
@@ -324,10 +325,6 @@ module x_motor_mount() {
 // filets/chamfers
 
 module x_idler() {
-    module side() {
-        cube([0, 0, 0], center=true);
-    }
-
     module at_heat_set_inserts() {
         for (pos = heat_set_insert_positions)
         translate([0, -pos.y + 17.25, pos.x + 35])
@@ -339,6 +336,8 @@ module x_idler() {
     module solid_bits() {
         #rotate([0, 90, 180]) import("x_idler_v2.4.stl", convexity=6);
         at_heat_set_inserts() heat_inset_holder();
+        rail_block();
+
     }
     
     difference() {
@@ -361,7 +360,7 @@ module x_assembly() {
 x_assembly();
 //x_idler();
 
-//rotate([-90,37,0]) x_motor_mount();
+// /* rotate([-90,37,0]) */ x_motor_mount();
 
 //extrusion_and_rail();
 //difference() {
