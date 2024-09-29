@@ -348,8 +348,18 @@ module x_idler() {
 
         difference() {
             union() {
-                translate([20 -idler_side_width/2, 0, 24.5 + 15-bearing_height])
-                cube([idler_side_width, idler_thickness, 63], center=true);
+                translate([2, 0, 0])
+                rotate([0, 90, 0])
+                linear_extrude(idler_side_width)
+                polygon(points=[
+                    [-(39.5-31.5-bearing_height+0),  25.5 - idler_side_width/2 - 0],
+                    [-(39.5-31.5-bearing_height+0)+2,  25.5 - idler_side_width/2 - idler_thickness+2],
+                    [-(39.5-31.5-bearing_height+0),  25.5 - idler_side_width/2 - idler_thickness],
+                    [-(39.5-31.5-bearing_height+63)+2, 25.5 - idler_side_width/2 - idler_thickness],
+                    [-(39.5-31.5-bearing_height+63), 25.5 - idler_side_width/2 - idler_thickness + 2],
+                    [-(39.5-31.5-bearing_height+63), 25.5 - idler_side_width/2 - 0 - 10],
+                    [-(39.5-31.5-bearing_height+63)+10, 25.5 - idler_side_width/2 - 0],
+                ]);
 
                 rotate([90, 0, 0])
                 cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
