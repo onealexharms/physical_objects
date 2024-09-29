@@ -348,8 +348,8 @@ module x_idler() {
 
         difference() {
             union() {
-                translate([20 -idler_side_width/2, 0, 24.5 + 20-bearing_height])
-                cube([idler_side_width, idler_thickness, 71], center=true);
+                translate([20 -idler_side_width/2, 0, 24.5 + 15-bearing_height])
+                cube([idler_side_width, idler_thickness, 63], center=true);
 
                 rotate([90, 0, 0])
                 cylinder(d=idler_outer_diameter, h=idler_thickness, $fn=50, center=true);
