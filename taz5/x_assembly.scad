@@ -415,13 +415,13 @@ module x_idler() {
 
 module x_assembly() {
     translate([-25, 0, 35]) x_motor_mount();
-    //translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
-    translate([125, -17.5, 0]) x_idler();
+    translate([100, -(1 + 28.5 + 4.25), -25]) rotate([90,0,180]) x_carriage();
+    translate([135, -17.5, 0]) x_idler();
 
     translate([40, 5-extrusion_width/2, -4.5])
     rotate([0, -90, 90])
     color("grey") 
-    #extrusion_and_rail(150, clearance=0);
+    #extrusion_and_rail(160, clearance=0);
 }
 
 //x_assembly();
