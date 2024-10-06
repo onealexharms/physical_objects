@@ -211,6 +211,13 @@ module rail_block() {
             [-0.05, -0.05],
         ]);
     }
+    module zip_tie_port() {
+        difference() {
+            cylinder(r=5, h=5, $fn=50);
+            translate([0,0,-0.05]) cylinder(r=2, h=5.1, $fn=50);
+        }
+    }
+
     rotate([0, -90, 90])
     translate([
         -rail_block_height/2,
@@ -249,6 +256,13 @@ module rail_block() {
         ])
         rotate([90,0,180])
         chamfer(rail_block_width);
+
+        translate([
+            -rail_block_height/2,
+            0,
+            -rail_block_thickness/2 - descender + 1
+        ])
+        zip_tie_port();
     }
 };
 
@@ -425,9 +439,9 @@ module x_assembly() {
 }
 
 //x_assembly();
-x_idler();
+//x_idler();
 
-// /* rotate([-90,37,0]) */ x_motor_mount();
+rotate([-90,37,0]) x_motor_mount();
 
 //extrusion_and_rail();
 //difference() {
