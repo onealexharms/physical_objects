@@ -2,8 +2,21 @@
 
 == X Axis Linear Rail
 
+image::x_assembly.png[X Assembly]
+
+The parts:
+
+* `x_assembly.scad` - All parts modelled in here.
+* `x_carriage.stl` - New carriage, press fit then bolted to rail carriage.
+* `x_carriage_v2.0.stl` - LulzBot's original, unmodified file.
+* `x_idler.stl` - New idler.
+* `x_idler_v2.4.stl` - LulzBot's original, unmodified file.
+* `x_motor_mount.stl` - New motor mount.
+* `x_motor_mount_v2.2.stl` - LulzBot's original, unmodified file.
+
 I used a 500mm MGN12H rail acquired off Amazon.
-It's bolted to a 490mm 2020 aluminum extrusion for rigidity.
+It's bolted to a 490mm 2020 aluminum extrusion using every other hole for rigidity.
+(Except there's an extra hole skipped in the middle.)
 
 I bought 500mm extrusion and cut 10mm off with a bandsaw.
 A hacksaw will do, this doesn't have to be extrememly precise.

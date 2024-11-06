@@ -447,7 +447,7 @@ module x_assembly() {
     translate([40, 5-extrusion_width/2, -4.5])
     rotate([0, -90, 90])
     color("grey") 
-    #extrusion_and_rail(160, clearance=0);
+    extrusion_and_rail(160, clearance=0);
 }
 
 x_assembly();
