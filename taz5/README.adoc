@@ -1,0 +1,24 @@
+= TAZ5 Mods
+
+== X Axis Linear Rail
+
+I used a 500mm MGN12H rail acquired off Amazon.
+It's bolted to a 490mm 2020 aluminum extrusion for rigidity.
+
+I bought 500mm extrusion and cut 10mm off with a bandsaw.
+A hacksaw will do, this doesn't have to be extrememly precise.
+The fits are tight, so you'll need to debur the edge with a file or it won't fit.
+
+I used https://github.com/VoronDesign/Voron-2/blob/Voron2.4/STLs/Tools/MGN12_rail_guide_x2.stl[Voron 2.4's spacers] to make sure the rail is centered to the extrusion when installing.
+
+I used extrusion T-nuts and M3 socket head screws to put this together.
+I think the rail screws were 6mm, and the sides were longer.
+
+I reused the idler bearings and bolt, and the left-side end-stop switch.
+I lost the little metal lever on it, but it seems to still work.
+
+I used those crappy heat set inserts that are probably meant for injection molding.
+
+There's enough play in the X Axis screw holes that you have to disable the steppers and relevel the X axis after installing this.
+
+I tested the parts in PLA, then printed PETG.
