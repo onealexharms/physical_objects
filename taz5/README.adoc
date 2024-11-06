@@ -26,6 +26,10 @@ I used https://github.com/VoronDesign/Voron-2/blob/Voron2.4/STLs/Tools/MGN12_rai
 
 Parts are printed in PETG with 80% infill and 7 perimiters, so the brackets are mostly solid where it matters.
 
+No supports are required.
+The counterbores in the face-down side of the carriage are supported by a 0.2mm bridge built into the model.
+You'll need to drill this out with 3mm drill bit or poke it out with a knife.
+
 The carriage needs to be rigid.
 Since the rail carriage is low, it can twist.
 Granted, I did all this because my Igus bearings were probably shot, and even with light infill and PLA, there is less twist in this setup than there was before.
