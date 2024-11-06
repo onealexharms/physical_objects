@@ -24,6 +24,12 @@ The fits are tight, so you'll need to debur the edge with a file or it won't fit
 
 I used https://github.com/VoronDesign/Voron-2/blob/Voron2.4/STLs/Tools/MGN12_rail_guide_x2.stl[Voron 2.4's spacers] to make sure the rail is centered to the extrusion when installing.
 
+Parts are printed in PETG with 80% infill and 7 perimiters, so the brackets are mostly solid where it matters.
+
+The carriage needs to be rigid.
+Since the rail carriage is low, it can twist.
+Granted, I did all this because my Igus bearings were probably shot, and even with light infill and PLA, there is less twist in this setup than there was before.
+
 I used extrusion T-nuts and M3 socket head screws to put this together.
 I think the rail screws were 6mm, and the sides were longer.
 
