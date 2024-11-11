@@ -14,11 +14,11 @@ The parts:
 * `x_motor_mount.stl` - New motor mount.
 * `x_motor_mount_v2.2.stl` - LulzBot's original, unmodified file.
 
-I used a 500mm MGN12H rail acquired off Amazon.
-It's bolted to a 490mm 2020 aluminum extrusion using every other hole for rigidity.
-(Except there's an extra hole skipped in the middle.)
+I used a 450mm MGN12H rail acquired off Amazon, bolted to 450mm aluminum extrusion for rigidity.
+The total length of the assembly MUST BE 460mm, or there will be Z binding.
+There's an extra 1mm clearance in the bottom of each extrusion cups, so don't bottom them out before tightening the bolts.
 
-I bought 500mm extrusion and cut 10mm off with a bandsaw.
+I bought 500mm extrusion and cut 50mm off with a bandsaw.
 A hacksaw will do, this doesn't have to be extrememly precise.
 The fits are tight, so you'll need to debur the edge with a file or it won't fit.
 
@@ -26,7 +26,8 @@ I used https://github.com/VoronDesign/Voron-2/blob/Voron2.4/STLs/Tools/MGN12_rai
 
 Parts are printed in PETG with 80% infill and 7 perimiters, so the brackets are mostly solid where it matters.
 
-No supports are required.
+Some prints require supports.
+I've been using organic supports, but honestly I haven't had much luck with these and PETG.
 The counterbores in the face-down side of the carriage are supported by a 0.2mm bridge built into the model.
 You'll need to drill this out with 3mm drill bit or poke it out with a knife.
 
@@ -43,5 +44,8 @@ I lost the little metal lever on it, but it seems to still work.
 I used those crappy heat set inserts that are probably meant for injection molding.
 
 There's enough play in the X Axis screw holes that you have to disable the steppers and relevel the X axis after installing this.
+Be sure to level the X axis to the table first, before leveling the bed.
 
 I tested the parts in PLA, then printed PETG.
+When I switched over to the PETG parts, two of the PLA parts broke, and the motor mount was loose from heat around the washers.
+Lesson: You can get a few weeks out of PLA if you need to, but it won't last.
