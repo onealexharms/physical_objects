@@ -3,3 +3,4 @@
 !/meta/*.gcode
 .osc-data/
 .cpcache
+*.FCBak
