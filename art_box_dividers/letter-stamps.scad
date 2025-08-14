@@ -1,6 +1,6 @@
-section = 14;
-rows = 3;
-columns = 13;
+section = 13;
+rows = 2;
+columns = 2;
 height = 1;
 wall = 1;
 outer_wall = wall * 2;
