@@ -20,7 +20,6 @@ difference() {
     cube([3, width+0.1, 8]);
 }
 
-
 difference() {
   cube([depth, width, height]);
   
@@ -33,3 +32,19 @@ difference() {
   translate([(depth-latch_depth)/2+6, width/2, -5])
   cylinder(d=latch_width,h=10,$fn=50);
 }
+
+module gusset() {
+    translate([0,3,0])
+    rotate([0, 90, -90])
+    linear_extrude(3)
+    polygon(points=[
+       [-height,0],
+       [descender,0],
+       [descender,2],
+       [0, depth],
+       [-height, depth]
+    ]);
+}
+
+gusset();
+translate([0,width - 3,0]) gusset();
