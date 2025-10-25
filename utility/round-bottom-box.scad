@@ -29,3 +29,5 @@ module hollow_round_bottom_box(width, length, height, radius, wall = 2) {
      round_bottom_box(inside_width, inside_length, inside_height, radius);
  }
 }
+
+hollow_round_bottom_box(38,75,100,3,1);
