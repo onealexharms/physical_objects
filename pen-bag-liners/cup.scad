@@ -1,6 +1,5 @@
 use <../utility/round-bottom-box.scad>
 
-smidge = 1;
 bottom_width = 75;
 bottom_depth = 37;
 height = 90;
@@ -33,6 +32,7 @@ module inside() {
     }
   }
 }
+
 difference() {
   outside();
   inside();
