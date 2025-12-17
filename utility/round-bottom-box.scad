@@ -30,4 +30,4 @@ module hollow_round_bottom_box(width, length, height, radius, wall = 2) {
  }
 }
 
-hollow_round_bottom_box(38,75,100,3,1);
+hollow_round_bottom_box(100,75,100,3,2);
