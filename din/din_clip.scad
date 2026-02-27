@@ -1,6 +1,13 @@
 $fn=96;
 
-clearance = 0.25;
+clearance         = 0.25;
+width             = 10;
+hole_distance     = 47;
+hole_diameter     = 4;
+mount_thickness   = 8;
+nut_flats_width   = 7.0;
+nut_corners_width = 8.08;
+nut_thickness     = 3.2;
 
 module din_clip(width=10) {
     translate([-0.25,0,0])
@@ -65,13 +72,13 @@ module pcb_din_clip(
 }
 
 pcb_din_clip(
-    width=10,
-    hole_distance= 47,
-    hole_diameter=4,
-    mount_thickness=8,
+    width=width,
+    hole_distance=hole_distance,
+    hole_diameter=hole_diameter,
+    mount_thickness=mount_thickness,
     
     /* M4 */
-    nut_flats_width=7.0,
-    nut_corners_width=8.08,
-    nut_thickness=3.2,
+    nut_flats_width=nut_flats_width,
+    nut_corners_width=nut_corners_width,
+    nut_thickness=nut_thickness,
 );
