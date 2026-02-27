@@ -76,7 +76,7 @@ pcb_din_clip(
     hole_distance=hole_distance,
     hole_diameter=hole_diameter,
     mount_thickness=mount_thickness,
-    
+
     /* M4 */
     nut_flats_width=nut_flats_width,
     nut_corners_width=nut_corners_width,
