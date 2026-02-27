@@ -1,12 +1,26 @@
 $fn=96;
 
 clearance         = 0.25;
+
+// Total width of the bracket (height on the print bed)
 width             = 10;
+
+// Center-to-center distance between PCB mounting holes
 hole_distance     = 47;
+
+// Diameter of mounting holes
 hole_diameter     = 4;
+
+// Thickness of top plate, inlcluding space for nut
 mount_thickness   = 8;
+
+// Width of nut "flats", 7mm for M4
 nut_flats_width   = 7.0;
+
+// Width of nut from corner to corner,  8.08mm for M4
 nut_corners_width = 8.08;
+
+// Thickness of nut, 3.2mm for M4
 nut_thickness     = 3.2;
 
 module din_clip(width=10) {
