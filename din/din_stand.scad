@@ -72,15 +72,14 @@ module dinStand(
         ]));
     }
 
-    linear_extrude(4)
     union() {
         top();
         toe();
     }
 }
 
-translate([33, 89.25])
-rotate([0,0,30])
-#dinRail();
+//translate([33, 89.25])
+//rotate([0,0,30])
+//#dinRail();
 
 dinStand();
