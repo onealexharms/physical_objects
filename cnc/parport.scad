@@ -8,7 +8,7 @@ hole_height = 0.414 * inch;
 screw_distance = 1.868 * inch;
 screw_diameter = 5;
 jack_count = 3;
-jack_diameter = 4;
+jack_diameter = 4.5;
 
 total_width = screw_distance + 2*screw_diameter;
 total_height = hole_height + 2*2;
