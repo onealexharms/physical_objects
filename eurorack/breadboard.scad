@@ -9,8 +9,8 @@ thickness = 2.5;
 cutout_depth = 7;
 distance_from_bottom = 10;
 
-screw_hole_diameter = 3.2;
-screw_hole_distance = 1.5 + screw_hole_diameter/2;
+screw_hole_diameter = 3.4;
+screw_hole_distance = 1.3 + screw_hole_diameter/2;
 screw_distance_from_side = 4.5;
 
 module breadboard_pos() {
