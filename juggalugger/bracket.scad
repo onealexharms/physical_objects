@@ -13,12 +13,12 @@ module bracket(
 {
     module base() {
         translate([0, 0, base_height/2])
-        cube([base_width, base_width, base_height], center=true);
+        cuboid([base_width, base_width, base_height], rounding=3, edges="Z");
     }
 
     difference() {
         union() {
-            cylinder(d=1*INCH, h=25);
+            cylinder(d2=1*INCH, d1=2*INCH, h=25);
             base();
         }
 
