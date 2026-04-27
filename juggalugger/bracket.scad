@@ -4,7 +4,6 @@ use <../broom/threads.scad>;
 $fn = 50;
 
 module bracket(
-    side=false,
     thread_diameter = 17.5,
     thread_tpi = 5,
     thread_height = 1*INCH,
@@ -31,38 +30,15 @@ module bracket(
         cylinder(d=bolt_hole_diameter, h=base_height+0.2);
     }
 
-    if (side) {
-        difference() {
-            union() {
-                translate([75, 0, 0])
-                cylinder(d2=1*INCH, d1=1.5*INCH, h=25);
-                
-                //translate([50, 0, 2.5/2])
-                //cuboid([100, 100, 2.5]);
-                translate([75, 0, -material_thickness/2])
-                cuboid([50, 50, material_thickness+0.2]);
-                
-                translate([50, 0, -(3/8*INCH)/2 - material_thickness])
-                cuboid([100, 100, 3/8*INCH]);
-            }
-
-            translate([0, 0, -material_thickness/2])
-            #cuboid([100, 100, material_thickness]);
-            
-            translate([75, 0, 0])
-            threads();
+    difference() {
+        union() {
+            cylinder(d2=1*INCH, d1=2*INCH, h=25);
+            base();
         }
-    } else {
-        difference() {
-            union() {
-                cylinder(d2=1*INCH, d1=2*INCH, h=25);
-                base();
-            }
 
-            threads();
-            bolt_holes();
-        }
+        threads();
+        bolt_holes();
     }
 }
 
-bracket(side=false, $fn=45);
+bracket($fn=45);
