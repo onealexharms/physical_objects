@@ -10,4 +10,5 @@ stubby = 25;
 tall = 35;
 tall_without_label = 45;
 
-cup(cup_width_in_nibs = 4, cup_length_in_nibs = 3, cup_depth = 25, label = true, split = false);
+cup(cup_width_in_nibs = 3, cup_length_in_nibs = 2, cup_depth = 25, label = true, split = false);
+//nib_supports(cup_width_in_nibs = 2, cup_length_in_nibs = 2);

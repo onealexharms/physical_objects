@@ -1,6 +1,11 @@
 include <../things/nib.scad>
 include <../data/labels.data>
 
+     
+module nib_supports(cup_width_in_nibs, cup_length_in_nibs) {
+  cube([nib_hole_dimension(cup_width_in_nibs, 1.25), nib_hole_dimension(cup_length_in_nibs, 1.25), nib_height + 0.75]);
+}
+
 module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, split = false) {
   gap = 1;
   cup_base_thickness = 2;
@@ -14,13 +19,8 @@ module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, 
         nib_hole();
   }
   module nib_hole() {
-    function hole_dimension(nib_count) =
-      let(spaces_width = nib_buffer * ((nib_count * 2) - 2),
-          nibs_width = nib_size * nib_count,
-          margin = gap * 2)
-      nibs_width + spaces_width + margin;
-    length = hole_dimension(cup_length_in_nibs);
-    width = hole_dimension(cup_width_in_nibs);
+    length = nib_hole_dimension(cup_length_in_nibs, gap);
+    width = nib_hole_dimension(cup_width_in_nibs, gap);
     depth = nib_height + gap;
     translate([(cup_length - length)/2, (cup_width - width)/2, 0])
       cube([length, width, depth]);
