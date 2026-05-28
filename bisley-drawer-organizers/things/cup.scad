@@ -6,7 +6,15 @@ module nib_supports(cup_width_in_nibs, cup_length_in_nibs) {
   cube([nib_hole_dimension(cup_width_in_nibs, 1.25), nib_hole_dimension(cup_length_in_nibs, 1.25), nib_height + 0.75]);
 }
 
-module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, split = false) {
+module cup(
+    cup_width_in_nibs,
+    cup_length_in_nibs,
+    single_wall_thickness = 0.53,
+    cup_depth = 25,
+    label = true,
+    split = false
+)
+{
   gap = 1;
   cup_base_thickness = 2;
   cup_wall_thickness = 1;
@@ -20,8 +28,17 @@ module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, 
     length = nib_hole_dimension(cup_length_in_nibs, gap);
     width = nib_hole_dimension(cup_width_in_nibs, gap);
     depth = nib_height + gap;
-    translate([(cup_length - length)/2, (cup_width - width)/2, -0.2])
-      cube([length, width, depth+0.2]);
+
+    // Allow bridging with custom supports that are 1 wall thick
+    support_count = floor(width/nib_size); 
+
+    difference() {
+      translate([(cup_length - length)/2, (cup_width - width)/2, -0.2])
+        cube([length, width, depth+0.2]);
+      for (i = [0:support_count])
+      translate([(cup_length - length)/2 + gap, i*nib_size, 0])
+      cube([length - 2*gap, single_wall_thickness, depth-0.25]);
+    }
   }
   module cup_inside() {
     inside_width = cup_width - 2 * cup_wall_thickness;
