@@ -15,15 +15,13 @@ module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, 
 
   module cup_base() {
     cube(size = [cup_length, cup_width, cup_depth]);
-      translate([nib_buffer - 2 * gap, nib_buffer - 2 * gap, 0])
-        nib_hole();
   }
   module nib_hole() {
     length = nib_hole_dimension(cup_length_in_nibs, gap);
     width = nib_hole_dimension(cup_width_in_nibs, gap);
     depth = nib_height + gap;
-    translate([(cup_length - length)/2, (cup_width - width)/2, 0])
-      cube([length, width, depth]);
+    translate([(cup_length - length)/2, (cup_width - width)/2, -0.2])
+      cube([length, width, depth+0.2]);
   }
   module cup_inside() {
     inside_width = cup_width - 2 * cup_wall_thickness;
@@ -74,22 +72,6 @@ module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, 
     cube([0.5, 0.5 , 2]);
   }
 
-  module tiny_legs() {
-    //these are to make the printer use suport material as a raft
-    x_extent = cup_width - cup_wall_thickness/2;
-    y_extent = cup_length - cup_wall_thickness/2;
-    z = -2; 
-    
-    translate([0, 0, z])
-      leg();
-    translate([y_extent, 0, z])
-      leg();
-    translate([0, x_extent, z])
-      leg();
-    translate([y_extent, x_extent, z])
-      leg();
-  }
-
   module section_divider() {
     y_position = cup_width / 2 - cup_wall_thickness / 2;
     translate([0, y_position, 0])
@@ -104,13 +86,12 @@ module cup(cup_width_in_nibs, cup_length_in_nibs, cup_depth = 25, label = true, 
           label_wall();
         }
         divot();
-      } 
+      }
     } else {
       hollow_cup();
     }
   }
-    
+
   whole_thing();
-//  tiny_legs();
   
 }
