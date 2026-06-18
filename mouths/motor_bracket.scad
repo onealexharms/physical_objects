@@ -89,9 +89,9 @@ module motor_bracket(
                 linear_extrude(material_thickness)
                 bracket_projection();
 
-            color("beige")
-                motor_bolt_hole_positions()
-                cylinder(d=arm_width, h=spacer_height);
+            //color("beige")
+            //    motor_bolt_hole_positions()
+            //    cylinder(d=arm_width, h=spacer_height);
         }
 
         holes();
