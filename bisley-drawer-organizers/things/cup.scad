@@ -17,7 +17,7 @@ module cup(
 {
   gap = 1;
   cup_base_thickness = 2;
-  cup_wall_thickness = 1;
+  cup_wall_thickness = 0.53;
   cup_width = nib_center_distance * cup_width_in_nibs - (2 * gap);
   cup_length = nib_center_distance * cup_length_in_nibs - (2 * gap);
 
