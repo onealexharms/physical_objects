@@ -18,7 +18,6 @@ leadscrew_distance_from_extrusion_centerline = 25;
 
 thickness = 2 * linear_rail_countersink_depth + 2;
 
-//TODO: Make antibacklash nut hole slottable.
 //TODO: Move leadscrew Z to the right offset.
 //TODO: Bolt holes for Z carriage.
 //TODO: Fix shape of leadscrew positive.
@@ -67,6 +66,17 @@ module z_axis_bracket() {
         extrusion_size/2 -
         linear_rail_carriage_height;
 
+    module antibacklash_nut_drills() {
+        offset = ((leadscrew_nut_flange_diameter/2)^2 - (antibacklash_nut_width/2)^2)^0.5;
+        depth = width - 2*leadscrew_nut_flange_thickness - leadscrew_nut_length/2;
+        echo("slot drill offset=",offset,", depth=", depth);
+
+        hull()
+        for (p = [ -offset, 0, +offset ])
+        translate([p, 0, -0.1])
+        cylinder(d=11.7, h=depth);
+    }
+
     difference() {
         union() {
             plate();
@@ -79,15 +89,8 @@ module z_axis_bracket() {
 
             translate([0, 0, width - leadscrew_nut_flange_thickness + 0.1])
             cylinder($fn=50, d=leadscrew_nut_flange_diameter + 0.5, h=leadscrew_nut_flange_thickness + 0.1);
-            
-            
-            hull() {
-                translate([0, 0, -0.1])
-                antibacklash_flange();
 
-                translate([0, 0, width - 2*leadscrew_nut_flange_thickness - leadscrew_nut_length/2 + 0.1])
-                antibacklash_flange();
-            }
+            antibacklash_nut_drills();
         }
     }
 }
