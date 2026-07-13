@@ -20,6 +20,9 @@ leadscrew_distance_from_extrusion_centerline = 25;
 
 thickness = 2 * linear_rail_countersink_depth + 2;
 
+carriage_bolt_square_width = 45;
+carriage_bolt_square_height = 70;
+
 //TODO: Bolt holes for Z carriage.
 
 module z_axis_bracket() {
@@ -104,6 +107,16 @@ module z_axis_bracket() {
 
             antibacklash_nut_drills();
         }
+        
+        for (x = [-carriage_bolt_square_width/2, +carriage_bolt_square_width/2])
+        for (z = [
+            leadscrew_height - carriage_bolt_square_height/2, 
+            leadscrew_height + carriage_bolt_square_height/2,
+        ])
+        translate([x, 0, z])
+        rotate([-90,0,0])
+        translate([0,0,-0.1])
+        cylinder($fn=50, d=5.5, h=thickness+0.2);
     }
 }
 
