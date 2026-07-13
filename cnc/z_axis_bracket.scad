@@ -18,6 +18,11 @@ leadscrew_distance_from_extrusion_centerline = 25;
 
 thickness = 2 * linear_rail_countersink_depth + 2;
 
+//TODO: Make antibacklash nut hole slottable.
+//TODO: Move leadscrew Z to the right offset.
+//TODO: Bolt holes for Z carriage.
+//TODO: Fix shape of leadscrew positive.
+
 module z_axis_bracket() {
     module plate() {
         translate([0, thickness/2, 0])
