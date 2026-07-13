@@ -12,6 +12,8 @@ linear_rail_countersink_depth = 3.5 + 0.5;
 leadscrew_nut_diameter = 10;
 leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
+leadscrew_nut_length = 10;
+antibacklash_nut_width = 11.2;
 leadscrew_distance_from_extrusion_centerline = 25;
 
 thickness = 2 * linear_rail_countersink_depth + 2;
@@ -47,6 +49,14 @@ module z_axis_bracket() {
         rotate([0,90,0])
         children();
     }
+    
+    module antibacklash_flange() {
+        intersection() {
+            cylinder($fn=50, d=leadscrew_nut_flange_diameter + 0.5, h=leadscrew_nut_flange_thickness + 0.1);
+            translate([0, 0, leadscrew_nut_flange_thickness/2])
+            cube([leadscrew_nut_flange_diameter + 1.0, antibacklash_nut_width + 1.0, leadscrew_nut_flange_thickness + 0.1], center=true);
+        }
+    }
 
     ls_offset_from_back = leadscrew_distance_from_extrusion_centerline -
         extrusion_size/2 -
@@ -55,15 +65,24 @@ module z_axis_bracket() {
     difference() {
         union() {
             plate();
-            leadscrew_orientation() cylinder($fn=50, d=15, h=width);
+            leadscrew_orientation() cylinder($fn=50, d=25, h=width);
         }
         linear_rail_screw_holes();
-        
+
         leadscrew_orientation() {
             translate([0, 0, -0.1]) cylinder($fn=50,d=leadscrew_nut_diameter + 0.5, h=width+0.2);
-            
+
             translate([0, 0, width - leadscrew_nut_flange_thickness + 0.1])
             cylinder($fn=50, d=leadscrew_nut_flange_diameter + 0.5, h=leadscrew_nut_flange_thickness + 0.1);
+            
+            
+            hull() {
+                translate([0, 0, -0.1])
+                antibacklash_flange();
+
+                translate([0, 0, width - 2*leadscrew_nut_flange_thickness - leadscrew_nut_length/2 + 0.1])
+                antibacklash_flange();
+            }
         }
     }
 }
