@@ -20,7 +20,6 @@ thickness = 2 * linear_rail_countersink_depth + 2;
 
 //TODO: Move leadscrew Z to the right offset.
 //TODO: Bolt holes for Z carriage.
-//TODO: Fix shape of leadscrew positive.
 
 module z_axis_bracket() {
     module plate() {
@@ -78,9 +77,21 @@ module z_axis_bracket() {
     }
 
     difference() {
+        chamfer = 5;
+        wall_thickness = 2.5;
         union() {
             plate();
-            leadscrew_orientation() cylinder($fn=50, d=25, h=width);
+
+            leadscrew_orientation()
+            linear_extrude(width)
+            polygon(points=[
+                [18, 0],
+                [18, +antibacklash_nut_width/2 + wall_thickness - chamfer],
+                [18-chamfer, +antibacklash_nut_width/2 + wall_thickness],
+                [-18+chamfer, +antibacklash_nut_width/2 + wall_thickness],
+                [-18, +antibacklash_nut_width/2 + wall_thickness - chamfer],
+                [-18, 0],
+            ]);
         }
         linear_rail_screw_holes();
 
