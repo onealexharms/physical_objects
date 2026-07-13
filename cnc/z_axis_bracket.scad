@@ -3,12 +3,14 @@ width = 60;
 
 extrusion_size = 20;
 extrusion_vertical_distance = 80;
+
 linear_rail_carriage_height = 13;
 linear_rail_screw_distance = 20;
 linear_rail_screw_hole_diameter = 3.5;
 linear_rail_countersink_diameter = 6.5 + 0.5;
 linear_rail_countersink_depth = 3.5 + 0.5;
 
+leadscrew_height = 3.32;
 leadscrew_nut_diameter = 10;
 leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
@@ -18,7 +20,6 @@ leadscrew_distance_from_extrusion_centerline = 25;
 
 thickness = 2 * linear_rail_countersink_depth + 2;
 
-//TODO: Move leadscrew Z to the right offset.
 //TODO: Bolt holes for Z carriage.
 
 module z_axis_bracket() {
@@ -48,7 +49,11 @@ module z_axis_bracket() {
     }
     
     module leadscrew_orientation() {
-        translate([-width/2, thickness - ls_offset_from_back, 0])
+        ls_offset_from_back = leadscrew_distance_from_extrusion_centerline -
+            extrusion_size/2 -
+            linear_rail_carriage_height;
+
+        translate([-width/2, thickness - ls_offset_from_back, leadscrew_height])
         rotate([0,90,0])
         children();
     }
@@ -60,10 +65,6 @@ module z_axis_bracket() {
             cube([leadscrew_nut_flange_diameter + 1.0, antibacklash_nut_width + 1.0, leadscrew_nut_flange_thickness + 0.1], center=true);
         }
     }
-
-    ls_offset_from_back = leadscrew_distance_from_extrusion_centerline -
-        extrusion_size/2 -
-        linear_rail_carriage_height;
 
     module antibacklash_nut_drills() {
         offset = ((leadscrew_nut_flange_diameter/2)^2 - (antibacklash_nut_width/2)^2)^0.5;
