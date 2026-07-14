@@ -18,7 +18,7 @@ leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
 leadscrew_nut_length = 10;
 antibacklash_nut_width = 11.2;
-antibacklash_nut_depth = 15;
+antibacklash_nut_depth = 25;
 
 // 1mm (ruler=1mm) + 0.198" (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +
 // 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
