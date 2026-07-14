@@ -78,9 +78,12 @@ module z_axis_bracket() {
         echo("slot drill offset=",offset,", depth=", depth);
 
         hull()
-        for (p = [ -offset, 0, +offset ])
+        for (p = [ -offset, +offset ])
         translate([p, 0, -0.1])
-        cylinder(d=11.7, h=depth);
+        cylinder($fn=50, d=11.7, h=depth);
+
+        translate([0, 0, -0.1])
+        cylinder($fn=50, d=13, h=depth);
     }
 
     difference() {
