@@ -11,7 +11,7 @@ linear_rail_countersink_diameter = 6.5 + 0.5;
 linear_rail_countersink_depth = 3.5 + 0.5;
 
 leadscrew_height = 3.32;
-leadscrew_nut_diameter = 10;
+leadscrew_nut_diameter = 10.5;
 leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
 leadscrew_nut_length = 10;
