@@ -24,7 +24,7 @@ antibacklash_nut_depth = 15;
 // 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
 leadscrew_distance_from_extrusion_centerline = 28;
 
-thickness = 13;
+thickness = 14;
 
 carriage_bolt_square_width = 45;
 carriage_bolt_square_height = 70;
@@ -76,7 +76,7 @@ module z_axis_bracket() {
         cylinder($fn=50, d=11.7, h=antibacklash_nut_depth);
 
         translate([0, 0, -0.1])
-        cylinder($fn=50, d=13, h=depth);
+        cylinder($fn=50, d=14, h=depth);
     }
 
     difference() {
