@@ -25,7 +25,7 @@ antibacklash_nut_depth = 25;
 // 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
 leadscrew_distance_from_extrusion_centerline = 28;
 
-thickness = 14;
+thickness = 13;
 
 carriage_bolt_square_width = 45;
 carriage_bolt_square_height = 70;
