@@ -16,6 +16,7 @@ leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
 leadscrew_nut_length = 10;
 antibacklash_nut_width = 11.2;
+antibacklash_nut_depth = 15;
 
 // 1mm (ruler=1mm) + 0.198" (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +
 // 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
@@ -25,8 +26,6 @@ thickness = 13;
 
 carriage_bolt_square_width = 45;
 carriage_bolt_square_height = 70;
-
-//TODO: Bolt holes for Z carriage.
 
 module z_axis_bracket() {
     module plate() {
@@ -80,7 +79,7 @@ module z_axis_bracket() {
         hull()
         for (p = [ -offset, +offset ])
         translate([p, 0, -0.1])
-        cylinder($fn=50, d=11.7, h=depth);
+        cylinder($fn=50, d=11.7, h=antibacklash_nut_depth);
 
         translate([0, 0, -0.1])
         cylinder($fn=50, d=13, h=depth);
