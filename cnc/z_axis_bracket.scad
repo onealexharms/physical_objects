@@ -2,7 +2,7 @@
 width = 60;
 
 extrusion_size = 20;
-extrusion_vertical_distance = 80;
+extrusion_vertical_distance = 75;
 
 linear_rail_carriage_height = 13;
 linear_rail_screw_distance = 20;
