@@ -64,14 +64,6 @@ module z_axis_bracket() {
         rotate([0,90,0])
         children();
     }
-    
-    module antibacklash_flange() {
-        intersection() {
-            cylinder($fn=50, d=leadscrew_nut_flange_diameter + 0.5, h=leadscrew_nut_flange_thickness + 0.1);
-            translate([0, 0, leadscrew_nut_flange_thickness/2])
-            cube([leadscrew_nut_flange_diameter + 1.0, antibacklash_nut_width + 1.0, leadscrew_nut_flange_thickness + 0.1], center=true);
-        }
-    }
 
     module antibacklash_nut_drills() {
         offset = ((leadscrew_nut_flange_diameter/2)^2 - (antibacklash_nut_width/2)^2)^0.5;
