@@ -16,9 +16,12 @@ leadscrew_nut_flange_diameter = 22;
 leadscrew_nut_flange_thickness = 4;
 leadscrew_nut_length = 10;
 antibacklash_nut_width = 11.2;
-leadscrew_distance_from_extrusion_centerline = 25;
 
-thickness = 2 * linear_rail_countersink_depth + 2;
+// 1mm (ruler=1mm) + 0.198" (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +
+// 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
+leadscrew_distance_from_extrusion_centerline = 28;
+
+thickness = 13;
 
 carriage_bolt_square_width = 45;
 carriage_bolt_square_height = 70;
