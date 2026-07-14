@@ -5,6 +5,7 @@ extrusion_size = 20;
 extrusion_vertical_distance = 75;
 
 linear_rail_carriage_height = 13;
+linear_rail_carriage_width = 27;
 linear_rail_screw_distance = 20;
 linear_rail_screw_hole_diameter = 3.5;
 linear_rail_countersink_diameter = 6.5 + 0.5;
@@ -80,20 +81,28 @@ module z_axis_bracket() {
     }
 
     difference() {
-        chamfer = 5;
+        chamfer = 2;
         wall_thickness = 2.5;
+
+        carriage_offset = extrusion_vertical_distance/2 - linear_rail_carriage_width/2 - 0.5;
+        ls_offset_from_back = leadscrew_distance_from_extrusion_centerline -
+            extrusion_size/2 -
+            linear_rail_carriage_height;
+        
         union() {
             plate();
 
-            leadscrew_orientation()
+            //leadscrew_orientation()
+            translate([-width/2, thickness - ls_offset_from_back, 0])
+            rotate([0, 90, 0])
             linear_extrude(width)
             polygon(points=[
-                [18, 0],
-                [18, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
-                [18-chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
-                [-18+chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
-                [-18, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
-                [-18, 0],
+                [carriage_offset, 0],
+                [carriage_offset, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
+                [carriage_offset-chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
+                [-carriage_offset+chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
+                [-carriage_offset, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
+                [-carriage_offset, 0],
             ]);
         }
         linear_rail_screw_holes();
