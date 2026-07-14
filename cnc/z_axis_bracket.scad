@@ -89,10 +89,10 @@ module z_axis_bracket() {
             linear_extrude(width)
             polygon(points=[
                 [18, 0],
-                [18, +antibacklash_nut_width/2 + wall_thickness - chamfer],
-                [18-chamfer, +antibacklash_nut_width/2 + wall_thickness],
-                [-18+chamfer, +antibacklash_nut_width/2 + wall_thickness],
-                [-18, +antibacklash_nut_width/2 + wall_thickness - chamfer],
+                [18, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
+                [18-chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
+                [-18+chamfer, +antibacklash_nut_width/2 + wall_thickness + 5],
+                [-18, +antibacklash_nut_width/2 + wall_thickness - chamfer + 5],
                 [-18, 0],
             ]);
         }
