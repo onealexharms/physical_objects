@@ -71,35 +71,35 @@
         :diameter diameter}
        (translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
+(defn- plate-rail-holes
+  [{:keys [thickness rail-distance rail-diameter], :as plate}]
+  (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
+    (-> (plate-hole thickness rail-diameter)
+        (translate [x 0 0]))))
+
 (defn z-top-plate
   [{:keys [depth thickness rail-diameter rail-depth rail-distance]
     :as plate
-    :or {depth 40,
-         thickness 11,
-         rail-diameter 8
-         rail-depth 10.25
-         rail-distance 38}}]
+    :or {depth 40}}]
   (-> (apply difference
              {:type :box
               :size {:x width,
                      :y depth,
                      :z thickness}}
              (plate-hole thickness 22)
-             (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
-               (-> (plate-hole thickness rail-diameter)
-                   (translate [x 0 0]))))
+             (plate-rail-holes plate))
       (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
 
 (defn z-bottom-plate
   [{:keys [depth thickness rail-diameter rail-depth]
-    :or {depth 32,
-         thickness 11,
-         rail-diameter 8,
-         rail-depth 10.25}}]
-  (-> {:type :box
-       :size {:x width,
-              :y depth,
-              :z thickness}}
+    :as plate
+    :or {depth 32}}]
+  (-> (apply difference
+             {:type :box
+              :size {:x width,
+                     :y depth,
+                     :z thickness}}
+             (plate-rail-holes plate))
       (translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
 (def z-axis-bracket
@@ -171,7 +171,11 @@
                                                 (-> {:type     :cylinder
                                                      :height   antibacklash-nut-depth
                                                      :diameter 11.7}
-                                                    (translate [p 0 -0.1])))}))]
+                                                    (translate [p 0 -0.1])))}))
+        plate-params            {:thickness     11,
+                                 :rail-diameter 8,
+                                 :rail-depth    10.25,
+                                 :rail-distance 38}]
     (union
       (difference
         (union plate back-boss)
@@ -190,8 +194,8 @@
             (translate [(- (/ width 2))
                         (- thickness ls-offset-from-back)
                         leadscrew-height])))
-      (z-top-plate {})
-      (z-bottom-plate {}))))
+      (z-top-plate plate-params)
+      (z-bottom-plate plate-params))))
 
 (defmulti openscad :type)
 
