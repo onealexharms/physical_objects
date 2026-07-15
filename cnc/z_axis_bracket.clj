@@ -110,8 +110,15 @@
                                        zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
                                    (-> m3-shcs-counterbored
                                        (rotate [-90 0 0])
-                                       (translate [x -0.1 (+ z zz)])))}]
-
+                                       (translate [x -0.1 (+ z zz)])))}
+        antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
+                                                           (Math/pow (/ antibacklash-nut-width 2) 2)))
+                                      depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
+                                  {:type :union
+                                   :children
+                                   [{:type :cylinder
+                                     :height depth
+                                     :diameter 14}]})]
     {:type       :difference
      :minuend    {:type :union
                   :children [plate
@@ -125,9 +132,10 @@
                                   (-> {:type :cylinder
                                        :height (+ leadscrew-nut-flange-thickness 0.1)
                                        :diameter (+ leadscrew-nut-flange-diameter 0.5)}
-                                      (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))]}
+                                      (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
+                                  antibacklash-nut-drills]}
                       (rotate [0 90 0])
-                      (translate [(/ width 2)
+                      (translate [(- (/ width 2))
                                   (- thickness ls-offset-from-back)
                                   leadscrew-height]))]}))
 
