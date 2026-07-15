@@ -21,6 +21,8 @@
 (def antibacklash-nut-width 11.2)
 (def antibacklash-nut-depth 25)
 
+;;FIXME: cylinders should also be center?
+
 ;; 1mm (ruler=1mm) + 0.198in (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +))
 ;; 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
 (def leadscrew-distance-from-extrusion-centerline 28)
@@ -63,19 +65,29 @@
     :subtrahends subtrahends}))
 
 (defn z-top-plate
-  [{:keys [depth thickness]
+  [{:keys [depth thickness rail-diameter rail-depth rail-distance]
     :or {depth 40,
-         thickness 11}}]
-  (-> {:type :box
-       :size {:x width,
-              :y depth,
-              :z thickness}}
+         thickness 11,
+         rail-diameter 8
+         rail-depth 10.25
+         rail-distance 38}}]
+  (-> (apply
+       difference
+       {:type :box
+        :size {:x width,
+               :y depth,
+               :z thickness}}
+       (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
+         (-> {:type :cylinder, :height (+ thickness 0.2), :diameter rail-diameter}
+             (translate [x 0 (- 0.0 (/ thickness 2) 0.1)]))))
       (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
 
 (defn z-bottom-plate
-  [{:keys [depth thickness]
+  [{:keys [depth thickness rail-diameter rail-depth]
     :or {depth 32,
-         thickness 11}}]
+         thickness 11,
+         rail-diameter 8,
+         rail-depth 10.25}}]
   (-> {:type :box
        :size {:x width,
               :y depth,
