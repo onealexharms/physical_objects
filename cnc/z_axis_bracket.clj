@@ -62,6 +62,26 @@
     :minuend     minuend
     :subtrahends subtrahends}))
 
+(defn z-top-plate
+  [{:keys [depth thickness]
+    :or {depth 40,
+         thickness 11}}]
+  (-> {:type :box
+       :size {:x width,
+              :y depth,
+              :z thickness}}
+      (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
+
+(defn z-bottom-plate
+  [{:keys [depth thickness]
+    :or {depth 32,
+         thickness 11}}]
+  (-> {:type :box
+       :size {:x width,
+              :y depth,
+              :z thickness}}
+      (translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
+
 (def z-axis-bracket
   (let [plate                   (-> {:type :box
                                      :size {:x width,
@@ -132,23 +152,26 @@
                                                      :height   antibacklash-nut-depth
                                                      :diameter 11.7}
                                                     (translate [p 0 -0.1])))}))]
-    (difference
-     (union plate back-boss)
-     linear-rail-screw-holes
-     (-> (union
-          (-> {:type :cylinder
-               :height (+ width 0.2)
-               :diameter (+ leadscrew-nut-diameter 0.5)}
-              (translate [0 0 -0.1]))
-          (-> {:type :cylinder
-               :height (+ leadscrew-nut-flange-thickness 0.1)
-               :diameter (+ leadscrew-nut-flange-diameter 0.5)}
-              (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
-          antibacklash-nut-drills)
-         (rotate [0 90 0])
-         (translate [(- (/ width 2))
-                     (- thickness ls-offset-from-back)
-                     leadscrew-height])))))
+    (union
+      (difference
+        (union plate back-boss)
+        linear-rail-screw-holes
+        (-> (union
+             (-> {:type :cylinder
+                  :height (+ width 0.2)
+                  :diameter (+ leadscrew-nut-diameter 0.5)}
+                 (translate [0 0 -0.1]))
+             (-> {:type :cylinder
+                  :height (+ leadscrew-nut-flange-thickness 0.1)
+                  :diameter (+ leadscrew-nut-flange-diameter 0.5)}
+                 (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
+             antibacklash-nut-drills)
+            (rotate [0 90 0])
+            (translate [(- (/ width 2))
+                        (- thickness ls-offset-from-back)
+                        leadscrew-height])))
+      (z-top-plate {})
+      (z-bottom-plate {}))))
 
 (defmulti openscad :type)
 
