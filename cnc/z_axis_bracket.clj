@@ -78,11 +78,17 @@
 
 (defn- endstop-bracket
   [{:keys [thickness]}]
-  (-> {:type :box
-       :size {:x 13
-              :y 28
-              :z thickness}}
-      (translate [(/ width 2) 0 0])))
+  (-> (difference
+       {:type :box
+        :size {:x 13
+               :y 28
+               :z thickness}}
+       (-> {:type :box
+            :size {:x 8.1
+                   :y 12.5
+                   :z (+ thickness 0.2)}}
+           (translate [(/ (- 13 8) 2) 0 0])))
+      (translate [(+ (/ width 2) 13/2) 0 0])))
 
 (defn z-top-plate
   [{:keys [depth thickness rail-depth]
