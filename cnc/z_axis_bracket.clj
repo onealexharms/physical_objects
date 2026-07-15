@@ -76,6 +76,14 @@
     (-> (plate-hole thickness rail-diameter)
         (translate [x 0 0]))))
 
+(defn- endstop-bracket
+  [{:keys [thickness]}]
+  (-> {:type :box
+       :size {:x 13
+              :y 28
+              :z thickness}}
+      (translate [(/ width 2) 0 0])))
+
 (defn z-top-plate
   [{:keys [depth thickness rail-depth]
     :as plate
@@ -90,10 +98,12 @@
                                        (translate [0 0 (- 0 (/ thickness 2) 0.1)])))
                                  (translate [x y 0])))]
     (-> (difference
-         {:type :box
-          :size {:x width,
-                 :y depth,
-                 :z thickness}}
+         (union
+          {:type :box
+           :size {:x width,
+                  :y depth,
+                  :z thickness}}
+          (endstop-bracket {:thickness thickness}))
          (-> (apply union
                     (plate-hole thickness 22)
                     (concat
@@ -107,10 +117,12 @@
     :as plate
     :or {depth 32}}]
   (-> (difference
-       {:type :box
-        :size {:x width,
-               :y depth,
-               :z thickness}}
+       (union
+        {:type :box
+         :size {:x width,
+                :y depth,
+                :z thickness}}
+        (endstop-bracket {:thickness thickness}))
        (-> (apply union
                   (plate-hole thickness 12)
                   (plate-rail-holes plate))
