@@ -71,16 +71,21 @@
          rail-diameter 8
          rail-depth 10.25
          rail-distance 38}}]
-  (-> (apply
-       difference
-       {:type :box
-        :size {:x width,
-               :y depth,
-               :z thickness}}
-       (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
-         (-> {:type :cylinder, :height (+ thickness 0.2), :diameter rail-diameter}
-             (translate [x 0 (- 0.0 (/ thickness 2) 0.1)]))))
-      (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
+  (let [hole (fn [diameter]
+               (-> {:type :cylinder
+                    :height (+ thickness 0.2)
+                    :diameter diameter}
+                   (translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))]
+    (-> (apply difference
+               {:type :box
+                :size {:x width,
+                       :y depth,
+                       :z thickness}}
+               (hole 22)
+               (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
+                 (-> (hole rail-diameter)
+                     (translate [x 0 0]))))
+        (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
 
 (defn z-bottom-plate
   [{:keys [depth thickness rail-diameter rail-depth]
