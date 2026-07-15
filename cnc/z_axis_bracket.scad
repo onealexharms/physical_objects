@@ -27,9 +27,6 @@ leadscrew_distance_from_extrusion_centerline = 28;
 
 thickness = 13;
 
-carriage_bolt_square_width = 45;
-carriage_bolt_square_height = 70;
-
 module z_axis_bracket() {
     module plate() {
         translate([0, thickness/2, 0])
@@ -115,17 +112,17 @@ module z_axis_bracket() {
 
             antibacklash_nut_drills();
         }
-        
-        for (x = [-carriage_bolt_square_width/2, +carriage_bolt_square_width/2])
-        for (z = [
-            leadscrew_height - carriage_bolt_square_height/2, 
-            leadscrew_height + carriage_bolt_square_height/2,
-        ])
-        translate([x, 0, z])
-        rotate([-90,0,0])
-        translate([0,0,-0.1])
-        cylinder($fn=50, d=5.5, h=thickness+0.2);
     }
 }
 
 z_axis_bracket();
+
+// multmatrix
+// cylinder
+// linear_extrude
+// polygon
+// cylinder
+// cube
+// difference
+// union
+// intersection
