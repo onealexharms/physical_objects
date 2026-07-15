@@ -80,21 +80,27 @@
   [{:keys [depth thickness rail-depth]
     :as plate
     :or {depth 40}}]
-  (-> (difference
-       {:type :box
-        :size {:x width,
-               :y depth,
-               :z thickness}}
-       (-> (apply union
-                  (plate-hole thickness 22)
-                  (concat
-                   (plate-rail-holes plate)
-                   (for [x [-31/2 +31/2]
-                         y [-31/2 +31/2]]
-                     (-> (plate-hole thickness 3.5)
-                         (translate [x y 0])))))
-           (translate [0 (- (/ depth 2) rail-depth) 0])))
-      (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
+  (let [stepper-bolt-holes (for [x [-31/2 +31/2]
+                                 y [-31/2 +31/2]]
+                             (-> (union
+                                   (plate-hole thickness 3.5)
+                                   (-> {:type :cylinder
+                                        :height 4,
+                                        :diameter 6}
+                                       (translate [0 0 (- 0 (/ thickness 2) 0.1)])))
+                                 (translate [x y 0])))]
+    (-> (difference
+         {:type :box
+          :size {:x width,
+                 :y depth,
+                 :z thickness}}
+         (-> (apply union
+                    (plate-hole thickness 22)
+                    (concat
+                     (plate-rail-holes plate)
+                     stepper-bolt-holes))
+             (translate [0 (- (/ depth 2) rail-depth) 0])))
+        (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
 
 (defn z-bottom-plate
   [{:keys [depth thickness rail-diameter rail-depth]
