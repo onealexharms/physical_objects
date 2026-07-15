@@ -27,9 +27,6 @@
 
 (def thickness 13)
 
-(def carriage-bolt-square-width 45)
-(def carriage-bolt-square-height 70)
-
 (defn translate [geom [x y z]]
   {:type   :affine-transformation
    :matrix [[1 0 0 x]
