@@ -46,71 +46,83 @@
         sin #(Math/sin %)
         cos #(Math/cos %)]
     {:type   :affine-transformation
-     :matrix [[(* (cos x) (cos y))
-               (- (* (cos x) (sin y) (sin z))
-                  (* (sin x) (cos z)))
-               (+ (* (cos x) (sin y) (cos z))
-                  (* (sin x) (sin z)))
+     :matrix [[(* (cos z) (cos y))
+               (- (* (cos z) (sin y) (sin x))
+                  (* (sin z) (cos x)))
+               (+ (* (cos z) (sin y) (cos x))
+                  (* (sin z) (sin x)))
                0]
-              [(* (sin x) (cos y))
-               (+ (* (sin x) (sin y) (sin z))
-                  (* (cos x) (cos z)))
-               (- (* (sin x) (sin y) (cos z))
-                  (* (cos x) (sin z)))
+              [(* (sin z) (cos y))
+               (+ (* (sin z) (sin y) (sin x))
+                  (* (cos z) (cos x)))
+               (- (* (sin z) (sin y) (cos x))
+                  (* (cos z) (sin x)))
                0]
               [(- (sin y))
-               (* (cos y) (sin z))
-               (* (cos y) (cos z))
+               (* (cos y) (sin x))
+               (* (cos y) (cos x))
                0]
               [0 0 0 1]]
      :child  geom}))
 
 (def z-axis-bracket
-  (let [plate               (-> {:type :box
-                                 :size {:x width,
-                                        :y thickness,
-                                        :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
-                                (translate [0 (/ thickness 2) 0]))
-        chamfer             2
-        wall-thickness      2.5
-        carriage-offset     (- (/ extrusion-vertical-distance 2)
-                               (/ linear-rail-carriage-width 2)
-                               0.5)
-        ls-offset-from-back (- leadscrew-distance-from-extrusion-centerline
-                               (/ extrusion-size 2)
-                               linear-rail-carriage-height)
-        back-boss           (-> {:type   :linear-extrude
-                                 :height width
-                                 :child  {:type :polygon
-                                          :points [[carriage-offset 0]
-                                                   [carriage-offset
-                                                    (+ (/ antibacklash-nut-width 2)
-                                                       wall-thickness
-                                                       (- chamfer)
-                                                       5)]
-                                                   [(- carriage-offset chamfer)
-                                                    (+ (/ antibacklash-nut-width 2)
-                                                       wall-thickness
-                                                       5)]
-                                                   [(+ (- carriage-offset) chamfer)
-                                                    (+ (/ antibacklash-nut-width 2)
-                                                       wall-thickness
-                                                       5)]
-                                                   [(- carriage-offset)
-                                                    (+ (/ antibacklash-nut-width 2)
-                                                       wall-thickness
-                                                       (- chamfer)
-                                                       5)]
-                                                   [(- carriage-offset) 0]]}}
-                                (rotate [0 90 0])
-                                (translate [(- (/ width 2))
-                                            (- thickness ls-offset-from-back)
-                                            0]))]
+  (let [plate                (-> {:type :box
+                                  :size {:x width,
+                                         :y thickness,
+                                         :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
+                                 (translate [0 (/ thickness 2) 0]))
+        m3-shcs-counterbored {:type      :union
+                              :children [{:type     :cylinder
+                                          :height   (+ thickness 0.2)
+                                          :diameter linear-rail-screw-hole-diameter}
+                                         {:type     :cylinder
+                                          :height   (+ linear-rail-countersink-depth 0.1)
+                                          :diameter linear-rail-countersink-diameter}]}
+        chamfer              2
+        wall-thickness       2.5
+        carriage-offset      (- (/ extrusion-vertical-distance 2)
+                                (/ linear-rail-carriage-width 2)
+                                0.5)
+        ls-offset-from-back  (- leadscrew-distance-from-extrusion-centerline
+                                (/ extrusion-size 2)
+                                linear-rail-carriage-height)
+        back-boss            (-> {:type   :linear-extrude
+                                  :height width
+                                  :child  {:type :polygon
+                                           :points [[carriage-offset 0]
+                                                    [carriage-offset
+                                                     (+ (/ antibacklash-nut-width 2)
+                                                        wall-thickness
+                                                        (- chamfer)
+                                                        5)]
+                                                    [(- carriage-offset chamfer)
+                                                     (+ (/ antibacklash-nut-width 2)
+                                                        wall-thickness
+                                                        5)]
+                                                    [(+ (- carriage-offset) chamfer)
+                                                     (+ (/ antibacklash-nut-width 2)
+                                                        wall-thickness
+                                                        5)]
+                                                    [(- carriage-offset)
+                                                     (+ (/ antibacklash-nut-width 2)
+                                                        wall-thickness
+                                                        (- chamfer)
+                                                        5)]
+                                                    [(- carriage-offset) 0]]}}
+                                 (rotate [0 90 0])
+                                 (translate [(- (/ width 2))
+                                             (- thickness ls-offset-from-back)
+                                             0]))]
     {:type       :difference
      :minuend    {:type :union
                   :children [plate
                              back-boss]}
-     :subtrahend []}))
+     :subtrahend (for [x  [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]
+                       z  [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
+                       zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
+                   (-> m3-shcs-counterbored
+                       (rotate [-90 0 0])
+                       (translate [x -0.1 (+ z zz)])))}))
 
 (defmulti openscad :type)
 
@@ -118,6 +130,10 @@
 (defmethod openscad :box
   [{{:keys [x y z]} :size}]
   (format "cube([%s, %s, %s], center=true);" x y z))
+
+(defmethod openscad :cylinder
+  [{:keys [height diameter]}]
+  (format "cylinder(h=%s, d=%s);" height diameter))
 
 (defn- format-vector-of-vectors [v]
   (str "["
