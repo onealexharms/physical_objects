@@ -64,7 +64,6 @@
     :minuend     minuend
     :subtrahends subtrahends}))
 
-
 (defn- plate-hole [thickness diameter]
    (-> {:type :cylinder
         :height (+ thickness 0.2)
@@ -78,7 +77,7 @@
         (translate [x 0 0]))))
 
 (defn z-top-plate
-  [{:keys [depth thickness rail-diameter rail-depth rail-distance]
+  [{:keys [depth thickness rail-depth]
     :as plate
     :or {depth 40}}]
   (-> (apply difference
@@ -99,6 +98,7 @@
               :size {:x width,
                      :y depth,
                      :z thickness}}
+             (plate-hole thickness 12)
              (plate-rail-holes plate))
       (translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
