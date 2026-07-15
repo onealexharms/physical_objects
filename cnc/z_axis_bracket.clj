@@ -194,4 +194,4 @@
        (str/join "\n" (map openscad children))
        "\n}\n"))
 
-(spit "z_axis_bracket_clj.scad" (openscad z-axis-bracket))
+(spit "z_axis_bracket.scad" (openscad z-axis-bracket))
