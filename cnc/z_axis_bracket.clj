@@ -116,9 +116,15 @@
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
                                   {:type :union
                                    :children
-                                   [{:type :cylinder
-                                     :height depth
-                                     :diameter 14}]})]
+                                   (into [(-> {:type :cylinder
+                                               :height depth
+                                               :diameter 14}
+                                              (translate [0 0 -0.1]))]
+                                         (for [p [(- offset) (+ offset)]]
+                                           (-> {:type     :cylinder
+                                                :height   antibacklash-nut-depth
+                                                :diameter 11.7}
+                                               (translate [p 0 -0.1]))))})]
     {:type       :difference
      :minuend    {:type :union
                   :children [plate
