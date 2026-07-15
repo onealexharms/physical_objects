@@ -221,7 +221,7 @@
 
 (defmethod openscad :cylinder
   [{:keys [height diameter]}]
-  (format "cylinder(h=%s, d=%s);" height diameter))
+  (format "cylinder($fn=50, h=%s, d=%s);" height diameter))
 
 (defn- format-vector-of-vectors [v]
   (str "["
