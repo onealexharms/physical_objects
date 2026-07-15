@@ -39,11 +39,14 @@
    :child  geom})
 
 (def z-axis-bracket
-  (-> {:type :box
-       :size {:x width,
-              :y thickness,
-              :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
-      (translate [0 (/ thickness 2) 0])))
+  (let [plate (-> {:type :box
+                   :size {:x width,
+                          :y thickness,
+                          :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
+                  (translate [0 (/ thickness 2) 0]))]
+    {:type :difference
+     :minuend plate
+     :subtrahend []}))
 
 (defmulti openscad :type)
 
@@ -62,5 +65,11 @@
                                    matrix))
                "]")]
     (format "multmatrix(%s) %s" m (openscad child))))
+
+(defmethod openscad :difference
+  [{:keys [minuend subtrahend]}]
+  (format "difference() {\n%s\n%s\n}\n"
+          (openscad minuend)
+          (str/join "\n" (map openscad subtrahend))))
 
 (spit "z_axis_bracket_clj.scad" (openscad z-axis-bracket))
