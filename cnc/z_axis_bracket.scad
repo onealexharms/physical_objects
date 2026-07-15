@@ -53,16 +53,6 @@ module z_axis_bracket() {
         m3_shcs_counterbored();
     }
     
-    module leadscrew_orientation() {
-        ls_offset_from_back = leadscrew_distance_from_extrusion_centerline -
-            extrusion_size/2 -
-            linear_rail_carriage_height;
-
-        translate([-width/2, thickness - ls_offset_from_back, leadscrew_height])
-        rotate([0,90,0])
-        children();
-    }
-
     module antibacklash_nut_drills() {
         offset = ((leadscrew_nut_flange_diameter/2)^2 - (antibacklash_nut_width/2)^2)^0.5;
         depth = width - 2*leadscrew_nut_flange_thickness - leadscrew_nut_length/2;
@@ -103,7 +93,8 @@ module z_axis_bracket() {
         }
         linear_rail_screw_holes();
 
-        leadscrew_orientation()
+        translate([-width/2, thickness - ls_offset_from_back, leadscrew_height])
+        rotate([0,90,0])
         union() {
             translate([0, 0, -0.1]) cylinder($fn=50,d=leadscrew_nut_diameter + 0.5, h=width+0.2);
 
