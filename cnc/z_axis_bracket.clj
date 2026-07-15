@@ -87,7 +87,12 @@
                :z thickness}}
        (-> (apply union
                   (plate-hole thickness 22)
-                  (plate-rail-holes plate))
+                  (concat
+                   (plate-rail-holes plate)
+                   (for [x [-31/2 +31/2]
+                         y [-31/2 +31/2]]
+                     (-> (plate-hole thickness 3.5)
+                         (translate [x y 0])))))
            (translate [0 (- (/ depth 2) rail-depth) 0])))
       (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
 
