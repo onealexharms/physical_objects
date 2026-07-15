@@ -80,26 +80,30 @@
   [{:keys [depth thickness rail-depth]
     :as plate
     :or {depth 40}}]
-  (-> (apply difference
-             {:type :box
-              :size {:x width,
-                     :y depth,
-                     :z thickness}}
-             (plate-hole thickness 22)
-             (plate-rail-holes plate))
+  (-> (difference
+       {:type :box
+        :size {:x width,
+               :y depth,
+               :z thickness}}
+       (-> (apply union
+                  (plate-hole thickness 22)
+                  (plate-rail-holes plate))
+           (translate [0 (- (/ depth 2) rail-depth) 0])))
       (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)])))
 
 (defn z-bottom-plate
   [{:keys [depth thickness rail-diameter rail-depth]
     :as plate
     :or {depth 32}}]
-  (-> (apply difference
-             {:type :box
-              :size {:x width,
-                     :y depth,
-                     :z thickness}}
-             (plate-hole thickness 12)
-             (plate-rail-holes plate))
+  (-> (difference
+       {:type :box
+        :size {:x width,
+               :y depth,
+               :z thickness}}
+       (-> (apply union
+                  (plate-hole thickness 12)
+                  (plate-rail-holes plate))
+           (translate [0 (- (/ depth 2) rail-depth) 0])))
       (translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
 (def z-axis-bracket
@@ -174,7 +178,7 @@
                                                     (translate [p 0 -0.1])))}))
         plate-params            {:thickness     11,
                                  :rail-diameter 8,
-                                 :rail-depth    10.25,
+                                 :rail-depth    18.25,
                                  :rail-distance 38}]
     (union
       (difference
