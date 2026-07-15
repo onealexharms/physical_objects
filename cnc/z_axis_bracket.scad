@@ -89,7 +89,6 @@ module z_axis_bracket() {
         union() {
             plate();
 
-            //leadscrew_orientation()
             translate([-width/2, thickness - ls_offset_from_back, 0])
             rotate([0, 90, 0])
             linear_extrude(width)
@@ -104,7 +103,8 @@ module z_axis_bracket() {
         }
         linear_rail_screw_holes();
 
-        leadscrew_orientation() {
+        leadscrew_orientation()
+        union() {
             translate([0, 0, -0.1]) cylinder($fn=50,d=leadscrew_nut_diameter + 0.5, h=width+0.2);
 
             translate([0, 0, width - leadscrew_nut_flange_thickness + 0.1])
