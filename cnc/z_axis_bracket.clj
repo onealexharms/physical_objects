@@ -56,6 +56,12 @@
   {:type :union
    :children children})
 
+(defn difference
+  ([minuend & subtrahends]
+   {:type        :difference
+    :minuend     minuend
+    :subtrahends subtrahends}))
+
 (def z-axis-bracket
   (let [plate                   (-> {:type :box
                                      :size {:x width,
@@ -126,23 +132,23 @@
                                                      :height   antibacklash-nut-depth
                                                      :diameter 11.7}
                                                     (translate [p 0 -0.1])))}))]
-    {:type       :difference
-     :minuend    (uniion plate back-boss)
-     :subtrahend [linear-rail-screw-holes
-                  (-> (union
-                       (-> {:type :cylinder
-                            :height (+ width 0.2)
-                            :diameter (+ leadscrew-nut-diameter 0.5)}
-                           (translate [0 0 -0.1]))
-                       (-> {:type :cylinder
-                            :height (+ leadscrew-nut-flange-thickness 0.1)
-                            :diameter (+ leadscrew-nut-flange-diameter 0.5)}
-                           (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
-                       antibacklash-nut-drills)
-                      (rotate [0 90 0])
-                      (translate [(- (/ width 2))
-                                  (- thickness ls-offset-from-back)
-                                  leadscrew-height]))]}))
+    (difference
+     (union plate back-boss)
+     linear-rail-screw-holes
+     (-> (union
+          (-> {:type :cylinder
+               :height (+ width 0.2)
+               :diameter (+ leadscrew-nut-diameter 0.5)}
+              (translate [0 0 -0.1]))
+          (-> {:type :cylinder
+               :height (+ leadscrew-nut-flange-thickness 0.1)
+               :diameter (+ leadscrew-nut-flange-diameter 0.5)}
+              (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
+          antibacklash-nut-drills)
+         (rotate [0 90 0])
+         (translate [(- (/ width 2))
+                     (- thickness ls-offset-from-back)
+                     leadscrew-height])))))
 
 (defmulti openscad :type)
 
@@ -169,10 +175,10 @@
   (format "multmatrix(%s) %s" (format-vector-of-vectors matrix) (openscad child)))
 
 (defmethod openscad :difference
-  [{:keys [minuend subtrahend]}]
+  [{:keys [minuend subtrahends]}]
   (format "difference() {\n%s\n%s\n}\n"
           (openscad minuend)
-          (str/join "\n" (map openscad subtrahend))))
+          (str/join "\n" (map openscad subtrahends))))
 
 (defmethod openscad :union
   [{:keys [children]}]
