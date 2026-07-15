@@ -30,11 +30,20 @@
 (def carriage-bolt-square-width 45)
 (def carriage-bolt-square-height 70)
 
+(defn translate [geom [x y z]]
+  {:type   :affine-transformation
+   :matrix [[1 0 0 x]
+            [0 1 0 y]
+            [0 0 1 z]
+            [0 0 0 1]]
+   :child  geom})
+
 (def z-axis-bracket
-  {:type :box
-   :size {:x width,
-          :y thickness,
-          :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}})
+  (-> {:type :box
+       :size {:x width,
+              :y thickness,
+              :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
+      (translate [0 (/ thickness 2) 0])))
 
 (defmulti openscad :type)
 
@@ -42,5 +51,16 @@
 (defmethod openscad :box
   [{{:keys [x y z]} :size}]
   (format "cube([%s, %s, %s], center=true);" x y z))
+
+(defmethod openscad :affine-transformation
+  [{:keys [matrix child]}]
+  (let [m (str "["
+               (str/join ", " (map (fn [row]
+                                     (str "["
+                                          (str/join ", " (map str row))
+                                          "]"))
+                                   matrix))
+               "]")]
+    (format "multmatrix(%s) %s" m (openscad child))))
 
 (spit "z_axis_bracket_clj.scad" (openscad z-axis-bracket))
