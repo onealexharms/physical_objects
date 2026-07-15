@@ -52,19 +52,23 @@
               [(- sy)   , (* cy sx)                 , (* cx cy)]]
      :child  geom}))
 
+(defn union [& children]
+  {:type :union
+   :children children})
+
 (def z-axis-bracket
   (let [plate                   (-> {:type :box
                                      :size {:x width,
                                             :y thickness,
                                             :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
                                     (translate [0 (/ thickness 2) 0]))
-        m3-shcs-counterbored    {:type      :union
-                                 :children [{:type     :cylinder
-                                             :height   (+ thickness 0.2)
-                                             :diameter linear-rail-screw-hole-diameter}
-                                            {:type     :cylinder
-                                             :height   (+ linear-rail-countersink-depth 0.1)
-                                             :diameter linear-rail-countersink-diameter}]}
+        m3-shcs-counterbored    (union
+                                 {:type     :cylinder
+                                  :height   (+ thickness 0.2)
+                                  :diameter linear-rail-screw-hole-diameter}
+                                 {:type     :cylinder
+                                  :height   (+ linear-rail-countersink-depth 0.1)
+                                  :diameter linear-rail-countersink-diameter})
         chamfer                 2
         wall-thickness          2.5
         carriage-offset         (- (/ extrusion-vertical-distance 2)
@@ -100,44 +104,41 @@
                                     (translate [(- (/ width 2))
                                                 (- thickness ls-offset-from-back)
                                                 0]))
-        linear-rail-screw-holes {:type :union
-                                 :children
+        linear-rail-screw-holes (apply
+                                 union
                                  (for [x  [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]
                                        z  [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
                                        zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
                                    (-> m3-shcs-counterbored
                                        (rotate [-90 0 0])
-                                       (translate [x -0.1 (+ z zz)])))}
+                                       (translate [x -0.1 (+ z zz)]))))
         antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
-                                  {:type :union
-                                   :children
-                                   [(-> {:type :cylinder
-                                         :height depth
-                                         :diameter 14}
-                                        (translate [0 0 -0.1]))
-                                    {:type     :hull
-                                     :children (for [p [(- offset) (+ offset)]]
-                                                 (-> {:type     :cylinder
-                                                      :height   antibacklash-nut-depth
-                                                      :diameter 11.7}
-                                                     (translate [p 0 -0.1])))}]})]
+                                  (union
+                                   (-> {:type :cylinder
+                                        :height depth
+                                        :diameter 14}
+                                       (translate [0 0 -0.1]))
+                                   {:type     :hull
+                                    :children (for [p [(- offset) (+ offset)]]
+                                                (-> {:type     :cylinder
+                                                     :height   antibacklash-nut-depth
+                                                     :diameter 11.7}
+                                                    (translate [p 0 -0.1])))}))]
     {:type       :difference
-     :minuend    {:type :union
-                  :children [plate
-                             back-boss]}
+     :minuend    (uniion plate back-boss)
      :subtrahend [linear-rail-screw-holes
-                  (-> {:type     :union
-                       :children [(-> {:type :cylinder
-                                       :height (+ width 0.2)
-                                       :diameter (+ leadscrew-nut-diameter 0.5)}
-                                      (translate [0 0 -0.1]))
-                                  (-> {:type :cylinder
-                                       :height (+ leadscrew-nut-flange-thickness 0.1)
-                                       :diameter (+ leadscrew-nut-flange-diameter 0.5)}
-                                      (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
-                                  antibacklash-nut-drills]}
+                  (-> (union
+                       (-> {:type :cylinder
+                            :height (+ width 0.2)
+                            :diameter (+ leadscrew-nut-diameter 0.5)}
+                           (translate [0 0 -0.1]))
+                       (-> {:type :cylinder
+                            :height (+ leadscrew-nut-flange-thickness 0.1)
+                            :diameter (+ leadscrew-nut-flange-diameter 0.5)}
+                           (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
+                       antibacklash-nut-drills)
                       (rotate [0 90 0])
                       (translate [(- (/ width 2))
                                   (- thickness ls-offset-from-back)
