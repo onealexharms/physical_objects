@@ -32,14 +32,6 @@
 
 (def thickness 13)
 
-(defn translate [geom [x y z]]
-  {:type   :affine-transformation
-   :matrix [[1 0 0 x]
-            [0 1 0 y]
-            [0 0 1 z]
-            [0 0 0 1]]
-   :child  geom})
-
 ;; OpenSCAD-specific rotation
 (defn rotate [geom [x y z]]
   (let [x (* x (/ Math/PI 180))
@@ -71,13 +63,13 @@
    (-> {:type :cylinder
         :height (+ thickness 0.2)
         :diameter diameter}
-       (translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
+       (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn- plate-rail-holes
   [{:keys [thickness rail-distance rail-diameter], :as plate}]
   (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
     (-> (plate-hole thickness rail-diameter)
-        (translate [x 0 0]))))
+        (c3po/translate [x 0 0]))))
 
 (defn- endstop-bracket
   [{:keys [thickness]}]
@@ -90,11 +82,11 @@
                   :size {:x 8.1
                          :y 12.5
                          :z (+ thickness 0.2)}}
-                 (translate [(/ (- 13 8) 2) 0 0]))
+                 (c3po/translate [(/ (- 13 8) 2) 0 0]))
              (for [y [-9.75 +9.75]]
                (-> (plate-hole thickness 2.5)
-                   (translate [0 y 0]))))
-      (translate [(+ (/ width 2) 13/2) 0 0])))
+                   (c3po/translate [0 y 0]))))
+      (c3po/translate [(+ (/ width 2) 13/2) 0 0])))
 
 (defn z-top-plate
   [{:keys [depth thickness rail-depth]
@@ -107,8 +99,8 @@
                                    (-> {:type :cylinder
                                         :height 4,
                                         :diameter 6}
-                                       (translate [0 0 (- 0 (/ thickness 2) 0.1)])))
-                                 (translate [x y 0])))]
+                                       (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
+                                 (c3po/translate [x y 0])))]
     (-> (difference
          (union
           {:type :box
@@ -121,8 +113,8 @@
                     (concat
                      (plate-rail-holes plate)
                      stepper-bolt-holes))
-             (translate [0 (- (/ depth 2) rail-depth) 0])))
-        (translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
+             (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
+        (c3po/translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
 
 (defn z-bottom-plate
   [{:keys [depth thickness rail-diameter rail-depth]
@@ -138,15 +130,15 @@
        (-> (apply union
                   (plate-hole thickness 12)
                   (plate-rail-holes plate))
-           (translate [0 (- (/ depth 2) rail-depth) 0])))
-      (translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
+           (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
+      (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
 (def z-axis-bracket
   (let [plate                   (-> {:type :box
                                      :size {:x width,
                                             :y thickness,
                                             :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
-                                    (translate [0 (/ thickness 2) 0]))
+                                    (c3po/translate [0 (/ thickness 2) 0]))
         m3-shcs-counterbored    (union
                                  {:type     :cylinder
                                   :height   (+ thickness 0.2)
@@ -186,9 +178,9 @@
                                                            5)]
                                                        [(- carriage-offset) 0]]}}
                                     (rotate [0 90 0])
-                                    (translate [(- (/ width 2))
-                                                (- thickness ls-offset-from-back)
-                                                0]))
+                                    (c3po/translate [(- (/ width 2))
+                                                     (- thickness ls-offset-from-back)
+                                                     0]))
         linear-rail-screw-holes (apply
                                  union
                                  (for [x  [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]
@@ -196,7 +188,7 @@
                                        zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
                                    (-> m3-shcs-counterbored
                                        (rotate [-90 0 0])
-                                       (translate [x -0.1 (+ z zz)]))))
+                                       (c3po/translate [x -0.1 (+ z zz)]))))
         antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
@@ -204,13 +196,13 @@
                                    (-> {:type :cylinder
                                         :height depth
                                         :diameter 14}
-                                       (translate [0 0 -0.1]))
+                                       (c3po/translate [0 0 -0.1]))
                                    {:type     :hull
                                     :children (for [p [(- offset) (+ offset)]]
                                                 (-> {:type     :cylinder
                                                      :height   antibacklash-nut-depth
                                                      :diameter 11.7}
-                                                    (translate [p 0 -0.1])))}))
+                                                    (c3po/translate [p 0 -0.1])))}))
         plate-params            {:thickness     11,
                                  :rail-diameter 8,
                                  :rail-depth    18.25,
@@ -223,16 +215,16 @@
              (-> {:type :cylinder
                   :height (+ width 0.2)
                   :diameter (+ leadscrew-nut-diameter 0.5)}
-                 (translate [0 0 -0.1]))
+                 (c3po/translate [0 0 -0.1]))
              (-> {:type :cylinder
                   :height (+ leadscrew-nut-flange-thickness 0.1)
                   :diameter (+ leadscrew-nut-flange-diameter 0.5)}
-                 (translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
+                 (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
              antibacklash-nut-drills)
             (rotate [0 90 0])
-            (translate [(- (/ width 2))
-                        (- thickness ls-offset-from-back)
-                        leadscrew-height])))
+            (c3po/translate [(- (/ width 2))
+                             (- thickness ls-offset-from-back)
+                             leadscrew-height])))
       (z-top-plate plate-params)
       (z-bottom-plate plate-params))))
 
