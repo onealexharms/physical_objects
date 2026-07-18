@@ -32,23 +32,6 @@
 
 (def thickness 13)
 
-;; OpenSCAD-specific rotation
-(defn rotate [geom [x y z]]
-  (let [x (* x (/ Math/PI 180))
-        y (* y (/ Math/PI 180))
-        z (* z (/ Math/PI 180))
-        sx (Math/sin x)
-        cx (Math/cos x)
-        sy (Math/sin y)
-        cy (Math/cos y)
-        sz (Math/sin z)
-        cz (Math/cos z)]
-    {:type   :affine-transformation
-     :matrix [[(* cy cz), (- (* cz sx sy) (* cx sz)), (+ (* cx cz sy) (* sx sz))]
-              [(* cy sz), (+ (* cx cz) (* sx sy sz)), (+ (* (- cz) sx) (* cx sy sz))]
-              [(- sy)   , (* cy sx)                 , (* cx cy)]]
-     :child  geom}))
-
 (defn union [& children]
   {:type :union
    :children children})
@@ -177,7 +160,7 @@
                                                            (- chamfer)
                                                            5)]
                                                        [(- carriage-offset) 0]]}}
-                                    (rotate [0 90 0])
+                                    (openscad/rotate [0 90 0])
                                     (c3po/translate [(- (/ width 2))
                                                      (- thickness ls-offset-from-back)
                                                      0]))
@@ -187,7 +170,7 @@
                                        z  [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
                                        zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
                                    (-> m3-shcs-counterbored
-                                       (rotate [-90 0 0])
+                                       (openscad/rotate [-90 0 0])
                                        (c3po/translate [x -0.1 (+ z zz)]))))
         antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
@@ -221,7 +204,7 @@
                   :diameter (+ leadscrew-nut-flange-diameter 0.5)}
                  (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
              antibacklash-nut-drills)
-            (rotate [0 90 0])
+            (openscad/rotate [0 90 0])
             (c3po/translate [(- (/ width 2))
                              (- thickness ls-offset-from-back)
                              leadscrew-height])))
