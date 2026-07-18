@@ -7,3 +7,13 @@
             [0 0 1 z]
             [0 0 0 1]]
    :child  geom})
+
+(defn difference
+  [minuend & subtrahends]
+  {:type        :difference
+   :minuend     minuend
+   :subtrahends subtrahends})
+
+(defn union [& children]
+  {:type :union
+   :children children})

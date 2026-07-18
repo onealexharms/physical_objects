@@ -32,16 +32,6 @@
 
 (def thickness 13)
 
-(defn union [& children]
-  {:type :union
-   :children children})
-
-(defn difference
-  ([minuend & subtrahends]
-   {:type        :difference
-    :minuend     minuend
-    :subtrahends subtrahends}))
-
 (defn- plate-hole [thickness diameter]
    (-> {:type :cylinder
         :height (+ thickness 0.2)
@@ -56,7 +46,7 @@
 
 (defn- endstop-bracket
   [{:keys [thickness]}]
-  (-> (apply difference
+  (-> (apply c3po/difference
              {:type :box
               :size {:x 13
                      :y 28
@@ -77,21 +67,21 @@
     :or {depth 40}}]
   (let [stepper-bolt-holes (for [x [-31/2 +31/2]
                                  y [-31/2 +31/2]]
-                             (-> (union
+                             (-> (c3po/union
                                    (plate-hole thickness 3.5)
                                    (-> {:type :cylinder
                                         :height 4,
                                         :diameter 6}
                                        (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
                                  (c3po/translate [x y 0])))]
-    (-> (difference
-         (union
+    (-> (c3po/difference
+         (c3po/union
           {:type :box
            :size {:x width,
                   :y depth,
                   :z thickness}}
           (endstop-bracket {:thickness thickness}))
-         (-> (apply union
+         (-> (apply c3po/union
                     (plate-hole thickness 22)
                     (concat
                      (plate-rail-holes plate)
@@ -103,14 +93,14 @@
   [{:keys [depth thickness rail-diameter rail-depth]
     :as plate
     :or {depth 32}}]
-  (-> (difference
-       (union
+  (-> (c3po/difference
+       (c3po/union
         {:type :box
          :size {:x width,
                 :y depth,
                 :z thickness}}
         (endstop-bracket {:thickness thickness}))
-       (-> (apply union
+       (-> (apply c3po/union
                   (plate-hole thickness 12)
                   (plate-rail-holes plate))
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
@@ -122,7 +112,7 @@
                                             :y thickness,
                                             :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
                                     (c3po/translate [0 (/ thickness 2) 0]))
-        m3-shcs-counterbored    (union
+        m3-shcs-counterbored    (c3po/union
                                  {:type     :cylinder
                                   :height   (+ thickness 0.2)
                                   :diameter linear-rail-screw-hole-diameter}
@@ -165,7 +155,7 @@
                                                      (- thickness ls-offset-from-back)
                                                      0]))
         linear-rail-screw-holes (apply
-                                 union
+                                 c3po/union
                                  (for [x  [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]
                                        z  [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
                                        zz [(- (/ linear-rail-screw-distance 2)) (+ (/ linear-rail-screw-distance 2))]]
@@ -175,7 +165,7 @@
         antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
-                                  (union
+                                  (c3po/union
                                    (-> {:type :cylinder
                                         :height depth
                                         :diameter 14}
@@ -190,11 +180,11 @@
                                  :rail-diameter 8,
                                  :rail-depth    18.25,
                                  :rail-distance 38}]
-    (union
-      (difference
-        (union plate back-boss)
+    (c3po/union
+      (c3po/difference
+        (c3po/union plate back-boss)
         linear-rail-screw-holes
-        (-> (union
+        (-> (c3po/union
              (-> {:type :cylinder
                   :height (+ width 0.2)
                   :diameter (+ leadscrew-nut-diameter 0.5)}
