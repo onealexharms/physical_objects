@@ -1,4 +1,7 @@
 #!/usr/bin/env bb
+(require
+ '[c3po.core :as c3po]
+ '[c3po.openscad :as openscad])
 
 (def width 60);
 
@@ -284,4 +287,4 @@
        (str/join "\n" (map openscad children))
        "\n}\n"))
 
-(spit "z_axis_bracket.scad" (openscad z-axis-bracket))
+(spit "cnc/z_axis_bracket.scad" (openscad z-axis-bracket))
