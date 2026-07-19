@@ -16,8 +16,6 @@
 ;; 10mm (half extrusion) +c3po/ 8mm (rail thickness) = 27.9992
 (def leadscrew-distance-from-extrusion-centerline 28)
 
-(def thickness 13)
-
 (defn- plate-hole [thickness diameter]
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
