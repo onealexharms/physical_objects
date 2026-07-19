@@ -1,4 +1,5 @@
-(ns c3po.linear-rail)
+(ns c3po.linear-rail
+  (:require [c3po.screw :as screw]))
 
 (def standard-rails
   {::mgn12h
@@ -6,8 +7,8 @@
     {::width 12
      ::height 8
      ::mounting-holes
-     {::counterbore {::diameter 6, ::depth 4.5}
-      ::clearance-hole {::diameter 3.5}
+     {::screw/counterbore {::screw/diameter 6, ::screw/depth 4.5}
+      ::screw/clearance-hole {::screw/diameter 3.5}
       ::pitch 25}}
     ::carriage
     {::height 13
@@ -15,7 +16,8 @@
      ::length 45.4
      ::mounting-holes
      {::spacing {::lengthwise 20
-                 ::widthwise 20}}}}})
+                 ::widthwise 20}
+      ::screw ::screw/m3-shcs}}}})
 
 (defn lookup [rail-type]
   (cond

@@ -2,11 +2,8 @@
   (:require
    [c3po.core :as c3po]
    [c3po.linear-rail :as lr]
-   [c3po.openscad :as openscad]))
-
-(def linear-rail-screw-hole-diameter 3.5)
-(def linear-rail-countersink-diameter (+ 6.5 0.5))
-(def linear-rail-countersink-depth (+ 3.5 0.5))
+   [c3po.openscad :as openscad]
+   [c3po.screw :as screw]))
 
 (def leadscrew-nut-diameter 10.5)
 (def leadscrew-nut-flange-diameter 22)
@@ -90,15 +87,14 @@
          rail-type                   ::lr/mgn12h}}]
   (let [{{carriage-height ::lr/height
           carriage-width  ::lr/width
-          {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing} ::lr/mounting-holes} ::lr/carriage,
+          {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing
+           mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage,
          :as rail-type}
         (lr/lookup rail-type)
 
         plate                   (-> (c3po/box {:x width, :y thickness, :z (+ extrusion-vertical-distance carriage-hole-lengthwise 10)})
                                     (c3po/translate [0 (/ thickness 2) 0]))
-        m3-shcs-counterbored    (c3po/union
-                                 (c3po/cylinder {:height (+ thickness 0.2), :diameter linear-rail-screw-hole-diameter})
-                                 (c3po/cylinder {:height (+ linear-rail-countersink-depth 0.1), :diameter linear-rail-countersink-diameter}))
+        m3-shcs-counterbored    (screw/counterbored mounting-screw {:thickness thickness})
         chamfer                 2
         wall-thickness          2.5
         carriage-offset         (- (/ extrusion-vertical-distance 2)
