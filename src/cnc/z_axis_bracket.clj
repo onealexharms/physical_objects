@@ -24,17 +24,6 @@
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
-(defn- endstop-bracket
-  [{:keys [thickness width]}]
-  (-> (apply c3po/difference
-             (c3po/box {:x 13, :y 28, :z thickness})
-             (-> (c3po/box {:x 8.1, :y 12.5, :z (+ thickness 0.2)})
-                 (c3po/translate [(/ (- 13 8) 2) 0 0]))
-             (for [y [-9.75 +9.75]]
-               (-> (plate-hole thickness 2.5)
-                   (c3po/translate [0 y 0]))))
-      (c3po/translate [(+ (/ width 2) 13/2) 0 0])))
-
 (defn z-top-plate
   [{:keys [depth thickness rail-depth width extrusion-vertical-distance]
     :or {depth 40}}]
@@ -46,9 +35,7 @@
                                        (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
                                  (c3po/translate [x y 0])))]
     (-> (c3po/difference
-         (c3po/union
-          (c3po/box {:x width, :y depth, :z thickness})
-          (endstop-bracket {:thickness thickness, :width width}))
+         (c3po/box {:x width, :y depth, :z thickness})
          (-> (apply c3po/union
                     (plate-hole thickness 22)
                     stepper-bolt-holes)
@@ -59,9 +46,7 @@
   [{:keys [depth thickness rail-depth width extrusion-vertical-distance]
     :or {depth 32}}]
   (-> (c3po/difference
-       (c3po/union
-        (c3po/box {:x width, :y depth, :z thickness})
-        (endstop-bracket {:thickness thickness, :width width}))
+       (c3po/box {:x width, :y depth, :z thickness})
        (-> (plate-hole thickness 12)
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
