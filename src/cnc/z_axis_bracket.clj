@@ -1,8 +1,8 @@
-#!/usr/bin/env bb
-(require
- '[c3po.core :as c3po]
- '[c3po.linear-rail :as lr]
- '[c3po.openscad :as openscad])
+(ns cnc.z-axis-bracket
+  (:require
+   [c3po.core :as c3po]
+   [c3po.linear-rail :as lr]
+   [c3po.openscad :as openscad]))
 
 (def width 60);
 
@@ -91,7 +91,7 @@
 
 (defn z-axis-bracket
   [{:keys [::rail-type]
-    :or {::rail-type ::lr/mgn12h}}]
+    :or {rail-type ::lr/mgn12h}}]
   (let [{{carriage-height ::lr/height
           carriage-width  ::lr/width} ::lr/carriage,
          :as rail-type}
@@ -176,7 +176,8 @@
       (z-top-plate plate-params)
       (z-bottom-plate plate-params))))
 
-(spit "cnc/z_axis_bracket.scad"
-      (openscad/source
-       (z-axis-bracket
-        {::rail-type ::lr/mgn12h})))
+(defn -main [& _args]
+  (spit "cnc/z_axis_bracket.scad"
+        (openscad/source
+         (z-axis-bracket
+          {::rail-type ::lr/mgn12h}))))
