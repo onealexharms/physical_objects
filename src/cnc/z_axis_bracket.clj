@@ -89,15 +89,9 @@
         bracket-height              (max min-height-for-carriages min-height-for-z-rail-length)
         back-plate-top-z            (+ back-plate-bottom-z bracket-height)
         top-plate-z                 (- back-plate-top-z (/ plate-thickness 2))
-
         plate                       (-> (c3po/box {:x width, :y thickness, :z bracket-height})
                                         (c3po/translate [0 (/ thickness 2) (+ back-plate-bottom-z (/ bracket-height 2))]))
         m3-shcs-counterbored        (screw/counterbored mounting-screw {:thickness thickness})
-        chamfer                     2
-        wall-thickness              2.5
-        carriage-offset             (- (/ extrusion-vertical-distance 2)
-                                       (/ carriage-width 2)
-                                       0.5)
         ls-offset-from-back         (- leadscrew-distance-from-extrusion-centerline
                                        (/ extrusion-size 2)
                                        carriage-height)
