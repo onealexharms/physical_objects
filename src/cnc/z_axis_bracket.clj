@@ -64,7 +64,7 @@
          :or {leadscrew-nut-diameter                       10.5
               leadscrew-nut-flange-diameter                22
               leadscrew-nut-flange-thickness               4
-              leadscrew-distance-from-extrusion-centerline 23}}
+              leadscrew-distance-from-extrusion-centerline 20}}
         leadscrew-nut
 
         {{carriage-height ::lr/height
