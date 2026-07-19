@@ -26,3 +26,7 @@
   {:type     :cylinder
    :height   height,
    :diameter diameter})
+
+(defn polygon [points]
+  {:type   :polygon
+   :points points})
