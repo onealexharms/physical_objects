@@ -27,7 +27,7 @@
 ;;FIXME: cylinders should also be center?
 
 ;; 1mm (ruler=1mm) + 0.198in (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +))
-;; 10mm (half extrusion) + 8mm (rail thickness) = 27.9992
+;; 10mm (half extrusion) +c3po/ 8mm (rail thickness) = 27.9992
 (def leadscrew-distance-from-extrusion-centerline 28)
 
 (def thickness 13)
@@ -106,7 +106,9 @@
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
-(def z-axis-bracket
+(defn z-axis-bracket
+  [{:keys [::rail-type]
+    :or {::rail-type :mgn12h}}]
   (let [plate                   (-> {:type :box
                                      :size {:x width,
                                             :y thickness,
@@ -201,4 +203,7 @@
       (z-top-plate plate-params)
       (z-bottom-plate plate-params))))
 
-(spit "cnc/z_axis_bracket.scad" (openscad/source z-axis-bracket))
+(spit "cnc/z_axis_bracket.scad"
+      (openscad/source
+       (z-axis-bracket
+        {::rail-type :mgn12h})))
