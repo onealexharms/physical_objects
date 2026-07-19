@@ -1,6 +1,7 @@
 #!/usr/bin/env bb
 (require
  '[c3po.core :as c3po]
+ '[c3po.linear-rail :as lr]
  '[c3po.openscad :as openscad])
 
 (def width 60);
@@ -8,7 +9,6 @@
 (def extrusion-size 20);
 (def extrusion-vertical-distance 75)
 
-(def linear-rail-carriage-height 13)
 (def linear-rail-carriage-width 27)
 (def linear-rail-screw-distance 20)
 (def linear-rail-screw-hole-diameter 3.5)
@@ -108,8 +108,9 @@
 
 (defn z-axis-bracket
   [{:keys [::rail-type]
-    :or {::rail-type :mgn12h}}]
-  (let [plate                   (-> {:type :box
+    :or {::rail-type ::lr/mgn12h}}]
+  (let [{{carriage-height ::lr/height} ::lr/carriage} (lr/lookup rail-type)
+        plate                   (-> {:type :box
                                      :size {:x width,
                                             :y thickness,
                                             :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
@@ -128,7 +129,7 @@
                                    0.5)
         ls-offset-from-back     (- leadscrew-distance-from-extrusion-centerline
                                    (/ extrusion-size 2)
-                                   linear-rail-carriage-height)
+                                   carriage-height)
         back-boss               (-> {:type   :linear-extrude
                                      :height width
                                      :child  {:type :polygon
@@ -206,4 +207,4 @@
 (spit "cnc/z_axis_bracket.scad"
       (openscad/source
        (z-axis-bracket
-        {::rail-type :mgn12h})))
+        {::rail-type ::lr/mgn12h})))
