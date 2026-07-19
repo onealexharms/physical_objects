@@ -68,11 +68,11 @@
          :as x-rail-type}
         (lr/lookup x-rail-type)
 
-        carriage-spacing         (+ carriage-length 0.5)
-        total-carriage-length    (- (* carriages-per-rail carriage-spacing) 0.5)
-        width                    (max width total-carriage-length)
-        carriage-offsets         (for [i (range carriages-per-rail)]
-                                   (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
+        carriage-spacing            (+ carriage-length 0.5)
+        total-carriage-length       (- (* carriages-per-rail carriage-spacing) 0.5)
+        width                       (max width total-carriage-length)
+        carriage-offsets            (for [i (range carriages-per-rail)]
+                                      (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
 
         plate-thickness             11
         min-height-for-carriages    (+ extrusion-vertical-distance carriage-hole-lengthwise 10)
@@ -84,64 +84,64 @@
         back-plate-top-z            (+ back-plate-bottom-z bracket-height)
         top-plate-z                 (- back-plate-top-z (/ plate-thickness 2))
 
-        plate                    (-> (c3po/box {:x width, :y thickness, :z bracket-height})
-                                     (c3po/translate [0 (/ thickness 2) (+ back-plate-bottom-z (/ bracket-height 2))]))
-        m3-shcs-counterbored    (screw/counterbored mounting-screw {:thickness thickness})
-        chamfer                 2
-        wall-thickness          2.5
-        carriage-offset         (- (/ extrusion-vertical-distance 2)
-                                   (/ carriage-width 2)
-                                   0.5)
-        ls-offset-from-back     (- leadscrew-distance-from-extrusion-centerline
-                                   (/ extrusion-size 2)
-                                   carriage-height)
-        back-boss               (-> (c3po/polygon
-                                     [[carriage-offset 0]
-                                      [carriage-offset
-                                       (+ (/ antibacklash-nut-width 2)
-                                          wall-thickness
-                                          (- chamfer)
-                                          5)]
-                                      [(- carriage-offset chamfer)
-                                       (+ (/ antibacklash-nut-width 2)
-                                          wall-thickness
-                                          5)]
-                                      [(+ (- carriage-offset) chamfer)
-                                       (+ (/ antibacklash-nut-width 2)
-                                          wall-thickness
-                                          5)]
-                                      [(- carriage-offset)
-                                       (+ (/ antibacklash-nut-width 2)
-                                          wall-thickness
-                                          (- chamfer)
-                                          5)]
-                                      [(- carriage-offset) 0]])
-                                    (c3po/linear-extrude {:height width})
-                                    (openscad/rotate [0 90 0])
-                                    (c3po/translate [(- (/ width 2))
-                                                     (- thickness ls-offset-from-back)
-                                                     0]))
-        x-carriage-mounting-holes (apply
-                                 c3po/union
-                                 (for [z       [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
-                                       cx      carriage-offsets
-                                       [dx dy] (lr/carriage-hole-pattern x-rail-type)]
-                                   (-> m3-shcs-counterbored
-                                       (openscad/rotate [-90 0 0])
-                                       (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
-        antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
-                                                           (Math/pow (/ antibacklash-nut-width 2) 2)))
-                                      depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
-                                  (c3po/union
-                                   (-> (c3po/cylinder {:height depth, :diameter 14})
-                                       (c3po/translate [0 0 -0.1]))
-                                   (apply c3po/hull
-                                          (for [p [(- offset) (+ offset)]]
-                                            (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
-                                                (c3po/translate [p 0 -0.1]))))))
-        plate-params             {:thickness  plate-thickness,
-                                  :rail-depth 18.25,
-                                  :width      width}]
+        plate                       (-> (c3po/box {:x width, :y thickness, :z bracket-height})
+                                        (c3po/translate [0 (/ thickness 2) (+ back-plate-bottom-z (/ bracket-height 2))]))
+        m3-shcs-counterbored        (screw/counterbored mounting-screw {:thickness thickness})
+        chamfer                     2
+        wall-thickness              2.5
+        carriage-offset             (- (/ extrusion-vertical-distance 2)
+                                       (/ carriage-width 2)
+                                       0.5)
+        ls-offset-from-back         (- leadscrew-distance-from-extrusion-centerline
+                                       (/ extrusion-size 2)
+                                       carriage-height)
+        back-boss                   (-> (c3po/polygon
+                                         [[carriage-offset 0]
+                                          [carriage-offset
+                                           (+ (/ antibacklash-nut-width 2)
+                                              wall-thickness
+                                              (- chamfer)
+                                              5)]
+                                          [(- carriage-offset chamfer)
+                                           (+ (/ antibacklash-nut-width 2)
+                                              wall-thickness
+                                              5)]
+                                          [(+ (- carriage-offset) chamfer)
+                                           (+ (/ antibacklash-nut-width 2)
+                                              wall-thickness
+                                              5)]
+                                          [(- carriage-offset)
+                                           (+ (/ antibacklash-nut-width 2)
+                                              wall-thickness
+                                              (- chamfer)
+                                              5)]
+                                          [(- carriage-offset) 0]])
+                                        (c3po/linear-extrude {:height width})
+                                        (openscad/rotate [0 90 0])
+                                        (c3po/translate [(- (/ width 2))
+                                                         (- thickness ls-offset-from-back)
+                                                         0]))
+        x-carriage-mounting-holes   (apply
+                                     c3po/union
+                                     (for [z       [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
+                                           cx      carriage-offsets
+                                           [dx dy] (lr/carriage-hole-pattern x-rail-type)]
+                                       (-> m3-shcs-counterbored
+                                           (openscad/rotate [-90 0 0])
+                                           (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
+        antibacklash-nut-drills     (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
+                                                               (Math/pow (/ antibacklash-nut-width 2) 2)))
+                                          depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
+                                      (c3po/union
+                                       (-> (c3po/cylinder {:height depth, :diameter 14})
+                                           (c3po/translate [0 0 -0.1]))
+                                       (apply c3po/hull
+                                              (for [p [(- offset) (+ offset)]]
+                                                (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
+                                                    (c3po/translate [p 0 -0.1]))))))
+        plate-params                {:thickness  plate-thickness,
+                                     :rail-depth 18.25,
+                                     :width      width}]
     (c3po/union
       (c3po/difference
         (c3po/union plate back-boss)
