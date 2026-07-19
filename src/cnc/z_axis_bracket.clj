@@ -81,7 +81,7 @@
         carriage-offsets            (for [i (range carriages-per-rail)]
                                       (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
         plate-thickness             11
-        min-height-for-carriages    (+ extrusion-vertical-distance carriage-hole-lengthwise 10)
+        min-height-for-carriages    (+ extrusion-vertical-distance carriage-width)
         back-plate-bottom-z         (- (/ min-height-for-carriages 2))
         bottom-plate-z              (- (/ extrusion-vertical-distance 2))
         bottom-plate-top-surface-z  (+ bottom-plate-z (/ plate-thickness 2))
