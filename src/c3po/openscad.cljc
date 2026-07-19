@@ -63,7 +63,7 @@
 ;; Research: is this OpenSCAD-specific?
 (defmethod source :linear-extrude
   [{:keys [height child]}]
-  (format "linear_extrude(%d) %s" height (source child)))
+  (format "linear_extrude(%s) %s" height (source child)))
 
 (defmethod source :hull
   [{:keys [children]}]

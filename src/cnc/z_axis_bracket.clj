@@ -79,18 +79,26 @@
       (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
 (defn z-axis-bracket
-  [{:keys [width extrusion-size extrusion-vertical-distance leadscrew-height ::rail-type]
+  [{:keys [width extrusion-size extrusion-vertical-distance leadscrew-height carriages-per-rail ::rail-type]
     :or {width                       60
          extrusion-size              20
          extrusion-vertical-distance 75
          leadscrew-height            (- 75/2 39.47)
+         carriages-per-rail          1
          rail-type                   ::lr/mgn12h}}]
   (let [{{carriage-height ::lr/height
           carriage-width  ::lr/width
+          carriage-length ::lr/length
           {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing
            mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage,
          :as rail-type}
         (lr/lookup rail-type)
+
+        carriage-spacing        (+ carriage-length 0.5)
+        total-carriage-length   (- (* carriages-per-rail carriage-spacing) 0.5)
+        width                   (max width total-carriage-length)
+        carriage-offsets        (for [i (range carriages-per-rail)]
+                                  (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
 
         plate                   (-> (c3po/box {:x width, :y thickness, :z (+ extrusion-vertical-distance carriage-hole-lengthwise 10)})
                                     (c3po/translate [0 (/ thickness 2) 0]))
@@ -132,10 +140,11 @@
         linear-rail-screw-holes (apply
                                  c3po/union
                                  (for [z       [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
+                                       cx      carriage-offsets
                                        [dx dy] (lr/carriage-hole-pattern rail-type)]
                                    (-> m3-shcs-counterbored
                                        (openscad/rotate [-90 0 0])
-                                       (c3po/translate [dx -0.1 (+ z dy)]))))
+                                       (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
         antibacklash-nut-drills (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
@@ -174,4 +183,5 @@
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
          (z-axis-bracket
-          {::rail-type ::lr/mgn12h}))))
+          {::rail-type         ::lr/mgn12h
+           :carriages-per-rail 2}))))
