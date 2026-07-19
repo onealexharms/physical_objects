@@ -108,9 +108,10 @@
 (defn z-axis-bracket
   [{:keys [::rail-type]
     :or {::rail-type ::lr/mgn12h}}]
-  (let [rail-type               (lr/lookup rail-type)
-        {{carriage-height ::lr/height
-          carriage-width  ::lr/width} ::lr/carriage} (lr/lookup rail-type)
+  (let [{{carriage-height ::lr/height
+          carriage-width  ::lr/width} ::lr/carriage,
+         :as rail-type}
+        (lr/lookup rail-type)
 
         plate                   (-> {:type :box
                                      :size {:x width,
