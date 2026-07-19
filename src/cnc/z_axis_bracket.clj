@@ -50,8 +50,16 @@
       (c3po/translate [0 (- (/ depth 2)) z-position])))
 
 (defn z-axis-bracket
-  [{:keys [width extrusion-size extrusion-vertical-distance leadscrew-height carriages-per-rail z-rail-length ::x-rail-type]
+  [{:keys [width
+           thickness
+           extrusion-size
+           extrusion-vertical-distance
+           leadscrew-height
+           carriages-per-rail
+           z-rail-length
+           ::x-rail-type]
     :or {width                       60
+         thickness                   13
          extrusion-size              20
          extrusion-vertical-distance 75
          leadscrew-height            (- 75/2 39.47)
