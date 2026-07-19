@@ -142,12 +142,13 @@
       (c3po/difference
         (c3po/union plate back-boss)
         x-carriage-mounting-holes
-        (-> (c3po/union
-             (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
-                 (c3po/translate [0 0 -0.1]))
-             (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
-                                 :diameter (+ leadscrew-nut-flange-diameter 0.5)})
-                 (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)])))
+        (-> (apply c3po/union
+                   (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
+                       (c3po/translate [0 0 -0.1]))
+                   (for [z [-0.1 (+ (- width leadscrew-nut-flange-thickness) 0.1)]]
+                     (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
+                                         :diameter (+ leadscrew-nut-flange-diameter 0.5)})
+                         (c3po/translate [0 0 z]))))
             (openscad/rotate [0 90 0])
             (c3po/translate [(- (/ width 2))
                              (- thickness ls-offset-from-back)
