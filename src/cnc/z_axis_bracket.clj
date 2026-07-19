@@ -4,16 +4,9 @@
    [c3po.linear-rail :as lr]
    [c3po.openscad :as openscad]))
 
-(def width 60);
-
-(def extrusion-size 20);
-(def extrusion-vertical-distance 75)
-
 (def linear-rail-screw-hole-diameter 3.5)
 (def linear-rail-countersink-diameter (+ 6.5 0.5))
 (def linear-rail-countersink-depth (+ 3.5 0.5))
-
-(def leadscrew-height (- 75/2 39.47))
 
 (def leadscrew-nut-diameter 10.5)
 (def leadscrew-nut-flange-diameter 22)
@@ -41,7 +34,7 @@
         (c3po/translate [x 0 0]))))
 
 (defn- endstop-bracket
-  [{:keys [thickness]}]
+  [{:keys [thickness width]}]
   (-> (apply c3po/difference
              (c3po/box {:x 13, :y 28, :z thickness})
              (-> (c3po/box {:x 8.1, :y 12.5, :z (+ thickness 0.2)})
@@ -52,7 +45,7 @@
       (c3po/translate [(+ (/ width 2) 13/2) 0 0])))
 
 (defn z-top-plate
-  [{:keys [depth thickness rail-depth]
+  [{:keys [depth thickness rail-depth width extrusion-vertical-distance]
     :as plate
     :or {depth 40}}]
   (let [stepper-bolt-holes (for [x [-31/2 +31/2]
@@ -65,7 +58,7 @@
     (-> (c3po/difference
          (c3po/union
           (c3po/box {:x width, :y depth, :z thickness})
-          (endstop-bracket {:thickness thickness}))
+          (endstop-bracket {:thickness thickness, :width width}))
          (-> (apply c3po/union
                     (plate-hole thickness 22)
                     (concat
@@ -75,13 +68,13 @@
         (c3po/translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
 
 (defn z-bottom-plate
-  [{:keys [depth thickness rail-diameter rail-depth]
+  [{:keys [depth thickness rail-diameter rail-depth width extrusion-vertical-distance]
     :as plate
     :or {depth 32}}]
   (-> (c3po/difference
        (c3po/union
         (c3po/box {:x width, :y depth, :z thickness})
-        (endstop-bracket {:thickness thickness}))
+        (endstop-bracket {:thickness thickness, :width width}))
        (-> (apply c3po/union
                   (plate-hole thickness 12)
                   (plate-rail-holes plate))
@@ -89,8 +82,12 @@
       (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
 (defn z-axis-bracket
-  [{:keys [::rail-type]
-    :or {rail-type ::lr/mgn12h}}]
+  [{:keys [width extrusion-size extrusion-vertical-distance leadscrew-height ::rail-type]
+    :or {width                       60
+         extrusion-size              20
+         extrusion-vertical-distance 75
+         leadscrew-height            (- 75/2 39.47)
+         rail-type                   ::lr/mgn12h}}]
   (let [{{carriage-height ::lr/height
           carriage-width  ::lr/width
           {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing} ::lr/mounting-holes} ::lr/carriage,
@@ -153,10 +150,12 @@
                                           (for [p [(- offset) (+ offset)]]
                                             (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
                                                 (c3po/translate [p 0 -0.1]))))))
-        plate-params            {:thickness     11,
-                                 :rail-diameter 8,
-                                 :rail-depth    18.25,
-                                 :rail-distance 38}]
+        plate-params            {:thickness                   11,
+                                 :rail-diameter               8,
+                                 :rail-depth                  18.25,
+                                 :rail-distance               38,
+                                 :width                       width,
+                                 :extrusion-vertical-distance extrusion-vertical-distance}]
     (c3po/union
       (c3po/difference
         (c3po/union plate back-boss)
