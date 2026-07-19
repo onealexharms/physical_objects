@@ -24,12 +24,6 @@
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
-(defn- plate-rail-holes
-  [{:keys [thickness rail-distance rail-diameter], :as plate}]
-  (for [x [(- (/ rail-distance 2)) (+ (/ rail-distance 2))]]
-    (-> (plate-hole thickness rail-diameter)
-        (c3po/translate [x 0 0]))))
-
 (defn- endstop-bracket
   [{:keys [thickness width]}]
   (-> (apply c3po/difference
@@ -43,7 +37,6 @@
 
 (defn z-top-plate
   [{:keys [depth thickness rail-depth width extrusion-vertical-distance]
-    :as plate
     :or {depth 40}}]
   (let [stepper-bolt-holes (for [x [-31/2 +31/2]
                                  y [-31/2 +31/2]]
@@ -58,23 +51,18 @@
           (endstop-bracket {:thickness thickness, :width width}))
          (-> (apply c3po/union
                     (plate-hole thickness 22)
-                    (concat
-                     (plate-rail-holes plate)
-                     stepper-bolt-holes))
+                    stepper-bolt-holes)
              (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
         (c3po/translate [0 (- (/ depth 2)) (/ extrusion-vertical-distance 2)]))))
 
 (defn z-bottom-plate
-  [{:keys [depth thickness rail-diameter rail-depth width extrusion-vertical-distance]
-    :as plate
+  [{:keys [depth thickness rail-depth width extrusion-vertical-distance]
     :or {depth 32}}]
   (-> (c3po/difference
        (c3po/union
         (c3po/box {:x width, :y depth, :z thickness})
         (endstop-bracket {:thickness thickness, :width width}))
-       (-> (apply c3po/union
-                  (plate-hole thickness 12)
-                  (plate-rail-holes plate))
+       (-> (plate-hole thickness 12)
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) (- (/ extrusion-vertical-distance 2))])))
 
@@ -156,9 +144,7 @@
                                             (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
                                                 (c3po/translate [p 0 -0.1]))))))
         plate-params            {:thickness                   11,
-                                 :rail-diameter               8,
                                  :rail-depth                  18.25,
-                                 :rail-distance               38,
                                  :width                       width,
                                  :extrusion-vertical-distance extrusion-vertical-distance}]
     (c3po/union
