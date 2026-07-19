@@ -73,7 +73,6 @@
         width                       (max width total-carriage-length)
         carriage-offsets            (for [i (range carriages-per-rail)]
                                       (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
-
         plate-thickness             11
         min-height-for-carriages    (+ extrusion-vertical-distance carriage-hole-lengthwise 10)
         back-plate-bottom-z         (- (/ min-height-for-carriages 2))
