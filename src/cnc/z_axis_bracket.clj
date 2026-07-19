@@ -8,9 +8,7 @@
 (def leadscrew-nut-diameter 10.5)
 (def leadscrew-nut-flange-diameter 22)
 (def leadscrew-nut-flange-thickness 4)
-(def leadscrew-nut-length 10)
 (def antibacklash-nut-width 11.2)
-(def antibacklash-nut-depth 25)
 
 ;;FIXME: cylinders should also be center?
 
@@ -128,16 +126,6 @@
                                        (-> m3-shcs-counterbored
                                            (openscad/rotate [-90 0 0])
                                            (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
-        antibacklash-nut-drills     (let [offset (Math/sqrt (- (Math/pow (/ leadscrew-nut-flange-diameter 2) 2)
-                                                               (Math/pow (/ antibacklash-nut-width 2) 2)))
-                                          depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
-                                      (c3po/union
-                                       (-> (c3po/cylinder {:height depth, :diameter 14})
-                                           (c3po/translate [0 0 -0.1]))
-                                       (apply c3po/hull
-                                              (for [p [(- offset) (+ offset)]]
-                                                (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
-                                                    (c3po/translate [p 0 -0.1]))))))
         plate-params                {:thickness  plate-thickness,
                                      :rail-depth 18.25,
                                      :width      width}]
@@ -150,8 +138,7 @@
                  (c3po/translate [0 0 -0.1]))
              (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
                                  :diameter (+ leadscrew-nut-flange-diameter 0.5)})
-                 (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
-             antibacklash-nut-drills)
+                 (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)])))
             (openscad/rotate [0 90 0])
             (c3po/translate [(- (/ width 2))
                              (- thickness ls-offset-from-back)
