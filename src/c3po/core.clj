@@ -21,3 +21,8 @@
 (defn box [{:keys [x y z]}]
   {:type :box
    :size {:x x, :y y, :z z}})
+
+(defn cylinder [{:keys [height diameter]}]
+  {:type     :cylinder
+   :height   height,
+   :diameter diameter})

@@ -32,9 +32,7 @@
 (def thickness 13)
 
 (defn- plate-hole [thickness diameter]
-   (-> {:type :cylinder
-        :height (+ thickness 0.2)
-        :diameter diameter}
+   (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn- plate-rail-holes
@@ -62,9 +60,7 @@
                                  y [-31/2 +31/2]]
                              (-> (c3po/union
                                    (plate-hole thickness 3.5)
-                                   (-> {:type :cylinder
-                                        :height 4,
-                                        :diameter 6}
+                                   (-> (c3po/cylinder {:height 4, :diameter 6})
                                        (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
                                  (c3po/translate [x y 0])))]
     (-> (c3po/difference
@@ -104,12 +100,8 @@
         plate                   (-> (c3po/box {:x width, :y thickness, :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)})
                                     (c3po/translate [0 (/ thickness 2) 0]))
         m3-shcs-counterbored    (c3po/union
-                                 {:type     :cylinder
-                                  :height   (+ thickness 0.2)
-                                  :diameter linear-rail-screw-hole-diameter}
-                                 {:type     :cylinder
-                                  :height   (+ linear-rail-countersink-depth 0.1)
-                                  :diameter linear-rail-countersink-diameter})
+                                 (c3po/cylinder {:height (+ thickness 0.2), :diameter linear-rail-screw-hole-diameter})
+                                 (c3po/cylinder {:height (+ linear-rail-countersink-depth 0.1), :diameter linear-rail-countersink-diameter}))
         chamfer                 2
         wall-thickness          2.5
         carriage-offset         (- (/ extrusion-vertical-distance 2)
@@ -157,15 +149,11 @@
                                                            (Math/pow (/ antibacklash-nut-width 2) 2)))
                                       depth  (- width (* 2 leadscrew-nut-flange-thickness) (/ leadscrew-nut-length 2))]
                                   (c3po/union
-                                   (-> {:type :cylinder
-                                        :height depth
-                                        :diameter 14}
+                                   (-> (c3po/cylinder {:height depth, :diameter 14})
                                        (c3po/translate [0 0 -0.1]))
                                    {:type     :hull
                                     :children (for [p [(- offset) (+ offset)]]
-                                                (-> {:type     :cylinder
-                                                     :height   antibacklash-nut-depth
-                                                     :diameter 11.7}
+                                                (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
                                                     (c3po/translate [p 0 -0.1])))}))
         plate-params            {:thickness     11,
                                  :rail-diameter 8,
@@ -176,13 +164,10 @@
         (c3po/union plate back-boss)
         linear-rail-screw-holes
         (-> (c3po/union
-             (-> {:type :cylinder
-                  :height (+ width 0.2)
-                  :diameter (+ leadscrew-nut-diameter 0.5)}
+             (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
                  (c3po/translate [0 0 -0.1]))
-             (-> {:type :cylinder
-                  :height (+ leadscrew-nut-flange-thickness 0.1)
-                  :diameter (+ leadscrew-nut-flange-diameter 0.5)}
+             (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
+                                 :diameter (+ leadscrew-nut-flange-diameter 0.5)})
                  (c3po/translate [0 0 (+ (- width leadscrew-nut-flange-thickness) 0.1)]))
              antibacklash-nut-drills)
             (openscad/rotate [0 90 0])
