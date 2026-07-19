@@ -9,7 +9,6 @@
 (def extrusion-size 20);
 (def extrusion-vertical-distance 75)
 
-(def linear-rail-carriage-width 27)
 (def linear-rail-screw-distance 20)
 (def linear-rail-screw-hole-diameter 3.5)
 (def linear-rail-countersink-diameter (+ 6.5 0.5))
@@ -109,7 +108,10 @@
 (defn z-axis-bracket
   [{:keys [::rail-type]
     :or {::rail-type ::lr/mgn12h}}]
-  (let [{{carriage-height ::lr/height} ::lr/carriage} (lr/lookup rail-type)
+  (let [rail-type               (lr/lookup rail-type)
+        {{carriage-height ::lr/height
+          carriage-width  ::lr/width} ::lr/carriage} (lr/lookup rail-type)
+
         plate                   (-> {:type :box
                                      :size {:x width,
                                             :y thickness,
@@ -125,7 +127,7 @@
         chamfer                 2
         wall-thickness          2.5
         carriage-offset         (- (/ extrusion-vertical-distance 2)
-                                   (/ linear-rail-carriage-width 2)
+                                   (/ carriage-width 2)
                                    0.5)
         ls-offset-from-back     (- leadscrew-distance-from-extrusion-centerline
                                    (/ extrusion-size 2)
