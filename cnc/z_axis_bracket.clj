@@ -46,14 +46,8 @@
 (defn- endstop-bracket
   [{:keys [thickness]}]
   (-> (apply c3po/difference
-             {:type :box
-              :size {:x 13
-                     :y 28
-                     :z thickness}}
-             (-> {:type :box
-                  :size {:x 8.1
-                         :y 12.5
-                         :z (+ thickness 0.2)}}
+             (c3po/box {:x 13, :y 28, :z thickness})
+             (-> (c3po/box {:x 8.1, :y 12.5, :z (+ thickness 0.2)})
                  (c3po/translate [(/ (- 13 8) 2) 0 0]))
              (for [y [-9.75 +9.75]]
                (-> (plate-hole thickness 2.5)
@@ -75,10 +69,7 @@
                                  (c3po/translate [x y 0])))]
     (-> (c3po/difference
          (c3po/union
-          {:type :box
-           :size {:x width,
-                  :y depth,
-                  :z thickness}}
+          (c3po/box {:x width, :y depth, :z thickness})
           (endstop-bracket {:thickness thickness}))
          (-> (apply c3po/union
                     (plate-hole thickness 22)
@@ -94,10 +85,7 @@
     :or {depth 32}}]
   (-> (c3po/difference
        (c3po/union
-        {:type :box
-         :size {:x width,
-                :y depth,
-                :z thickness}}
+        (c3po/box {:x width, :y depth, :z thickness})
         (endstop-bracket {:thickness thickness}))
        (-> (apply c3po/union
                   (plate-hole thickness 12)
@@ -113,10 +101,7 @@
          :as rail-type}
         (lr/lookup rail-type)
 
-        plate                   (-> {:type :box
-                                     :size {:x width,
-                                            :y thickness,
-                                            :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)}}
+        plate                   (-> (c3po/box {:x width, :y thickness, :z (+ extrusion-vertical-distance linear-rail-screw-distance 10)})
                                     (c3po/translate [0 (/ thickness 2) 0]))
         m3-shcs-counterbored    (c3po/union
                                  {:type     :cylinder
