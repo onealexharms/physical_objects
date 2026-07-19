@@ -5,16 +5,7 @@
    [c3po.openscad :as openscad]
    [c3po.screw :as screw]))
 
-(def leadscrew-nut-diameter 10.5)
-(def leadscrew-nut-flange-diameter 22)
-(def leadscrew-nut-flange-thickness 4)
 (def antibacklash-nut-width 11.2)
-
-;;FIXME: cylinders should also be center?
-
-;; 1mm (ruler=1mm) + 0.198in (gauge blocks=4.8mm) + 7.94/2 (half leadscrew=3.97mm) +))
-;; 10mm (half extrusion) +c3po/ 8mm (rail thickness) = 27.9992
-(def leadscrew-distance-from-extrusion-centerline 28)
 
 (defn- plate-hole [thickness diameter]
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
@@ -55,6 +46,7 @@
            leadscrew-height
            carriages-per-rail
            z-rail-length
+           ::leadscrew-nut
            ::x-rail-type]
     :or {width                       60
          thickness                   13
@@ -62,9 +54,20 @@
          extrusion-vertical-distance 75
          leadscrew-height            (- 75/2 39.47)
          carriages-per-rail          1
-         z-rail-length                 0
-         x-rail-type                   ::lr/mgn12h}}]
-  (let [{{carriage-height ::lr/height
+         z-rail-length               0
+         leadscrew-nut               {}
+         x-rail-type                 ::lr/mgn12h}}]
+  (let [{leadscrew-nut-diameter                       :diameter
+         leadscrew-nut-flange-diameter                :flange-diameter
+         leadscrew-nut-flange-thickness               :flange-thickness
+         leadscrew-distance-from-extrusion-centerline :distance-from-extrusion-centerline
+         :or {leadscrew-nut-diameter                       10.5
+              leadscrew-nut-flange-diameter                22
+              leadscrew-nut-flange-thickness               4
+              leadscrew-distance-from-extrusion-centerline 28}}
+        leadscrew-nut
+
+        {{carriage-height ::lr/height
           carriage-width  ::lr/width
           carriage-length ::lr/length
           {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing
