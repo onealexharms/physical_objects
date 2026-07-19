@@ -150,10 +150,10 @@
                                   (c3po/union
                                    (-> (c3po/cylinder {:height depth, :diameter 14})
                                        (c3po/translate [0 0 -0.1]))
-                                   {:type     :hull
-                                    :children (for [p [(- offset) (+ offset)]]
-                                                (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
-                                                    (c3po/translate [p 0 -0.1])))}))
+                                   (apply c3po/hull
+                                          (for [p [(- offset) (+ offset)]]
+                                            (-> (c3po/cylinder {:height   antibacklash-nut-depth, :diameter 11.7})
+                                                (c3po/translate [p 0 -0.1]))))))
         plate-params            {:thickness     11,
                                  :rail-diameter 8,
                                  :rail-depth    18.25,

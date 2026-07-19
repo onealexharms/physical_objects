@@ -18,6 +18,10 @@
   {:type :union
    :children children})
 
+(defn hull [& children]
+  {:type :hull
+   :children children})
+
 (defn box [{:keys [x y z]}]
   {:type :box
    :size {:x x, :y y, :z z}})
