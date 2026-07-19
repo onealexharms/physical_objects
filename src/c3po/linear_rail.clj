@@ -22,3 +22,15 @@
    (get standard-rails rail-type) (get standard-rails rail-type)
    (map? rail-type)               rail-type
    :else                          (throw (ex-info "No rail type with key" {:key rail-type}))))
+
+(defn carriage-hole-pattern
+  [rail-type]
+  (let [{{{lengthwise ::lengthwise
+           widthwise  ::widthwise} ::spacing} ::mounting-holes}
+        (::carriage (lookup rail-type))
+        w (/ widthwise 2)
+        l (/ lengthwise 2)]
+    [[(- w) (- l)]
+     [(+ w) (- l)]
+     [(+ w) (+ l)]
+     [(- w) (+ l)]]))
