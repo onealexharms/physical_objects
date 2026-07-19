@@ -30,3 +30,8 @@
 (defn polygon [points]
   {:type   :polygon
    :points points})
+
+(defn linear-extrude [child {:keys [height]}]
+  {:type   :linear-extrude
+   :height height
+   :child  child})

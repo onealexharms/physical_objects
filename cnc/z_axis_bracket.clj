@@ -110,29 +110,28 @@
         ls-offset-from-back     (- leadscrew-distance-from-extrusion-centerline
                                    (/ extrusion-size 2)
                                    carriage-height)
-        back-boss               (-> {:type   :linear-extrude
-                                     :height width
-                                     :child  (c3po/polygon
-                                              [[carriage-offset 0]
-                                               [carriage-offset
-                                                (+ (/ antibacklash-nut-width 2)
-                                                   wall-thickness
-                                                   (- chamfer)
-                                                   5)]
-                                               [(- carriage-offset chamfer)
-                                                (+ (/ antibacklash-nut-width 2)
-                                                   wall-thickness
-                                                   5)]
-                                               [(+ (- carriage-offset) chamfer)
-                                                (+ (/ antibacklash-nut-width 2)
-                                                   wall-thickness
-                                                   5)]
-                                               [(- carriage-offset)
-                                                (+ (/ antibacklash-nut-width 2)
-                                                   wall-thickness
-                                                   (- chamfer)
-                                                   5)]
-                                               [(- carriage-offset) 0]])}
+        back-boss               (-> (c3po/polygon
+                                     [[carriage-offset 0]
+                                      [carriage-offset
+                                       (+ (/ antibacklash-nut-width 2)
+                                          wall-thickness
+                                          (- chamfer)
+                                          5)]
+                                      [(- carriage-offset chamfer)
+                                       (+ (/ antibacklash-nut-width 2)
+                                          wall-thickness
+                                          5)]
+                                      [(+ (- carriage-offset) chamfer)
+                                       (+ (/ antibacklash-nut-width 2)
+                                          wall-thickness
+                                          5)]
+                                      [(- carriage-offset)
+                                       (+ (/ antibacklash-nut-width 2)
+                                          wall-thickness
+                                          (- chamfer)
+                                          5)]
+                                      [(- carriage-offset) 0]])
+                                    (c3po/linear-extrude {:height width})
                                     (openscad/rotate [0 90 0])
                                     (c3po/translate [(- (/ width 2))
                                                      (- thickness ls-offset-from-back)
