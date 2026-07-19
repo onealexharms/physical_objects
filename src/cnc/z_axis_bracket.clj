@@ -5,8 +5,6 @@
    [c3po.openscad :as openscad]
    [c3po.screw :as screw]))
 
-(def antibacklash-nut-width 11.2)
-
 (defn- plate-hole [thickness diameter]
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
@@ -101,32 +99,6 @@
         ls-offset-from-back         (- leadscrew-distance-from-extrusion-centerline
                                        (/ extrusion-size 2)
                                        carriage-height)
-        back-boss                   (-> (c3po/polygon
-                                         [[carriage-offset 0]
-                                          [carriage-offset
-                                           (+ (/ antibacklash-nut-width 2)
-                                              wall-thickness
-                                              (- chamfer)
-                                              5)]
-                                          [(- carriage-offset chamfer)
-                                           (+ (/ antibacklash-nut-width 2)
-                                              wall-thickness
-                                              5)]
-                                          [(+ (- carriage-offset) chamfer)
-                                           (+ (/ antibacklash-nut-width 2)
-                                              wall-thickness
-                                              5)]
-                                          [(- carriage-offset)
-                                           (+ (/ antibacklash-nut-width 2)
-                                              wall-thickness
-                                              (- chamfer)
-                                              5)]
-                                          [(- carriage-offset) 0]])
-                                        (c3po/linear-extrude {:height width})
-                                        (openscad/rotate [0 90 0])
-                                        (c3po/translate [(- (/ width 2))
-                                                         (- thickness ls-offset-from-back)
-                                                         0]))
         x-carriage-mounting-holes   (apply
                                      c3po/union
                                      (for [z       [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
@@ -140,7 +112,7 @@
                                      :width      width}]
     (c3po/union
       (c3po/difference
-        (c3po/union plate back-boss)
+        plate
         x-carriage-mounting-holes
         (-> (apply c3po/union
                    (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
