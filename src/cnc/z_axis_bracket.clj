@@ -66,7 +66,7 @@
            extrusion-vertical-distance
            ::carriages-per-rail
            ::min-front-thickness
-           leadscrew-height
+           ::leadscrew-height
            ::leadscrew-nut
            ::x-rail-type]}]
   (let [{leadscrew-nut-diameter                       :diameter
@@ -106,7 +106,7 @@
      :extrusion-vertical-distance                  extrusion-vertical-distance
      ::carriages-per-rail                          carriages-per-rail
      ::min-front-thickness                         min-front-thickness
-     :leadscrew-height                             leadscrew-height
+     ::leadscrew-height                            leadscrew-height
      ::leadscrew-nut                               leadscrew-nut
      ::x-rail-type                                 x-rail-type
      :leadscrew-nut-diameter                       leadscrew-nut-diameter
@@ -128,13 +128,21 @@
 
 (defn z-back-plate-model
   [params]
-  (let [{:keys [width thickness bracket-height z-position
+  (let [{:keys [width
+                thickness
+                bracket-height
+                z-position
                 extrusion-vertical-distance
-                leadscrew-nut-diameter leadscrew-nut-flange-diameter
+                leadscrew-nut-diameter
+                leadscrew-nut-flange-diameter
                 leadscrew-nut-flange-thickness
-                carriage-width mounting-screw
-                total-carriage-length carriage-offsets
-                carriage-forward-shift leadscrew-y leadscrew-height]
+                carriage-width
+                mounting-screw
+                total-carriage-length
+                carriage-offsets
+                carriage-forward-shift
+                leadscrew-y
+                ::leadscrew-height]
          x-rail-type ::x-rail-type}
         (z-back-plate params)
         plate                     (-> (c3po/box {:x width, :y thickness, :z bracket-height})
@@ -177,7 +185,7 @@
            thickness
            extrusion-size
            extrusion-vertical-distance
-           leadscrew-height
+           ::leadscrew-height
            ::carriages-per-rail
            ::z-rail-length
            ::min-front-thickness
@@ -218,7 +226,7 @@
      :thickness                   thickness
      :extrusion-size              extrusion-size
      :extrusion-vertical-distance extrusion-vertical-distance
-     :leadscrew-height            leadscrew-height
+     ::leadscrew-height           leadscrew-height
      ::carriages-per-rail         carriages-per-rail
      ::z-rail-length              z-rail-length
      ::min-front-thickness        min-front-thickness
@@ -244,7 +252,7 @@
                                    :extrusion-vertical-distance extrusion-vertical-distance
                                    ::carriages-per-rail         carriages-per-rail
                                    ::min-front-thickness        min-front-thickness
-                                   :leadscrew-height            leadscrew-height
+                                   ::leadscrew-height           leadscrew-height
                                    ::leadscrew-nut              leadscrew-nut
                                    ::x-rail-type                x-rail-type}
      ::top-plate-params           (assoc base-plate-params
