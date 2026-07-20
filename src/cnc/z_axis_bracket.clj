@@ -11,11 +11,11 @@
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn z-top-plate
-  [{:keys [depth thickness rail-depth ::width ::z-position ::stepper]
+  [{:keys [depth ::thickness rail-depth ::width ::z-position ::stepper]
     :or {depth   40
          stepper stepper/nema17}}]
   {:depth                  depth
-   :thickness              thickness
+   ::thickness             thickness
    :rail-depth             rail-depth
    ::width                 width
    ::z-position            z-position
@@ -25,7 +25,7 @@
 (defn z-top-plate-model
   [params]
   (let [{:keys [depth
-                thickness
+                ::thickness
                 rail-depth
                 ::width
                 ::z-position
@@ -46,20 +46,20 @@
 
 (defn z-bottom-plate
   [{:keys [depth
-           thickness
+           ::thickness
            rail-depth
            ::width
            ::z-position]
     :or {depth 32}}]
   {:depth       depth
-   :thickness   thickness
+   ::thickness  thickness
    :rail-depth  rail-depth
    ::width      width
    ::z-position z-position})
 
 (defn z-bottom-plate-model
   [params]
-  (let [{:keys [depth thickness rail-depth ::width ::z-position]} (z-bottom-plate params)]
+  (let [{:keys [depth ::thickness rail-depth ::width ::z-position]} (z-bottom-plate params)]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
          (-> (plate-hole thickness 12)
@@ -68,7 +68,7 @@
 
 (defn z-back-plate
   [{:keys [::width
-           thickness
+           ::thickness
            ::bracket-height
            ::z-position
            ::extrusion-size
@@ -108,7 +108,7 @@
                                          leadscrew-max-forward-shift)
         leadscrew-y                 (- thickness ls-offset-from-back carriage-forward-shift)]
     {::width                                       width
-     :thickness                                    thickness
+     ::thickness                                   thickness
      ::bracket-height                              bracket-height
      ::z-position                                  z-position
      ::extrusion-size                              extrusion-size
@@ -124,8 +124,7 @@
      :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
      ::carriage-width                              carriage-width
      :mounting-screw                               mounting-screw
-     :carriage-spacing                             carriage-spacing
-     :total-carriage-length                        total-carriage-length
+     ::total-carriage-length                       total-carriage-length
      :carriage-offsets                             carriage-offsets
      :ls-offset-from-back                          ls-offset-from-back
      :leadscrew-shaft-radius                       leadscrew-shaft-radius
@@ -136,7 +135,7 @@
 (defn z-back-plate-model
   [params]
   (let [{:keys [::width
-                thickness
+                ::thickness
                 ::bracket-height
                 ::z-position
                 ::extrusion-vertical-distance
@@ -145,7 +144,7 @@
                 leadscrew-nut-flange-thickness
                 ::carriage-width
                 mounting-screw
-                total-carriage-length
+                ::total-carriage-length
                 carriage-offsets
                 carriage-forward-shift
                 leadscrew-y
@@ -189,7 +188,7 @@
 
 (defn z-axis-bracket
   [{:keys [::width
-           thickness
+           ::thickness
            ::extrusion-size
            ::extrusion-vertical-distance
            ::leadscrew-height
@@ -226,11 +225,11 @@
         bracket-height               (max min-height-for-carriages min-height-for-z-rail-length)
         back-plate-top-z             (+ back-plate-bottom-z bracket-height)
         top-plate-z                  (- back-plate-top-z (/ plate-thickness 2))
-        base-plate-params            {:thickness  plate-thickness
+        base-plate-params            {::thickness plate-thickness
                                       :rail-depth 18.25
                                       ::width     width}]
     {::width                       width
-     :thickness                    thickness
+     ::thickness                   thickness
      ::extrusion-size              extrusion-size
      ::extrusion-vertical-distance extrusion-vertical-distance
      ::leadscrew-height            leadscrew-height
@@ -242,17 +241,12 @@
      ::x-rail-type                 x-rail-type
      ::carriage-width              carriage-width
      ::carriage-length             carriage-length
-     :carriage-spacing             carriage-spacing
      :total-carriage-length        total-carriage-length
      :plate-thickness              plate-thickness
-     :min-height-for-carriages     min-height-for-carriages
-     :back-plate-bottom-z          back-plate-bottom-z
-     :bottom-plate-z               bottom-plate-z
-     :back-plate-top-z             back-plate-top-z
      ::top-plate-z                 top-plate-z
      ::bracket-height              bracket-height
      ::back-plate-params           {::width                       width
-                                    :thickness                    thickness
+                                    ::thickness                   thickness
                                     ::bracket-height              bracket-height
                                     ::z-position                  back-plate-bottom-z
                                     ::extrusion-size              extrusion-size
