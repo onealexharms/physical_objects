@@ -11,14 +11,14 @@
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn z-top-plate
-  [{:keys [depth thickness rail-depth ::width z-position ::stepper]
+  [{:keys [depth thickness rail-depth ::width ::z-position ::stepper]
     :or {depth   40
          stepper stepper/nema17}}]
   {:depth                  depth
    :thickness              thickness
    :rail-depth             rail-depth
    ::width                 width
-   :z-position             z-position
+   ::z-position            z-position
    ::stepper               stepper
    :stepper-bolt-positions (stepper/hole-pattern stepper)})
 
@@ -28,7 +28,7 @@
                 thickness
                 rail-depth
                 ::width
-                z-position
+                ::z-position
                 stepper-bolt-positions]} (z-top-plate params)
         stepper-bolt-holes (for [[bx by] stepper-bolt-positions]
                              (-> (c3po/union
@@ -49,17 +49,17 @@
            thickness
            rail-depth
            ::width
-           z-position]
+           ::z-position]
     :or {depth 32}}]
-  {:depth      depth
-   :thickness  thickness
-   :rail-depth rail-depth
+  {:depth       depth
+   :thickness   thickness
+   :rail-depth  rail-depth
    ::width      width
-   :z-position z-position})
+   ::z-position z-position})
 
 (defn z-bottom-plate-model
   [params]
-  (let [{:keys [depth thickness rail-depth ::width z-position]} (z-bottom-plate params)]
+  (let [{:keys [depth thickness rail-depth ::width ::z-position]} (z-bottom-plate params)]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
          (-> (plate-hole thickness 12)
@@ -70,7 +70,7 @@
   [{:keys [::width
            thickness
            ::bracket-height
-           z-position
+           ::z-position
            ::extrusion-size
            ::extrusion-vertical-distance
            ::carriages-per-rail
@@ -110,7 +110,7 @@
     {::width                                       width
      :thickness                                    thickness
      ::bracket-height                              bracket-height
-     :z-position                                   z-position
+     ::z-position                                  z-position
      ::extrusion-size                              extrusion-size
      ::extrusion-vertical-distance                 extrusion-vertical-distance
      ::carriages-per-rail                          carriages-per-rail
@@ -140,7 +140,7 @@
   (let [{:keys [::width
                 thickness
                 ::bracket-height
-                z-position
+                ::z-position
                 ::extrusion-vertical-distance
                 leadscrew-nut-diameter
                 leadscrew-nut-flange-diameter
@@ -256,7 +256,7 @@
      ::back-plate-params           {::width                       width
                                     :thickness                    thickness
                                     ::bracket-height              bracket-height
-                                    :z-position                   back-plate-bottom-z
+                                    ::z-position                  back-plate-bottom-z
                                     ::extrusion-size              extrusion-size
                                     ::extrusion-vertical-distance extrusion-vertical-distance
                                     ::carriages-per-rail          carriages-per-rail
@@ -265,9 +265,9 @@
                                     ::leadscrew-nut               leadscrew-nut
                                     ::x-rail-type                 x-rail-type}
      ::top-plate-params            (assoc base-plate-params
-                                          :z-position top-plate-z
-                                          ::stepper   stepper)
-     ::bottom-plate-params         (assoc base-plate-params :z-position bottom-plate-z)}))
+                                          ::z-position top-plate-z
+                                          ::stepper    stepper)
+     ::bottom-plate-params         (assoc base-plate-params ::z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
   [params]
