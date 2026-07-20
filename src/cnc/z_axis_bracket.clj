@@ -11,10 +11,10 @@
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn z-top-plate
-  [{:keys [depth ::thickness ::rail-depth ::width ::z-position ::stepper]
+  [{:keys [::depth ::thickness ::rail-depth ::width ::z-position ::stepper]
     :or {depth   40
          stepper stepper/nema17}}]
-  {:depth                  depth
+  {::depth                 depth
    ::thickness             thickness
    ::rail-depth            rail-depth
    ::width                 width
@@ -24,7 +24,7 @@
 
 (defn z-top-plate-model
   [params]
-  (let [{:keys [depth
+  (let [{:keys [::depth
                 ::thickness
                 ::rail-depth
                 ::width
@@ -45,13 +45,13 @@
         (c3po/translate [0 (- (/ depth 2)) z-position]))))
 
 (defn z-bottom-plate
-  [{:keys [depth
+  [{:keys [:depth
            ::thickness
            ::rail-depth
            ::width
            ::z-position]
     :or {depth 32}}]
-  {:depth       depth
+  {::depth      depth
    ::thickness  thickness
    ::rail-depth rail-depth
    ::width      width
@@ -59,7 +59,7 @@
 
 (defn z-bottom-plate-model
   [params]
-  (let [{:keys [depth ::thickness ::rail-depth ::width ::z-position]} (z-bottom-plate params)]
+  (let [{:keys [::depth ::thickness ::rail-depth ::width ::z-position]} (z-bottom-plate params)]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
          (-> (plate-hole thickness 12)
