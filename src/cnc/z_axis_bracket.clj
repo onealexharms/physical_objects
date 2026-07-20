@@ -3,31 +3,34 @@
    [c3po.core :as c3po]
    [c3po.linear-rail :as lr]
    [c3po.openscad :as openscad]
-   [c3po.screw :as screw]))
+   [c3po.screw :as screw]
+   [c3po.stepper :as stepper]))
 
 (defn- plate-hole [thickness diameter]
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn z-top-plate
-  [{:keys [depth thickness rail-depth width z-position]
-    :or {depth 40}}]
-  {:depth      depth
-   :thickness  thickness
-   :rail-depth rail-depth
-   :width      width
-   :z-position z-position})
+  [{:keys [depth thickness rail-depth width z-position ::stepper]
+    :or {depth   40
+         stepper ::stepper/nema17}}]
+  {:depth                  depth
+   :thickness              thickness
+   :rail-depth             rail-depth
+   :width                  width
+   :z-position             z-position
+   ::stepper               stepper
+   :stepper-bolt-positions (stepper/hole-pattern stepper)})
 
 (defn z-top-plate-model
   [params]
-  (let [{:keys [depth thickness rail-depth width z-position]} (z-top-plate params)
-        stepper-bolt-holes (for [x [-31/2 +31/2]
-                                 y [-31/2 +31/2]]
+  (let [{:keys [depth thickness rail-depth width z-position stepper-bolt-positions]} (z-top-plate params)
+        stepper-bolt-holes (for [[bx by] stepper-bolt-positions]
                              (-> (c3po/union
                                    (plate-hole thickness 3.5)
                                    (-> (c3po/cylinder {:height 4, :diameter 6})
                                        (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
-                                 (c3po/translate [x y 0])))]
+                                 (c3po/translate [bx by 0])))]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
          (-> (apply c3po/union
@@ -180,6 +183,7 @@
            z-rail-length
            min-front-thickness
            ::leadscrew-nut
+           ::stepper
            ::x-rail-type]
     :or {width                       60
          thickness                   24
@@ -190,6 +194,7 @@
          z-rail-length               0
          min-front-thickness         10
          leadscrew-nut               {}
+         stepper                     ::stepper/nema17
          x-rail-type                 ::lr/mgn12h}}]
   (let [{{carriage-width  ::lr/width
           carriage-length ::lr/length} ::lr/carriage}
@@ -219,6 +224,7 @@
      :z-rail-length               z-rail-length
      :min-front-thickness         min-front-thickness
      ::leadscrew-nut              leadscrew-nut
+     ::stepper                    stepper
      ::x-rail-type                x-rail-type
      :carriage-width              carriage-width
      :carriage-length             carriage-length
@@ -242,7 +248,9 @@
                                    :leadscrew-height            leadscrew-height
                                    ::leadscrew-nut              leadscrew-nut
                                    ::x-rail-type                x-rail-type}
-     :top-plate-params            (assoc base-plate-params :z-position top-plate-z)
+     :top-plate-params            (assoc base-plate-params
+                                         :z-position top-plate-z
+                                         ::stepper   stepper)
      :bottom-plate-params         (assoc base-plate-params :z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
@@ -259,5 +267,6 @@
         (openscad/source
          (z-axis-bracket-model
           {::x-rail-type       ::lr/mgn12h
+           ::stepper           ::stepper/nema17
            :carriages-per-rail 2
            :z-rail-length      140}))))
