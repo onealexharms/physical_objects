@@ -228,23 +228,7 @@
         base-plate-params            {::thickness  plate-thickness
                                       ::rail-depth 18.25
                                       ::width      width}]
-    {::width                       width
-     ::thickness                   thickness
-     ::extrusion-size              extrusion-size
-     ::extrusion-vertical-distance extrusion-vertical-distance
-     ::leadscrew-height            leadscrew-height
-     ::carriages-per-rail          carriages-per-rail
-     ::z-rail-length               z-rail-length
-     ::min-front-thickness         min-front-thickness
-     ::leadscrew-nut               leadscrew-nut
-     ::stepper                     stepper
-     ::x-rail-type                 x-rail-type
-     ::carriage-width              carriage-width
-     ::carriage-length             carriage-length
-     ::total-carriage-length       total-carriage-length
-     ::top-plate-z                 top-plate-z
-     ::bracket-height              bracket-height
-     ::back-plate-params           {::width                       width
+    {::back-plate-params           {::width                       width
                                     ::thickness                   thickness
                                     ::bracket-height              bracket-height
                                     ::z-position                  back-plate-bottom-z
