@@ -228,30 +228,30 @@
         base-plate-params            {::thickness       plate-thickness
                                       ::leadscrew-depth 18.25
                                       ::width           width}]
-    {::back-plate-params           {::width                       width
-                                    ::thickness                   thickness
-                                    ::bracket-height              bracket-height
-                                    ::z-position                  back-plate-bottom-z
-                                    ::extrusion-size              extrusion-size
-                                    ::extrusion-vertical-distance extrusion-vertical-distance
-                                    ::carriages-per-rail          carriages-per-rail
-                                    ::min-front-thickness         min-front-thickness
-                                    ::leadscrew-height            leadscrew-height
-                                    ::leadscrew-nut               leadscrew-nut
-                                    ::x-rail-type                 x-rail-type}
-     ::top-plate-params            (assoc base-plate-params
-                                          ::z-position top-plate-z
-                                          ::stepper    stepper)
-     ::bottom-plate-params         (assoc base-plate-params ::z-position bottom-plate-z)}))
+    {::back-plate                    {::width                       width
+                                      ::thickness                   thickness
+                                      ::bracket-height              bracket-height
+                                      ::z-position                  back-plate-bottom-z
+                                      ::extrusion-size              extrusion-size
+                                      ::extrusion-vertical-distance extrusion-vertical-distance
+                                      ::carriages-per-rail          carriages-per-rail
+                                      ::min-front-thickness         min-front-thickness
+                                      ::leadscrew-height            leadscrew-height
+                                      ::leadscrew-nut               leadscrew-nut
+                                      ::x-rail-type                 x-rail-type}
+     ::top-plate                     (assoc base-plate-params
+                                            ::z-position top-plate-z
+                                            ::stepper    stepper)
+     ::bottom-plate                  (assoc base-plate-params ::z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
   [params]
-  (let [{:keys [::back-plate-params ::top-plate-params ::bottom-plate-params]}
+  (let [{:keys [::back-plate ::top-plate ::bottom-plate]}
         (z-axis-bracket params)]
     (c3po/union
-      (z-back-plate-model back-plate-params)
-      (z-top-plate-model top-plate-params)
-      (z-bottom-plate-model bottom-plate-params))))
+      (z-back-plate-model back-plate)
+      (z-top-plate-model top-plate)
+      (z-bottom-plate-model bottom-plate))))
 
 (defn -main [& _args]
   (spit "cnc/z_axis_bracket.scad"
