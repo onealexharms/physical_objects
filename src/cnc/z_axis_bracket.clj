@@ -242,7 +242,6 @@
      ::carriage-width              carriage-width
      ::carriage-length             carriage-length
      :total-carriage-length        total-carriage-length
-     :plate-thickness              plate-thickness
      ::top-plate-z                 top-plate-z
      ::bracket-height              bracket-height
      ::back-plate-params           {::width                       width
