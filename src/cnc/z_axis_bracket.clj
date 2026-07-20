@@ -13,7 +13,7 @@
 (defn z-top-plate
   [{:keys [depth thickness rail-depth width z-position ::stepper]
     :or {depth   40
-         stepper ::stepper/nema17}}]
+         stepper stepper/nema17}}]
   {:depth                  depth
    :thickness              thickness
    :rail-depth             rail-depth
@@ -82,9 +82,8 @@
         {{carriage-height ::lr/height
           carriage-width  ::lr/width
           carriage-length ::lr/length
-          {mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage
-         :as x-rail-type}
-        (lr/lookup x-rail-type)
+          {mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage}
+        x-rail-type
 
         carriage-spacing            (+ carriage-length 0.5)
         total-carriage-length       (- (* carriages-per-rail carriage-spacing) 0.5)
@@ -194,11 +193,11 @@
          z-rail-length               0
          min-front-thickness         10
          leadscrew-nut               {}
-         stepper                     ::stepper/nema17
-         x-rail-type                 ::lr/mgn12h}}]
+         stepper                     stepper/nema17
+         x-rail-type                 lr/mgn12h}}]
   (let [{{carriage-width  ::lr/width
           carriage-length ::lr/length} ::lr/carriage}
-        (lr/lookup x-rail-type)
+        x-rail-type
 
         carriage-spacing             (+ carriage-length 0.5)
         total-carriage-length        (- (* carriages-per-rail carriage-spacing) 0.5)
@@ -266,7 +265,7 @@
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
          (z-axis-bracket-model
-          {::x-rail-type       ::lr/mgn12h
-           ::stepper           ::stepper/nema17
+          {::x-rail-type       lr/mgn12h
+           ::stepper           stepper/nema17
            :carriages-per-rail 2
            :z-rail-length      140}))))
