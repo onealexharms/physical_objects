@@ -21,29 +21,19 @@
    ::z-position             z-position
    ::stepper                stepper})
 
-(defn- z-top-plate-stepper-bolt-positions
-  [{:keys [::stepper]}]
-  (stepper/hole-pattern stepper))
-
 (defn z-top-plate-model
   [params]
   (let [{:keys [::depth
                 ::thickness
                 ::leadscrew-depth
                 ::width
-                ::z-position]
-         :as z-top-plate} (z-top-plate params)
-        stepper-bolt-holes (for [[bx by] (z-top-plate-stepper-bolt-positions z-top-plate)]
-                             (-> (c3po/union
-                                   (plate-hole thickness 3.5)
-                                   (-> (c3po/cylinder {:height 4, :diameter 6})
-                                       (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)])))
-                                 (c3po/translate [bx by 0])))]
+                ::z-position
+                ::stepper]} (z-top-plate params)]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
-         (-> (apply c3po/union
-                    (plate-hole thickness 22)
-                    stepper-bolt-holes)
+         (-> (c3po/union
+              (plate-hole thickness 22)
+              (stepper/counterbored-mounting-holes stepper {:thickness thickness}))
              (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
         (c3po/translate [0 (- (/ depth 2)) z-position]))))
 
