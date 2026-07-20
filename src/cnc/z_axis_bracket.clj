@@ -36,27 +36,18 @@
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) z-position])))
 
-(defn z-axis-bracket
+(defn z-back-plate
   [{:keys [width
            thickness
+           bracket-height
+           z-position
            extrusion-size
            extrusion-vertical-distance
-           leadscrew-height
            carriages-per-rail
-           z-rail-length
            min-front-thickness
+           leadscrew-height
            ::leadscrew-nut
-           ::x-rail-type]
-    :or {width                       60
-         thickness                   24
-         extrusion-size              20
-         extrusion-vertical-distance 75
-         leadscrew-height            (- 75/2 39.47)
-         carriages-per-rail          1
-         z-rail-length               0
-         min-front-thickness         10
-         leadscrew-nut               {}
-         x-rail-type                 ::lr/mgn12h}}]
+           ::x-rail-type]}]
   (let [{leadscrew-nut-diameter                       :diameter
          leadscrew-nut-flange-diameter                :flange-diameter
          leadscrew-nut-flange-thickness               :flange-thickness
@@ -70,27 +61,16 @@
         {{carriage-height ::lr/height
           carriage-width  ::lr/width
           carriage-length ::lr/length
-          {{carriage-hole-lengthwise ::lr/lengthwise} ::lr/spacing
-           mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage,
+          {mounting-screw ::lr/screw} ::lr/mounting-holes} ::lr/carriage,
          :as x-rail-type}
         (lr/lookup x-rail-type)
 
         carriage-spacing            (+ carriage-length 0.5)
         total-carriage-length       (- (* carriages-per-rail carriage-spacing) 0.5)
-        width                       (max width total-carriage-length)
         carriage-offsets            (for [i (range carriages-per-rail)]
                                       (* (- i (/ (dec carriages-per-rail) 2)) carriage-spacing))
-        plate-thickness             11
-        min-height-for-carriages    (+ extrusion-vertical-distance carriage-width)
-        back-plate-bottom-z         (- (/ min-height-for-carriages 2))
-        bottom-plate-z              (- (/ extrusion-vertical-distance 2))
-        bottom-plate-top-surface-z  (+ bottom-plate-z (/ plate-thickness 2))
-        min-height-for-z-rail-length  (+ (- bottom-plate-top-surface-z back-plate-bottom-z) z-rail-length plate-thickness)
-        bracket-height              (max min-height-for-carriages min-height-for-z-rail-length)
-        back-plate-top-z            (+ back-plate-bottom-z bracket-height)
-        top-plate-z                 (- back-plate-top-z (/ plate-thickness 2))
         plate                       (-> (c3po/box {:x width, :y thickness, :z bracket-height})
-                                        (c3po/translate [0 (/ thickness 2) (+ back-plate-bottom-z (/ bracket-height 2))]))
+                                        (c3po/translate [0 (/ thickness 2) (+ z-position (/ bracket-height 2))]))
         m3-shcs-counterbored        (screw/counterbored mounting-screw {:thickness thickness})
         ls-offset-from-back         (- leadscrew-distance-from-extrusion-centerline
                                        (/ extrusion-size 2)
@@ -116,26 +96,76 @@
                                                             :z (+ carriage-width 1)})
                                                  (c3po/translate [0
                                                                   (+ (- thickness (/ carriage-forward-shift 2)) 0.05)
-                                                                  z-pos]))))
-        plate-params                {:thickness  plate-thickness,
-                                     :rail-depth 18.25,
-                                     :width      width}]
+                                                                  z-pos]))))]
+    (c3po/difference
+     plate
+     x-carriage-mounting-holes
+     carriage-cutouts
+     (-> (apply c3po/union
+                (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
+                    (c3po/translate [0 0 -0.1]))
+                (for [z [-0.1 (+ (- width leadscrew-nut-flange-thickness) 0.1)]]
+                  (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
+                                      :diameter (+ leadscrew-nut-flange-diameter 0.5)})
+                      (c3po/translate [0 0 z]))))
+         (openscad/rotate [0 90 0])
+         (c3po/translate [(- (/ width 2))
+                          leadscrew-y
+                          leadscrew-height])))))
+
+(defn z-axis-bracket
+  [{:keys [width
+           thickness
+           extrusion-size
+           extrusion-vertical-distance
+           leadscrew-height
+           carriages-per-rail
+           z-rail-length
+           min-front-thickness
+           ::leadscrew-nut
+           ::x-rail-type]
+    :or {width                       60
+         thickness                   24
+         extrusion-size              20
+         extrusion-vertical-distance 75
+         leadscrew-height            (- 75/2 39.47)
+         carriages-per-rail          1
+         z-rail-length               0
+         min-front-thickness         10
+         leadscrew-nut               {}
+         x-rail-type                 ::lr/mgn12h}}]
+  (let [{{carriage-width  ::lr/width
+          carriage-length ::lr/length} ::lr/carriage}
+        (lr/lookup x-rail-type)
+
+        carriage-spacing             (+ carriage-length 0.5)
+        total-carriage-length        (- (* carriages-per-rail carriage-spacing) 0.5)
+        width                        (max width total-carriage-length)
+        plate-thickness              11
+        min-height-for-carriages     (+ extrusion-vertical-distance carriage-width)
+        back-plate-bottom-z          (- (/ min-height-for-carriages 2))
+        bottom-plate-z               (- (/ extrusion-vertical-distance 2))
+        bottom-plate-top-surface-z   (+ bottom-plate-z (/ plate-thickness 2))
+        min-height-for-z-rail-length (+ (- bottom-plate-top-surface-z back-plate-bottom-z) z-rail-length plate-thickness)
+        bracket-height               (max min-height-for-carriages min-height-for-z-rail-length)
+        back-plate-top-z             (+ back-plate-bottom-z bracket-height)
+        top-plate-z                  (- back-plate-top-z (/ plate-thickness 2))
+        plate-params                 {:thickness  plate-thickness
+                                      :rail-depth 18.25
+                                      :width      width}
+        back-plate-params            {:width                       width
+                                      :thickness                   thickness
+                                      :bracket-height              bracket-height
+                                      :z-position                  back-plate-bottom-z
+                                      :extrusion-size              extrusion-size
+                                      :extrusion-vertical-distance extrusion-vertical-distance
+                                      :carriages-per-rail          carriages-per-rail
+                                      :min-front-thickness         min-front-thickness
+                                      :leadscrew-height            leadscrew-height
+                                      ::leadscrew-nut              leadscrew-nut
+                                      ::x-rail-type                x-rail-type}]
     (c3po/union
-      (c3po/difference
-        plate
-        x-carriage-mounting-holes
-        carriage-cutouts
-        (-> (apply c3po/union
-                   (-> (c3po/cylinder {:height (+ width 0.2), :diameter (+ leadscrew-nut-diameter 0.5)})
-                       (c3po/translate [0 0 -0.1]))
-                   (for [z [-0.1 (+ (- width leadscrew-nut-flange-thickness) 0.1)]]
-                     (-> (c3po/cylinder {:height (+ leadscrew-nut-flange-thickness 0.1),
-                                         :diameter (+ leadscrew-nut-flange-diameter 0.5)})
-                         (c3po/translate [0 0 z]))))
-            (openscad/rotate [0 90 0])
-            (c3po/translate [(- (/ width 2))
-                             leadscrew-y
-                             leadscrew-height])))
+      (z-back-plate back-plate-params)
       (z-top-plate (assoc plate-params :z-position top-plate-z))
       (z-bottom-plate (assoc plate-params :z-position bottom-plate-z)))))
 
