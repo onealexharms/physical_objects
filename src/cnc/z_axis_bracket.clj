@@ -11,12 +11,12 @@
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
 (defn z-top-plate
-  [{:keys [depth ::thickness rail-depth ::width ::z-position ::stepper]
+  [{:keys [depth ::thickness ::rail-depth ::width ::z-position ::stepper]
     :or {depth   40
          stepper stepper/nema17}}]
   {:depth                  depth
    ::thickness             thickness
-   :rail-depth             rail-depth
+   ::rail-depth            rail-depth
    ::width                 width
    ::z-position            z-position
    ::stepper               stepper
@@ -26,7 +26,7 @@
   [params]
   (let [{:keys [depth
                 ::thickness
-                rail-depth
+                ::rail-depth
                 ::width
                 ::z-position
                 stepper-bolt-positions]} (z-top-plate params)
@@ -47,19 +47,19 @@
 (defn z-bottom-plate
   [{:keys [depth
            ::thickness
-           rail-depth
+           ::rail-depth
            ::width
            ::z-position]
     :or {depth 32}}]
   {:depth       depth
    ::thickness  thickness
-   :rail-depth  rail-depth
+   ::rail-depth rail-depth
    ::width      width
    ::z-position z-position})
 
 (defn z-bottom-plate-model
   [params]
-  (let [{:keys [depth ::thickness rail-depth ::width ::z-position]} (z-bottom-plate params)]
+  (let [{:keys [depth ::thickness ::rail-depth ::width ::z-position]} (z-bottom-plate params)]
     (-> (c3po/difference
          (c3po/box {:x width, :y depth, :z thickness})
          (-> (plate-hole thickness 12)
@@ -225,9 +225,9 @@
         bracket-height               (max min-height-for-carriages min-height-for-z-rail-length)
         back-plate-top-z             (+ back-plate-bottom-z bracket-height)
         top-plate-z                  (- back-plate-top-z (/ plate-thickness 2))
-        base-plate-params            {::thickness plate-thickness
-                                      :rail-depth 18.25
-                                      ::width     width}]
+        base-plate-params            {::thickness  plate-thickness
+                                      ::rail-depth 18.25
+                                      ::width      width}]
     {::width                       width
      ::thickness                   thickness
      ::extrusion-size              extrusion-size
