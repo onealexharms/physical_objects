@@ -123,9 +123,9 @@
      :leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
      :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
      ::carriage-width                              carriage-width
-     :mounting-screw                               mounting-screw
+     ::mounting-screw                              mounting-screw
      ::total-carriage-length                       total-carriage-length
-     :carriage-offsets                             carriage-offsets
+     ::carriage-offsets                            carriage-offsets
      :ls-offset-from-back                          ls-offset-from-back
      :leadscrew-shaft-radius                       leadscrew-shaft-radius
      :leadscrew-max-forward-shift                  leadscrew-max-forward-shift
@@ -143,9 +143,9 @@
                 leadscrew-nut-flange-diameter
                 leadscrew-nut-flange-thickness
                 ::carriage-width
-                mounting-screw
+                ::mounting-screw
                 ::total-carriage-length
-                carriage-offsets
+                ::carriage-offsets
                 ::carriage-forward-shift
                 ::leadscrew-y
                 ::leadscrew-height]
