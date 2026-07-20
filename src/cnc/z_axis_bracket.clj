@@ -129,8 +129,8 @@
      :ls-offset-from-back                          ls-offset-from-back
      :leadscrew-shaft-radius                       leadscrew-shaft-radius
      :leadscrew-max-forward-shift                  leadscrew-max-forward-shift
-     :carriage-forward-shift                       carriage-forward-shift
-     :leadscrew-y                                  leadscrew-y}))
+     ::carriage-forward-shift                      carriage-forward-shift
+     ::leadscrew-y                                 leadscrew-y}))
 
 (defn z-back-plate-model
   [params]
@@ -146,8 +146,8 @@
                 mounting-screw
                 ::total-carriage-length
                 carriage-offsets
-                carriage-forward-shift
-                leadscrew-y
+                ::carriage-forward-shift
+                ::leadscrew-y
                 ::leadscrew-height]
          x-rail-type ::x-rail-type}
         (z-back-plate params)
