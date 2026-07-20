@@ -19,8 +19,11 @@
    ::rail-depth             rail-depth
    ::width                  width
    ::z-position             z-position
-   ::stepper                stepper
-   ::stepper-bolt-positions (stepper/hole-pattern stepper)})
+   ::stepper                stepper})
+
+(defn- z-top-plate-stepper-bolt-positions
+  [{:keys [::stepper]}]
+  (stepper/hole-pattern stepper))
 
 (defn z-top-plate-model
   [params]
@@ -28,9 +31,9 @@
                 ::thickness
                 ::rail-depth
                 ::width
-                ::z-position
-                ::stepper-bolt-positions]} (z-top-plate params)
-        stepper-bolt-holes (for [[bx by] stepper-bolt-positions]
+                ::z-position]
+         :as z-top-plate} (z-top-plate params)
+        stepper-bolt-holes (for [[bx by] (z-top-plate-stepper-bolt-positions z-top-plate)]
                              (-> (c3po/union
                                    (plate-hole thickness 3.5)
                                    (-> (c3po/cylinder {:height 4, :diameter 6})
