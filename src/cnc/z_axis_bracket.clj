@@ -14,13 +14,13 @@
   [{:keys [::depth ::thickness ::rail-depth ::width ::z-position ::stepper]
     :or {depth   40
          stepper stepper/nema17}}]
-  {::depth                 depth
-   ::thickness             thickness
-   ::rail-depth            rail-depth
-   ::width                 width
-   ::z-position            z-position
-   ::stepper               stepper
-   :stepper-bolt-positions (stepper/hole-pattern stepper)})
+  {::depth                  depth
+   ::thickness              thickness
+   ::rail-depth             rail-depth
+   ::width                  width
+   ::z-position             z-position
+   ::stepper                stepper
+   ::stepper-bolt-positions (stepper/hole-pattern stepper)})
 
 (defn z-top-plate-model
   [params]
@@ -29,7 +29,7 @@
                 ::rail-depth
                 ::width
                 ::z-position
-                stepper-bolt-positions]} (z-top-plate params)
+                ::stepper-bolt-positions]} (z-top-plate params)
         stepper-bolt-holes (for [[bx by] stepper-bolt-positions]
                              (-> (c3po/union
                                    (plate-hole thickness 3.5)
