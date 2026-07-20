@@ -173,6 +173,6 @@
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
          (z-axis-bracket
-          {::x-rail-type         ::lr/mgn12h
+          {::x-rail-type       ::lr/mgn12h
            :carriages-per-rail 2
-           :z-rail-length        140}))))
+           :z-rail-length      140}))))
