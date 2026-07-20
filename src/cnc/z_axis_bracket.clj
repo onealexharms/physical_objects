@@ -69,7 +69,7 @@
 (defn z-back-plate
   [{:keys [::width
            thickness
-           bracket-height
+           ::bracket-height
            z-position
            ::extrusion-size
            ::extrusion-vertical-distance
@@ -109,7 +109,7 @@
         leadscrew-y                 (- thickness ls-offset-from-back carriage-forward-shift)]
     {::width                                       width
      :thickness                                    thickness
-     :bracket-height                               bracket-height
+     ::bracket-height                              bracket-height
      :z-position                                   z-position
      ::extrusion-size                              extrusion-size
      ::extrusion-vertical-distance                 extrusion-vertical-distance
@@ -123,7 +123,7 @@
      :leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
      :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
      :carriage-height                              carriage-height
-     :carriage-width                               carriage-width
+     ::carriage-width                              carriage-width
      :carriage-length                              carriage-length
      :mounting-screw                               mounting-screw
      :carriage-spacing                             carriage-spacing
@@ -139,13 +139,13 @@
   [params]
   (let [{:keys [::width
                 thickness
-                bracket-height
+                ::bracket-height
                 z-position
                 ::extrusion-vertical-distance
                 leadscrew-nut-diameter
                 leadscrew-nut-flange-diameter
                 leadscrew-nut-flange-thickness
-                carriage-width
+                ::carriage-width
                 mounting-screw
                 total-carriage-length
                 carriage-offsets
@@ -242,7 +242,7 @@
      ::leadscrew-nut               leadscrew-nut
      ::stepper                     stepper
      ::x-rail-type                 x-rail-type
-     :carriage-width               carriage-width
+     ::carriage-width              carriage-width
      :carriage-length              carriage-length
      :carriage-spacing             carriage-spacing
      :total-carriage-length        total-carriage-length
@@ -251,11 +251,11 @@
      :back-plate-bottom-z          back-plate-bottom-z
      :bottom-plate-z               bottom-plate-z
      :back-plate-top-z             back-plate-top-z
-     :top-plate-z                  top-plate-z
-     :bracket-height               bracket-height
+     ::top-plate-z                 top-plate-z
+     ::bracket-height              bracket-height
      ::back-plate-params           {::width                       width
                                     :thickness                    thickness
-                                    :bracket-height               bracket-height
+                                    ::bracket-height              bracket-height
                                     :z-position                   back-plate-bottom-z
                                     ::extrusion-size              extrusion-size
                                     ::extrusion-vertical-distance extrusion-vertical-distance
