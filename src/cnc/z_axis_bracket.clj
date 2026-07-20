@@ -179,7 +179,7 @@
            extrusion-vertical-distance
            leadscrew-height
            carriages-per-rail
-           z-rail-length
+           ::z-rail-length
            ::min-front-thickness
            ::leadscrew-nut
            ::stepper
@@ -220,8 +220,8 @@
      :extrusion-vertical-distance extrusion-vertical-distance
      :leadscrew-height            leadscrew-height
      :carriages-per-rail          carriages-per-rail
-     :z-rail-length               z-rail-length
-     :min-front-thickness         min-front-thickness
+     ::z-rail-length              z-rail-length
+     ::min-front-thickness        min-front-thickness
      ::leadscrew-nut              leadscrew-nut
      ::stepper                    stepper
      ::x-rail-type                x-rail-type
@@ -243,7 +243,7 @@
                                    :extrusion-size              extrusion-size
                                    :extrusion-vertical-distance extrusion-vertical-distance
                                    :carriages-per-rail          carriages-per-rail
-                                   :min-front-thickness         min-front-thickness
+                                   ::min-front-thickness        min-front-thickness
                                    :leadscrew-height            leadscrew-height
                                    ::leadscrew-nut              leadscrew-nut
                                    ::x-rail-type                x-rail-type}
@@ -268,4 +268,4 @@
           {::x-rail-type       lr/mgn12h
            ::stepper           stepper/nema17
            :carriages-per-rail 2
-           :z-rail-length      140}))))
+           ::z-rail-length     140}))))
