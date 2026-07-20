@@ -15,6 +15,7 @@
          {counterbore-diameter ::diameter
           counterbore-depth    ::depth}    ::counterbore}
         screw]
-    (c3po/union
-     (c3po/cylinder {:height (+ thickness 0.2), :diameter clearance-diameter})
-     (c3po/cylinder {:height counterbore-depth, :diameter counterbore-diameter}))))
+    (-> (c3po/union
+         (c3po/cylinder {:height (+ thickness 0.2), :diameter clearance-diameter})
+         (c3po/cylinder {:height (+ counterbore-depth 0.1), :diameter counterbore-diameter}))
+        (c3po/translate [0 0 (- 0 (/ thickness 2) 0.1)]))))

@@ -22,5 +22,5 @@
   (apply c3po/union
          (for [[bx by] (hole-pattern stepper)]
             (-> (screw/counterbore screw {:thickness thickness})
-                (c3po/translate [bx by (- 0 (/ thickness 2) 0.1)])))))
+                (c3po/translate [bx by 0])))))
 
