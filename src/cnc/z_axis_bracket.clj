@@ -64,7 +64,7 @@
            z-position
            extrusion-size
            extrusion-vertical-distance
-           carriages-per-rail
+           ::carriages-per-rail
            ::min-front-thickness
            leadscrew-height
            ::leadscrew-nut
@@ -104,7 +104,7 @@
      :z-position                                   z-position
      :extrusion-size                               extrusion-size
      :extrusion-vertical-distance                  extrusion-vertical-distance
-     :carriages-per-rail                           carriages-per-rail
+     ::carriages-per-rail                          carriages-per-rail
      ::min-front-thickness                         min-front-thickness
      :leadscrew-height                             leadscrew-height
      ::leadscrew-nut                               leadscrew-nut
@@ -178,7 +178,7 @@
            extrusion-size
            extrusion-vertical-distance
            leadscrew-height
-           carriages-per-rail
+           ::carriages-per-rail
            ::z-rail-length
            ::min-front-thickness
            ::leadscrew-nut
@@ -219,7 +219,7 @@
      :extrusion-size              extrusion-size
      :extrusion-vertical-distance extrusion-vertical-distance
      :leadscrew-height            leadscrew-height
-     :carriages-per-rail          carriages-per-rail
+     ::carriages-per-rail         carriages-per-rail
      ::z-rail-length              z-rail-length
      ::min-front-thickness        min-front-thickness
      ::leadscrew-nut              leadscrew-nut
@@ -242,7 +242,7 @@
                                    :z-position                  back-plate-bottom-z
                                    :extrusion-size              extrusion-size
                                    :extrusion-vertical-distance extrusion-vertical-distance
-                                   :carriages-per-rail          carriages-per-rail
+                                   ::carriages-per-rail         carriages-per-rail
                                    ::min-front-thickness        min-front-thickness
                                    :leadscrew-height            leadscrew-height
                                    ::leadscrew-nut              leadscrew-nut
@@ -265,7 +265,7 @@
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
          (z-axis-bracket-model
-          {::x-rail-type       lr/mgn12h
-           ::stepper           stepper/nema17
-           :carriages-per-rail 2
-           ::z-rail-length     140}))))
+          {::x-rail-type        lr/mgn12h
+           ::stepper            stepper/nema17
+           ::carriages-per-rail 2
+           ::z-rail-length      140}))))
