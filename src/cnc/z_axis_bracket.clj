@@ -122,7 +122,6 @@
      :leadscrew-nut-flange-diameter                leadscrew-nut-flange-diameter
      :leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
      :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
-     :carriage-height                              carriage-height
      ::carriage-width                              carriage-width
      :carriage-length                              carriage-length
      :mounting-screw                               mounting-screw
