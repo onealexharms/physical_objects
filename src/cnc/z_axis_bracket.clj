@@ -36,7 +36,7 @@
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) z-position])))
 
-(defn z-axis
+(defn z-axis-bracket
   [{:keys [width
            thickness
            extrusion-size
@@ -142,7 +142,7 @@
 (defn -main [& _args]
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
-         (z-axis
+         (z-axis-bracket
           {::x-rail-type         ::lr/mgn12h
            :carriages-per-rail 2
            :z-rail-length        140}))))
