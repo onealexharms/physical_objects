@@ -10,32 +10,20 @@
    (-> (c3po/cylinder {:height (+ thickness 0.2), :diameter diameter})
        (c3po/translate [0 0 (- 0.0 (/ thickness 2) 0.1)])))
 
-(defn z-top-plate
-  [{:keys [::depth ::thickness ::leadscrew-depth ::width ::z-position ::stepper]
-    :or {depth   40
-         stepper stepper/nema17}}]
-  {::depth                  depth
-   ::thickness              thickness
-   ::leadscrew-depth        leadscrew-depth
-   ::width                  width
-   ::z-position             z-position
-   ::stepper                stepper})
-
 (defn z-top-plate-model
-  [params]
-  (let [{:keys [::depth
-                ::thickness
-                ::leadscrew-depth
-                ::width
-                ::z-position
-                ::stepper]} (z-top-plate params)]
-    (-> (c3po/difference
-         (c3po/box {:x width, :y depth, :z thickness})
-         (-> (c3po/union
-              (plate-hole thickness 22)
-              (stepper/counterbored-mounting-holes stepper {:thickness thickness}))
-             (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
-        (c3po/translate [0 (- (/ depth 2)) z-position]))))
+  [{:keys [::depth
+           ::thickness
+           ::leadscrew-depth
+           ::width
+           ::z-position
+           ::stepper]}]
+  (-> (c3po/difference
+       (c3po/box {:x width, :y depth, :z thickness})
+       (-> (c3po/union
+            (plate-hole thickness 22)
+            (stepper/counterbored-mounting-holes stepper {:thickness thickness}))
+           (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
+      (c3po/translate [0 (- (/ depth 2)) z-position])))
 
 (defn z-bottom-plate
   [{:keys [:depth
@@ -231,6 +219,7 @@
                                       ::leadscrew-nut               leadscrew-nut
                                       ::x-rail-type                 x-rail-type}
      ::top-plate                     (assoc base-plate-params
+                                            ::depth      40
                                             ::z-position top-plate-z
                                             ::stepper    stepper)
      ::bottom-plate                  (assoc base-plate-params ::z-position bottom-plate-z)}))
