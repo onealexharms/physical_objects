@@ -153,13 +153,13 @@
         (z-back-plate params)
         plate                     (-> (c3po/box {:x width, :y thickness, :z bracket-height})
                                       (c3po/translate [0 (/ thickness 2) (+ z-position (/ bracket-height 2))]))
-        m3-shcs-counterbored      (screw/counterbored mounting-screw {:thickness thickness})
+        m3-shcs-counterbore       (screw/counterbore mounting-screw {:thickness thickness})
         x-carriage-mounting-holes (apply
                                    c3po/union
                                    (for [z       [(- (/ extrusion-vertical-distance 2)) (+ (/ extrusion-vertical-distance 2))]
                                          cx      carriage-offsets
                                          [dx dy] (lr/carriage-hole-pattern x-rail-type)]
-                                     (-> m3-shcs-counterbored
+                                     (-> m3-shcs-counterbore
                                          (openscad/rotate [-90 0 0])
                                          (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
         carriage-cutouts          (apply c3po/union

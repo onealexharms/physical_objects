@@ -5,7 +5,7 @@
   {::counterbore    {::diameter 6.5, ::depth 3.5}
    ::clearance-hole {::diameter 3.5}})
 
-(defn counterbored
+(defn counterbore
   [screw {:keys [thickness]}]
   (let [{{clearance-diameter   ::diameter} ::clearance-hole
          {counterbore-diameter ::diameter
