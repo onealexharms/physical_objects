@@ -36,7 +36,7 @@
            (c3po/translate [0 (- (/ depth 2) rail-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) z-position])))
 
-(defn z-axis-bracket
+(defn z-axis
   [{:keys [width
            thickness
            extrusion-size
@@ -105,7 +105,7 @@
                                            (c3po/translate [(+ cx dx) -0.1 (+ z dy)]))))
         leadscrew-shaft-radius      (/ (+ leadscrew-nut-diameter 0.5) 2)
         leadscrew-max-forward-shift (- thickness ls-offset-from-back leadscrew-shaft-radius)
-        carriage-forward-shift      (min carriage-height
+        carriage-forward-shift      (min (- carriage-height 1)
                                          (- thickness min-front-thickness)
                                          leadscrew-max-forward-shift)
         leadscrew-y                 (- thickness ls-offset-from-back carriage-forward-shift)
@@ -142,7 +142,7 @@
 (defn -main [& _args]
   (spit "cnc/z_axis_bracket.scad"
         (openscad/source
-         (z-axis-bracket
+         (z-axis
           {::x-rail-type         ::lr/mgn12h
            :carriages-per-rail 2
            :z-rail-length        140}))))
