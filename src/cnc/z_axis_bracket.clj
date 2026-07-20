@@ -126,9 +126,6 @@
      ::mounting-screw                               mounting-screw
      ::total-carriage-length                        total-carriage-length
      ::carriage-offsets                             carriage-offsets
-     :ls-offset-from-back                           ls-offset-from-back
-     :leadscrew-shaft-radius                        leadscrew-shaft-radius
-     :leadscrew-max-forward-shift                   leadscrew-max-forward-shift
      ::carriage-forward-shift                       carriage-forward-shift
      ::leadscrew-y                                  leadscrew-y}))
 
