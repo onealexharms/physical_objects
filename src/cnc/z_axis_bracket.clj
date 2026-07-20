@@ -107,30 +107,30 @@
                                          (- thickness min-front-thickness)
                                          leadscrew-max-forward-shift)
         leadscrew-y                 (- thickness ls-offset-from-back carriage-forward-shift)]
-    {::width                                       width
-     ::thickness                                   thickness
-     ::bracket-height                              bracket-height
-     ::z-position                                  z-position
-     ::extrusion-size                              extrusion-size
-     ::extrusion-vertical-distance                 extrusion-vertical-distance
-     ::carriages-per-rail                          carriages-per-rail
-     ::min-front-thickness                         min-front-thickness
-     ::leadscrew-height                            leadscrew-height
-     ::leadscrew-nut                               leadscrew-nut
-     ::x-rail-type                                 x-rail-type
-     :leadscrew-nut-diameter                       leadscrew-nut-diameter
-     :leadscrew-nut-flange-diameter                leadscrew-nut-flange-diameter
-     :leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
-     :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
-     ::carriage-width                              carriage-width
-     ::mounting-screw                              mounting-screw
-     ::total-carriage-length                       total-carriage-length
-     ::carriage-offsets                            carriage-offsets
-     :ls-offset-from-back                          ls-offset-from-back
-     :leadscrew-shaft-radius                       leadscrew-shaft-radius
-     :leadscrew-max-forward-shift                  leadscrew-max-forward-shift
-     ::carriage-forward-shift                      carriage-forward-shift
-     ::leadscrew-y                                 leadscrew-y}))
+    {::width                                        width
+     ::thickness                                    thickness
+     ::bracket-height                               bracket-height
+     ::z-position                                   z-position
+     ::extrusion-size                               extrusion-size
+     ::extrusion-vertical-distance                  extrusion-vertical-distance
+     ::carriages-per-rail                           carriages-per-rail
+     ::min-front-thickness                          min-front-thickness
+     ::leadscrew-height                             leadscrew-height
+     ::leadscrew-nut                                leadscrew-nut
+     ::x-rail-type                                  x-rail-type
+     ::leadscrew-nut-diameter                       leadscrew-nut-diameter
+     ::leadscrew-nut-flange-diameter                leadscrew-nut-flange-diameter
+     ::leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
+     ::leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
+     ::carriage-width                               carriage-width
+     ::mounting-screw                               mounting-screw
+     ::total-carriage-length                        total-carriage-length
+     ::carriage-offsets                             carriage-offsets
+     :ls-offset-from-back                           ls-offset-from-back
+     :leadscrew-shaft-radius                        leadscrew-shaft-radius
+     :leadscrew-max-forward-shift                   leadscrew-max-forward-shift
+     ::carriage-forward-shift                       carriage-forward-shift
+     ::leadscrew-y                                  leadscrew-y}))
 
 (defn z-back-plate-model
   [params]
@@ -139,9 +139,9 @@
                 ::bracket-height
                 ::z-position
                 ::extrusion-vertical-distance
-                leadscrew-nut-diameter
-                leadscrew-nut-flange-diameter
-                leadscrew-nut-flange-thickness
+                ::leadscrew-nut-diameter
+                ::leadscrew-nut-flange-diameter
+                ::leadscrew-nut-flange-thickness
                 ::carriage-width
                 ::mounting-screw
                 ::total-carriage-length
