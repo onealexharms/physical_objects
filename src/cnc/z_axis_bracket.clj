@@ -123,7 +123,6 @@
      :leadscrew-nut-flange-thickness               leadscrew-nut-flange-thickness
      :leadscrew-distance-from-extrusion-centerline leadscrew-distance-from-extrusion-centerline
      ::carriage-width                              carriage-width
-     :carriage-length                              carriage-length
      :mounting-screw                               mounting-screw
      :carriage-spacing                             carriage-spacing
      :total-carriage-length                        total-carriage-length
@@ -242,7 +241,7 @@
      ::stepper                     stepper
      ::x-rail-type                 x-rail-type
      ::carriage-width              carriage-width
-     :carriage-length              carriage-length
+     ::carriage-length             carriage-length
      :carriage-spacing             carriage-spacing
      :total-carriage-length        total-carriage-length
      :plate-thickness              plate-thickness
