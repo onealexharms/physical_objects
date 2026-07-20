@@ -63,7 +63,7 @@
            bracket-height
            z-position
            extrusion-size
-           extrusion-vertical-distance
+           ::extrusion-vertical-distance
            ::carriages-per-rail
            ::min-front-thickness
            ::leadscrew-height
@@ -103,7 +103,7 @@
      :bracket-height                               bracket-height
      :z-position                                   z-position
      :extrusion-size                               extrusion-size
-     :extrusion-vertical-distance                  extrusion-vertical-distance
+     ::extrusion-vertical-distance                 extrusion-vertical-distance
      ::carriages-per-rail                          carriages-per-rail
      ::min-front-thickness                         min-front-thickness
      ::leadscrew-height                            leadscrew-height
@@ -132,7 +132,7 @@
                 thickness
                 bracket-height
                 z-position
-                extrusion-vertical-distance
+                ::extrusion-vertical-distance
                 leadscrew-nut-diameter
                 leadscrew-nut-flange-diameter
                 leadscrew-nut-flange-thickness
@@ -184,7 +184,7 @@
   [{:keys [width
            thickness
            extrusion-size
-           extrusion-vertical-distance
+           ::extrusion-vertical-distance
            ::leadscrew-height
            ::carriages-per-rail
            ::z-rail-length
@@ -222,43 +222,43 @@
         base-plate-params            {:thickness  plate-thickness
                                       :rail-depth 18.25
                                       :width      width}]
-    {:width                       width
-     :thickness                   thickness
-     :extrusion-size              extrusion-size
-     :extrusion-vertical-distance extrusion-vertical-distance
-     ::leadscrew-height           leadscrew-height
-     ::carriages-per-rail         carriages-per-rail
-     ::z-rail-length              z-rail-length
-     ::min-front-thickness        min-front-thickness
-     ::leadscrew-nut              leadscrew-nut
-     ::stepper                    stepper
-     ::x-rail-type                x-rail-type
-     :carriage-width              carriage-width
-     :carriage-length             carriage-length
-     :carriage-spacing            carriage-spacing
-     :total-carriage-length       total-carriage-length
-     :plate-thickness             plate-thickness
-     :min-height-for-carriages    min-height-for-carriages
-     :back-plate-bottom-z         back-plate-bottom-z
-     :bottom-plate-z              bottom-plate-z
-     :back-plate-top-z            back-plate-top-z
-     :top-plate-z                 top-plate-z
-     :bracket-height              bracket-height
-     ::back-plate-params          {:width                       width
-                                   :thickness                   thickness
-                                   :bracket-height              bracket-height
-                                   :z-position                  back-plate-bottom-z
-                                   :extrusion-size              extrusion-size
-                                   :extrusion-vertical-distance extrusion-vertical-distance
-                                   ::carriages-per-rail         carriages-per-rail
-                                   ::min-front-thickness        min-front-thickness
-                                   ::leadscrew-height           leadscrew-height
-                                   ::leadscrew-nut              leadscrew-nut
-                                   ::x-rail-type                x-rail-type}
-     ::top-plate-params           (assoc base-plate-params
-                                         :z-position top-plate-z
-                                         ::stepper   stepper)
-     ::bottom-plate-params        (assoc base-plate-params :z-position bottom-plate-z)}))
+    {:width                        width
+     :thickness                    thickness
+     :extrusion-size               extrusion-size
+     ::extrusion-vertical-distance extrusion-vertical-distance
+     ::leadscrew-height            leadscrew-height
+     ::carriages-per-rail          carriages-per-rail
+     ::z-rail-length               z-rail-length
+     ::min-front-thickness         min-front-thickness
+     ::leadscrew-nut               leadscrew-nut
+     ::stepper                     stepper
+     ::x-rail-type                 x-rail-type
+     :carriage-width               carriage-width
+     :carriage-length              carriage-length
+     :carriage-spacing             carriage-spacing
+     :total-carriage-length        total-carriage-length
+     :plate-thickness              plate-thickness
+     :min-height-for-carriages     min-height-for-carriages
+     :back-plate-bottom-z          back-plate-bottom-z
+     :bottom-plate-z               bottom-plate-z
+     :back-plate-top-z             back-plate-top-z
+     :top-plate-z                  top-plate-z
+     :bracket-height               bracket-height
+     ::back-plate-params           {:width                        width
+                                    :thickness                    thickness
+                                    :bracket-height               bracket-height
+                                    :z-position                   back-plate-bottom-z
+                                    :extrusion-size               extrusion-size
+                                    ::extrusion-vertical-distance extrusion-vertical-distance
+                                    ::carriages-per-rail          carriages-per-rail
+                                    ::min-front-thickness         min-front-thickness
+                                    ::leadscrew-height            leadscrew-height
+                                    ::leadscrew-nut               leadscrew-nut
+                                    ::x-rail-type                 x-rail-type}
+     ::top-plate-params            (assoc base-plate-params
+                                          :z-position top-plate-z
+                                          ::stepper   stepper)
+     ::bottom-plate-params         (assoc base-plate-params :z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
   [params]
