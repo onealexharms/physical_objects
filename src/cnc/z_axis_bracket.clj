@@ -25,27 +25,13 @@
            (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
       (c3po/translate [0 (- (/ depth 2)) z-position])))
 
-(defn z-bottom-plate
-  [{:keys [:depth
-           ::thickness
-           ::leadscrew-depth
-           ::width
-           ::z-position]
-    :or {depth 32}}]
-  {::depth           depth
-   ::thickness       thickness
-   ::leadscrew-depth leadscrew-depth
-   ::width           width
-   ::z-position      z-position})
-
 (defn z-bottom-plate-model
-  [params]
-  (let [{:keys [::depth ::thickness ::leadscrew-depth ::width ::z-position]} (z-bottom-plate params)]
-    (-> (c3po/difference
-         (c3po/box {:x width, :y depth, :z thickness})
-         (-> (plate-hole thickness 12)
-             (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
-        (c3po/translate [0 (- (/ depth 2)) z-position]))))
+  [{:keys [::depth ::thickness ::leadscrew-depth ::width ::z-position]}]
+  (-> (c3po/difference
+       (c3po/box {:x width, :y depth, :z thickness})
+       (-> (plate-hole thickness 12)
+           (c3po/translate [0 (- (/ depth 2) leadscrew-depth) 0])))
+      (c3po/translate [0 (- (/ depth 2)) z-position])))
 
 (defn z-back-plate
   [{:keys [::width
@@ -222,7 +208,9 @@
                                             ::depth      40
                                             ::z-position top-plate-z
                                             ::stepper    stepper)
-     ::bottom-plate                  (assoc base-plate-params ::z-position bottom-plate-z)}))
+     ::bottom-plate                  (assoc base-plate-params
+                                            ::depth      32
+                                            ::z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
   [params]
