@@ -236,7 +236,7 @@
      :back-plate-top-z            back-plate-top-z
      :top-plate-z                 top-plate-z
      :bracket-height              bracket-height
-     :back-plate-params           {:width                       width
+     ::back-plate-params          {:width                       width
                                    :thickness                   thickness
                                    :bracket-height              bracket-height
                                    :z-position                  back-plate-bottom-z
@@ -247,14 +247,14 @@
                                    :leadscrew-height            leadscrew-height
                                    ::leadscrew-nut              leadscrew-nut
                                    ::x-rail-type                x-rail-type}
-     :top-plate-params            (assoc base-plate-params
+     ::top-plate-params           (assoc base-plate-params
                                          :z-position top-plate-z
                                          ::stepper   stepper)
-     :bottom-plate-params         (assoc base-plate-params :z-position bottom-plate-z)}))
+     ::bottom-plate-params        (assoc base-plate-params :z-position bottom-plate-z)}))
 
 (defn z-axis-bracket-model
   [params]
-  (let [{:keys [back-plate-params top-plate-params bottom-plate-params]}
+  (let [{:keys [::back-plate-params ::top-plate-params ::bottom-plate-params]}
         (z-axis-bracket params)]
     (c3po/union
       (z-back-plate-model back-plate-params)
