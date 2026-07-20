@@ -65,7 +65,7 @@
            extrusion-size
            extrusion-vertical-distance
            carriages-per-rail
-           min-front-thickness
+           ::min-front-thickness
            leadscrew-height
            ::leadscrew-nut
            ::x-rail-type]}]
@@ -105,7 +105,7 @@
      :extrusion-size                               extrusion-size
      :extrusion-vertical-distance                  extrusion-vertical-distance
      :carriages-per-rail                           carriages-per-rail
-     :min-front-thickness                          min-front-thickness
+     ::min-front-thickness                         min-front-thickness
      :leadscrew-height                             leadscrew-height
      ::leadscrew-nut                               leadscrew-nut
      ::x-rail-type                                 x-rail-type
@@ -180,7 +180,7 @@
            leadscrew-height
            carriages-per-rail
            z-rail-length
-           min-front-thickness
+           ::min-front-thickness
            ::leadscrew-nut
            ::stepper
            ::x-rail-type]
